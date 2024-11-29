@@ -110,15 +110,36 @@
         <div class="login-container">
           <form method="POST" action="{{ route('post.login') }}">
             @csrf
+
             <div class="mb-3">
               <label for="username" class="form-label" name="username">Username</label>
-              <input type="text" class="form-control" id="username" placeholder="Enter your username">
+              <input type="username" class="form-control @error('username') is-invalid @enderror" name="username"
+                id="username" placeholder="Enter your username">
+              @error('username')
+          <span class="invalid-feedback" role="alert">
+          <strong>{{ $message }}</strong>
+          </span>
+        @enderror
             </div>
             <div class="mb-3">
               <label for="password" class="form-label" id="password">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Enter your password">
+              <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
+                name="password" placeholder="Enter your password">
+              @error('password')
+          <span class="invalid-feedback" role="alert">
+          <strong>{{ $message }}</strong>
+          </span>
+        @enderror
             </div>
-            <button type="submit" class="btn btn-primary w-100">Log In</button>
+
+            <div class="text-end">
+              <button type="submit" class="btn btn-primary w-100">
+                Log In
+              </button>
+            </div>
+
+
+
             <a href="#">Forgot password?</a>
           </form>
         </div>
