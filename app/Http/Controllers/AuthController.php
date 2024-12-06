@@ -2,97 +2,77 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use App\Models\User;
 
 class AuthController extends Controller
 {
-
-    public function getLogin(Request $request)
+    public function showLoginForm()
     {
-        if (Auth::user()) {
-            return redirect()->route("home");
-        }
-        return view("auth.login");
+        return view('auth.login');
     }
 
-    //public function postLogin(Request $request)
-    //{
-    //  $validator = Validator::make($request->all(), [
-    //     'username' => 'required|string|max:255|exists:users,username',
-    //   'password' => 'required|string|min:6',
-    //]);
-
-    //    $validator->after(function ($validator) use ($request) {
-    //   $user = User::where('username', $request->username)->first();
-    //     if (!$user || !Hash::check($request->password, $user->password)) {
-    //         $validator->errors()->add('password', 'Password is incorrect');
-    //     } else {
-    //        Auth::attempt([
-    //            'username' => $request->username,
-    //            'password' => $request->password
-    //       ], $request->has('remember'));
-    //    }
-    //  });
-
-    //  if ($validator->fails()) {
-    //     return redirect()
-    //         ->back()
-    //          ->withErrors($validator)
-    //          ->withInput();
-    //  }
-    //   return redirect()->route("home");
-    // }
-
-    public function postLogin(Request $request)
+    public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|string|max:255|exists:users,username',
-            'password' => 'required|string|min:6',
+        $credentials = $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+        if (Auth::attempt($credentials, $request->remember)) {
+            $request->session()->regenerate();
+            return redirect()->intended('/home');
         }
 
-        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            $user = Auth::user();
-
-            // Redirect berdasarkan role
-            switch ($user->role) {
-                case 'Doswal':
-                    return redirect()->route('doswal.dashboard');
-                case 'Koordinator':
-                    return redirect()->route('koordinator.dashboard');
-                case 'Mahasiswa':
-                    return redirect()->route('mahasiswa.dashboard');
-                case 'Kaprodi':
-                    return redirect()->route('kaprodi.dashboard');
-                default:
-                    return redirect()->route('home'); // Fallback jika role tidak dikenali
-            }
-        }
-
-        return redirect()->back()->with('error', 'Invalid credentials');
+        return back()->withErrors([
+            'username' => 'The provided credentials do not match our records.',
+        ])->withInput($request->only('username', 'remember'));
     }
 
-    public function getLogout(Request $request)
+    public function showRegisterForm()
+    {
+        return view('auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        $request->merge(['password_confirmation' => $request->input('confirmPassword')]);
+
+        $validatedData = $request->validate([
+            'name'                  => 'required|string|max:255',
+            'username'              => 'required|string|max:255|unique:users',
+            'email'                 => 'required|string|email|max:255|unique:users',
+            'nim'                   => 'required|string|max:20|unique:users',
+            'angkatan'              => 'required|string|max:10',
+            'doswal'                => 'required|string',
+            'password'              => 'required|string|min:8|confirmed',
+            'password_confirmation' => 'required',
+        ]);
+
+        $role = 'Mahasiswa';
+
+        $user = User::create([
+            'name'      => $validatedData['name'],
+            'username'  => $validatedData['username'],
+            'email'     => $validatedData['email'],
+            'nim'       => $validatedData['nim'],
+            'angkatan'  => $validatedData['angkatan'],
+            'doswal'    => $validatedData['doswal'],
+            'password'  => bcrypt($validatedData['password']),
+            'role'      => $role,
+        ]);
+
+        Auth::login($user);
+
+        return redirect('/home');
+    }
+
+    public function logout(Request $request)
     {
         Auth::logout();
-        return redirect()->route("login");
-    }
-
-    public function checkEmail(Request $request)
-    {
-        $usernameExists = User::where('email', $request->username)->exists();
-
-        if ($usernameExists) {
-            return response()->json(['available' => false, 'message' => 'Username sudah terdaftar']);
-        } else {
-            return response()->json(['available' => true]);
-        }
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login');
     }
 }

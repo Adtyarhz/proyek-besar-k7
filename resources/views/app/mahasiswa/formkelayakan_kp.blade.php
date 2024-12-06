@@ -1,10 +1,13 @@
+{{-- resources/views/app/mahasiswa/formkelayakan_kp.blade.php --}}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Beranda</title>
-    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Kelayakan KP - PRATIKMA</title>
+    <link
+      rel="icon"
+      href="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png"
+    />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -15,8 +18,22 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+      /* Flexbox untuk body agar footer selalu di bawah */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Konten agar tumbuh dan mendorong footer ke bawah */
+      .container-flex {
+        flex-grow: 1; /* Agar area konten mengambil sisa ruang */
+      }
+
       body {
         font-family: Arial, sans-serif;
       }
@@ -69,61 +86,6 @@
       .navbar-nav .dropdown-item:hover {
         background-color: #00508b;
       }
-
-      .carousel {
-        max-width: 800px;
-        margin: 30px auto;
-      }
-      .carousel img {
-        height: 400px;
-        object-fit: cover;
-        border-radius: 10px;
-      }
-      .content {
-        padding: 60px 20px;
-        background-color: #E8F8FF; /* Menambahkan warna latar belakang terang */
-      }
-      .content h2 {
-        margin-bottom: 40px;
-      }
-      .student-count .count-item {
-        text-align: center;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin: 15px;
-      }
-      .student-count .count-item i {
-        font-size: 36px;
-        color: #003366;
-      }
-      .student-count .count-item p {
-        margin: 10px 0;
-      }
-      .container2 {
-        max-width: 1200px; /* Memperbesar ukuran kontainer */
-        margin: auto;
-        padding: 20px;
-      }
-      canvas {
-        margin: 20px 0;
-        width: 100% !important; /* Mengatur lebar chart supaya lebih besar */
-        height: 400px !important; /* Mengatur tinggi chart */
-      }
-      h2 {
-        text-align: center;
-      }
-      /* Custom Styling to Ensure Chart Stays Beside Each Other */
-      .charts-row {
-        display: flex;
-        justify-content: space-between;
-        gap: 30px; /* Memberikan jarak antar chart */
-      }
-      .chart-container {
-        flex: 1;
-        padding: 10px;
-      }
       .footer {
         background-color: #003366; /* Warna biru tua */
         padding: 20px 0;
@@ -161,10 +123,23 @@
         color: #aaaaaa;
         font-size: 12px;
       }
+
+      /* Form Styling */
+      .card-header {
+        background: linear-gradient(90deg, #0073e6, #003366);
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .card-body {
+        background-color: #f9f9f9;
+        background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png');
+      }
     </style>
-  </head>
-  <body>
-  <nav class="navbar navbar-expand-lg">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
   <div class="container">
     @php
         $user = Auth::user();
@@ -319,97 +294,165 @@
   </div>
 </nav>
 
+    <!-- Display Validation Errors -->
+    @if ($errors->any())
+        <div class="container-flex my-4">
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    @endif
 
-    <!-- Carousel Section -->
-    <div
-      id="carouselExampleAutoplaying"
-      class="carousel slide"
-      data-bs-ride="carousel"
-    >
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img
-            alt="Campus view"
-            src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Plaza_IT_Del.jpg"
-            class="d-block w-100"
-          />
+    <!-- Display Success Message -->
+    @if(session('success'))
+        <div class="container-flex my-4">
+            <div class="alert alert-success text-center">
+                {{ session('success') }}
+            </div>
         </div>
-        <div class="carousel-item">
-          <img
-            alt="Alternate campus view"
-            src="https://www.del.ac.id/wp-content/uploads/2024/09/A3A0079-1024x683.jpg"
-            class="d-block w-100"
-          />
-        </div>
-      </div>
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#carouselExampleAutoplaying"
-        data-bs-slide="prev"
-      >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#carouselExampleAutoplaying"
-        data-bs-slide="next"
-      >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
+    @endif
 
-    <!-- Content -->
-    <div class="content">
-      <div class="container">
-        <h2 class="text-center">Jumlah Mahasiswa</h2>
-        <div class="row student-count">
-          <div class="col-3">
-            <div class="count-item">
-              <p>Angkatan 2021</p>
-              <i class="fas fa-users"></i>
-              <p>250</p>
-            </div>
-          </div>
-          <div class="col-3">
-            <div class="count-item">
-              <p>Angkatan 2022</p>
-              <i class="fas fa-users"></i>
-              <p>300</p>
-            </div>
-          </div>
-          <div class="col-3">
-            <div class="count-item">
-              <p>Angkatan 2023</p>
-              <i class="fas fa-users"></i>
-              <p>200</p>
-            </div>
-          </div>
-          <div class="col-3">
-            <div class="count-item">
-              <p>Angkatan 2024</p>
-              <i class="fas fa-users"></i>
-              <p>220</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- Form Section -->
+    <div class="container-flex my-5">
+        <!-- Form Input Data -->
+        <form id="formKelayakanKP" action="{{ route('kp.formkelayakan.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-lg border-0 rounded-4">
+                        <!-- Header -->
+                        <div
+                            class="card-header text-white text-center py-4 rounded-top"
+                            style="
+                                background: linear-gradient(90deg, #0073e6, #003366);
+                                font-size: 24px;
+                                font-weight: bold;
+                            "
+                        >
+                            <i class="fas fa-check-circle me-2"></i>
+                            Form Kelayakan KP
+                        </div>
 
-    <!---Section Persebaran-->
-    <div class="container2">
-      <h2>Persebaran Mahasiswa KP</h2>
-      <div class="charts-row">
-        <div class="chart-container">
-          <canvas id="barChart1"></canvas>
-        </div>
-        <div class="chart-container">
-          <canvas id="barChart2"></canvas>
-        </div>
-      </div>
+                        <!-- Body -->
+                        <div
+                            class="card-body p-5"
+                        >
+                            <!-- Nilai IPK -->
+                            <div class="mb-4">
+                                <label for="nilai-ipk" class="form-label fw-semibold">
+                                    Nilai IPK
+                                </label>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    class="form-control rounded-3 shadow-sm"
+                                    id="nilai-ipk"
+                                    name="nilai-ipk"
+                                    placeholder="Masukkan nilai IPK"
+                                    value="{{ old('nilai-ipk') }}"
+                                    required
+                                />
+                            </div>
+
+                            <!-- Divider -->
+                            <hr class="my-4" />
+
+                            <!-- Total SKS Semester 1-6 -->
+                            <div class="mb-4">
+                                <label for="total-sks" class="form-label fw-semibold">
+                                    Total SKS Semester 1-6
+                                </label>
+                                <input
+                                    type="number"
+                                    class="form-control rounded-3 shadow-sm"
+                                    id="total-sks"
+                                    name="total-sks"
+                                    placeholder="Masukkan total SKS"
+                                    value="{{ old('total-sks') }}"
+                                    required
+                                />
+                            </div>
+
+                            <!-- Divider -->
+                            <hr class="my-4" />
+
+                            <!-- SKS Semester 6 -->
+                            <div class="mb-4">
+                                <label for="sks-semester-6" class="form-label fw-semibold">
+                                    SKS Semester 6
+                                </label>
+                                <input
+                                    type="number"
+                                    class="form-control rounded-3 shadow-sm"
+                                    id="sks-semester-6"
+                                    name="sks-semester-6"
+                                    placeholder="Masukkan SKS Semester 6"
+                                    value="{{ old('sks-semester-6') }}"
+                                    required
+                                />
+                            </div>
+
+                            <!-- Divider -->
+                            <hr class="my-4" />
+
+                            <!-- Mata Kuliah Tidak Lulus -->
+                            <div class="mb-4">
+                                <label
+                                    for="mata-kuliah-tidak-lulus"
+                                    class="form-label fw-semibold"
+                                >
+                                    Mata Kuliah Tidak Lulus
+                                </label>
+                                <input
+                                    type="text"
+                                    class="form-control rounded-3 shadow-sm"
+                                    id="mata-kuliah-tidak-lulus"
+                                    name="mata-kuliah-tidak-lulus"
+                                    placeholder="Masukkan mata kuliah tidak lulus"
+                                    value="{{ old('mata-kuliah-tidak-lulus') }}"
+                                    required
+                                />
+                            </div>
+
+                            <!-- Divider -->
+                            <hr class="my-4" />
+
+                            <!-- Bukti SKS dan IPK -->
+                            <div class="mb-4">
+                                <label for="bukti-sks-ipk" class="form-label fw-semibold">
+                                    Bukti SKS dan IPK
+                                </label>
+                                <input
+                                    type="file"
+                                    class="form-control rounded-3 shadow-sm"
+                                    id="bukti-sks-ipk"
+                                    name="bukti-sks-ipk"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    required
+                                />
+                                <small class="form-text text-muted">
+                                    Format yang diterima: PDF, JPG, JPEG, PNG. Maksimal ukuran 2MB.
+                                </small>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="text-center mt-4">
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary rounded-3 px-5 py-2 shadow-lg"
+                                >
+                                    <i class="fas fa-paper-plane me-2"></i>Submit Form
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 
     <!-- Footer Section -->
@@ -452,9 +495,7 @@
         </div>
         <!-- Footer Bottom Text -->
         <div class="text-center mt-3">
-          <small
-            >&copy; 2024 Institut Teknologi Del | All Rights Reserved</small
-          >
+          <small>&copy; 2024 Institut Teknologi Del | All Rights Reserved</small>
         </div>
       </div>
     </footer>
@@ -471,59 +512,6 @@
         alert("Opening profile menu...");
       }
     </script>
-
-    <script>
-      // Persebaran Mahasiswa KP
-      var ctx1 = document.getElementById("barChart1").getContext("2d");
-      var barChart1 = new Chart(ctx1, {
-        type: "bar",
-        data: {
-          labels: ["Pulau Sumatera", "Pulau Jawa", "Lainnya"],
-          datasets: [
-            {
-              label: "Jumlah Mahasiswa KP",
-              data: [120, 200, 50],
-              backgroundColor: ["red", "green", "yellow"],
-              borderColor: ["darkred", "darkgreen", "darkyellow"],
-              borderWidth: 1,
-            },
-          ],
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        },
-      });
-
-      // Persebaran Mahasiswa MBKM
-      var ctx2 = document.getElementById("barChart2").getContext("2d");
-      var barChart2 = new Chart(ctx2, {
-        type: "bar",
-        data: {
-          labels: ["Pulau Sumatera", "Pulau Jawa", "Lainnya"],
-          datasets: [
-            {
-              label: "Jumlah Mahasiswa MBKM",
-              data: [150, 180, 60],
-              backgroundColor: ["red", "green", "yellow"],
-              borderColor: ["darkred", "darkgreen", "darkyellow"],
-              borderWidth: 1,
-            },
-          ],
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        },
-      });
-    </script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+</body>
 </html>

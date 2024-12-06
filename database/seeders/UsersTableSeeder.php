@@ -1,8 +1,8 @@
 <?php
+
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -10,38 +10,110 @@ class UsersTableSeeder extends Seeder
 {
     public function run()
     {
-        // Membuat akun dosen wali tetap
+        // Clear existing users
+        User::truncate();
+
+        // Create Mahasiswa account
         User::create([
-            'id' => 1,
-            'username' => 'doswal',
-            'role' => 'Doswal',
-            'password' => Hash::make('doswal'),
-            'remember_token' => Str::random(5),
+            'name'     => 'Mahasiswa User',
+            'username' => 'ifs22013',
+            'email'    => 'ifs22013@del.ac.id',
+            'nim'      => '12345678',
+            'angkatan' => '2022',
+            'doswal'   => 'dosen1',
+            'password' => Hash::make('12345678'),
+            'role'     => 'Mahasiswa',
         ]);
 
-        // Membuat akun editor koordinator
+        // Create Koordinator account
         User::create([
-            'username' => 'koordinator',
-            'role' => 'koordinator',
-            'password' => Hash::make('koordinator'),
-            'remember_token' => Str::random(5),
+            'name'     => 'Iustisia Natalia Simbolon, S.Kom.,M.T',
+            'username' => 'iustisia',
+            'email'    => 'iustisia.simbolon@del.ac.id',
+            'nim'      => NULL, // Set as NULL
+            'angkatan' => NULL, // Set as NULL
+            'doswal'   => NULL, // Set as NULL
+            'password' => Hash::make('12345678'),
+            'role'     => 'Koordinator',
         ]);
 
-        // Membuat akun editor mahasiswa
+        // Create Dosen Wali accounts
         User::create([
-            'username' => 'mahasiswa',
-            'role' => 'mahasiswa',
-            'password' => Hash::make('mahasiswa'),
-            'remember_token' => Str::random(5),
+            'name'     => 'Dr. Arlinta Christy Barus S.T., M.InfoTech',
+            'username' => 'arlinta',
+            'email'    => 'arlinta@del.ac.id',
+            'nim'      => NULL, // Set as NULL
+            'angkatan' => NULL, // Set as NULL
+            'doswal'   => NULL, // Set as NULL
+            'password' => Hash::make('12345678'),
+            'role'     => 'Doswal',
         ]);
 
-        // Membuat akun editor kaprodi
         User::create([
-            'username' => 'kaprodi',
-            'role' => 'kaprodi',
-            'password' => Hash::make('kaprodi'),
-            'remember_token' => Str::random(5),
+            'name'     => 'Iustisia Natalia Simbolon, S.Kom.,M.T',
+            'username' => 'iustisia_doswal2',
+            'email'    => 'iustisia.simbolon_doswal2@del.ac.id',
+            'nim'      => NULL, // Set as NULL
+            'angkatan' => NULL, // Set as NULL
+            'doswal'   => NULL, // Set as NULL
+            'password' => Hash::make('12345678'),
+            'role'     => 'Doswal',
         ]);
 
+        User::create([
+            'name'     => 'Herimanto, S.Kom., M.Kom',
+            'username' => 'herimanto',
+            'email'    => 'herimanto.pardede@del.ac.id',
+            'nim'      => NULL, // Set as NULL
+            'angkatan' => NULL, // Set as NULL
+            'doswal'   => NULL, // Set as NULL
+            'password' => Hash::make('12345678'),
+            'role'     => 'Doswal',
+        ]);
+
+        User::create([
+            'name'     => 'Dr. Johannes Harungguan Sianipar, S.T., M.T.',
+            'username' => 'johannes',
+            'email'    => 'johannes@del.ac.id',
+            'nim'      => NULL, // Set as NULL
+            'angkatan' => NULL, // Set as NULL
+            'doswal'   => NULL, // Set as NULL
+            'password' => Hash::make('12345678'),
+            'role'     => 'Doswal',
+        ]);
+
+        User::create([
+            'name'     => 'Ranty Deviana Siahaan, S.Kom, M.Eng.',
+            'username' => 'ranty',
+            'email'    => 'ranty.siahaan@del.ac.id',
+            'nim'      => NULL, // Set as NULL
+            'angkatan' => NULL, // Set as NULL
+            'doswal'   => NULL, // Set as NULL
+            'password' => Hash::make('12345678'),
+            'role'     => 'Doswal',
+        ]);
+
+        User::create([
+            'name'     => 'Jaya Santoso, S.Si.,M.Si.',
+            'username' => 'jaya',
+            'email'    => 'jaya@del.ac.id',
+            'nim'      => NULL, // Set as NULL
+            'angkatan' => NULL, // Set as NULL
+            'doswal'   => NULL, // Set as NULL
+            'password' => Hash::make('12345678'),
+            'role'     => 'Doswal',
+        ]);
+
+        // Create Kaprodi account
+        User::create([
+            'name'     => 'Arie Satia Dharma, S.T, M.Kom',
+            'username' => 'arie',
+            'email'    => 'ariesatia@del.ac.id',
+            'nim'      => NULL, // Set as NULL
+            'angkatan' => NULL, // Set as NULL
+            'doswal'   => NULL, // Set as NULL
+            'password' => Hash::make('12345678'),
+            'role'     => 'Kaprodi',
+        ]);
     }
 }

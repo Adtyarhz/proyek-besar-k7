@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Informasi MBKM</title>
+    <title>Informasi KP</title>
     <link
       rel="icon"
       href="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png"
@@ -192,186 +192,162 @@
       }
     </style>
   </head>
-  {{-- resources/views/partials/navbar_koordinator.blade.php --}}
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container-fluid">
-        @php
-            $user = Auth::user();
-            $userRole = $user ? $user->role : null;
-        @endphp
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+  <div class="container">
+    @php
+        $user = Auth::user();
+        $userRole = $user ? $user->role : null;
+    @endphp
 
-        <a class="navbar-brand" href="
-            @if($userRole === 'Doswal') 
-                {{ route('doswal.home') }}
-            @elseif($userRole === 'Kaprodi') 
-                {{ route('kaprodi.home') }}
-            @elseif($userRole === 'Koordinator') 
-                {{ route('koordinator.home') }}
-            @elseif($userRole === 'Mahasiswa') 
-                {{ route('home.mahasiswa') }}
-            @else 
-                {{ route('login') }}
-            @endif
-        ">
-            <img
-                alt="Logo of the institution"
-                src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png"
-                style="height: 50px; margin-right: 10px"
-            />
-            <span style="font-size: 24px; color: white; font-weight: bold">PRATIKMA</span>
-        </a>
+    <a class="navbar-brand" 
+       href="
+         @if($userRole === 'Doswal') 
+           {{ route('home.doswal') }}
+         @elseif($userRole === 'Kaprodi') 
+           {{ route('home.kaprodi') }}
+         @elseif($userRole === 'Koordinator') 
+           {{ route('home.koordinator') }}
+         @elseif($userRole === 'Mahasiswa') 
+           {{ route('home.mahasiswa') }}
+         @else 
+           {{ route('login') }}
+         @endif
+       ">
+      <img
+        alt="Logo"
+        src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png"
+        style="height: 50px; margin-right: 10px"
+      />
+      <span style="font-size: 24px; color: white; font-weight: bold">PRATIKMA</span>
+    </a>
 
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarContent"
-            aria-controls="navbarContent"
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarContent"
+      aria-controls="navbarContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link
+             @if(in_array(Route::currentRouteName(), ['home.doswal','home.kaprodi','home.koordinator','home.mahasiswa','home']))
+               active
+             @endif
+             " 
+             href="
+             @if($userRole === 'Doswal') 
+               {{ route('home.doswal') }}
+             @elseif($userRole === 'Kaprodi') 
+               {{ route('home.kaprodi') }}
+             @elseif($userRole === 'Koordinator') 
+               {{ route('home.koordinator') }}
+             @elseif($userRole === 'Mahasiswa') 
+               {{ route('home.mahasiswa') }}
+             @else 
+               {{ route('home') }}
+             @endif
+          ">
+            Beranda
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
             aria-expanded="false"
-            aria-label="Toggle navigation"
-        >
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <!-- Beranda Link -->
-                <li class="nav-item">
-                    <a class="nav-link 
-                        @if(in_array(Route::currentRouteName(), ['doswal.home', 'kaprodi.home', 'koordinator.home', 'home.mahasiswa'])) 
-                            active 
-                        @endif
-                    " 
-                    href="
-                        @if($userRole === 'Doswal') 
-                            {{ route('doswal.home') }}
-                        @elseif($userRole === 'Kaprodi') 
-                            {{ route('kaprodi.home') }}
-                        @elseif($userRole === 'Koordinator') 
-                            {{ route('koordinator.home') }}
-                        @elseif($userRole === 'Mahasiswa') 
-                            {{ route('home.mahasiswa') }}
-                        @else 
-                            {{ route('login') }}
-                        @endif
-                    ">
-                        Beranda
-                    </a>
-                </li>
-
-                <!-- MBKM Dropdown -->
-                <li class="nav-item dropdown">
-                    <a
-                        class="nav-link dropdown-toggle"
-                        href="#"
-                        id="navbarDropdownMBKM"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
-                        MBKM
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMBKM">
-                        <li>
-                            <a class="dropdown-item" href="#">Table Eligible MBKM</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">Table Pertimbangan MBKM</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <!-- Kerja Praktik Dropdown -->
-                <li class="nav-item dropdown">
-                    <a
-                        class="nav-link dropdown-toggle"
-                        href="#"
-                        id="navbarDropdownKP"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
-                        Kerja Praktik
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownKP">
-                        <li>
-                            <a class="dropdown-item" href="#">Table Eligible KP</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="
-                                @if($userRole === 'Doswal') 
-                                    {{ route('doswal.tabelinputkp') }}
-                                @elseif($userRole === 'Kaprodi') 
-                                    {{ route('kaprodi.tabelinputkp') }}
-                                @elseif($userRole === 'Koordinator') 
-                                    {{ route('koordinator.tabelinputkp') }}
-                                @elseif($userRole === 'Mahasiswa') 
-                                    # <!-- Or any Mahasiswa-specific route -->
-                                @else 
-                                    # 
-                                @endif
-                            ">
-                                Table Pertimbangan KP
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-
-            <!-- Authentication Links -->
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                @guest
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login.form') }}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">Register</a>
-                    </li>
-                @else
-                    <!-- Notification Bell -->
-                    <li class="nav-item">
-                        <a href="#" onclick="showNotifications(event)" class="nav-link">
-                            <i class="fas fa-bell"></i>
-                            <span class="badge bg-danger">3</span>
-                        </a>
-                    </li>
-
-                    <!-- Profile Dropdown -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            @if($user->profile_photo)
-                                <img src="{{ asset('storage/profile_photos/' . $user->profile_photo) }}" alt="Profile Photo" width="30" height="30" class="rounded-circle">
-                            @else
-                                <img src="{{ asset('images/default_profile.png') }}" alt="Default Profile Photo" width="30" height="30" class="rounded-circle">
-                            @endif
-                            {{ $user->name }}
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
-                            <li><a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    Logout
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                @endguest
-            </ul>
+          >
+            MBKM
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li>
+              <a class="dropdown-item" href="{{ route('mbkm.informasi') }}">Informasi</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ route('kp.formkelayakan') }}">Form Kelayakan MBKM</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="formfinal_mbkm.html">Form Final MBKM</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown2"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Kerja Praktik
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+            <li>
+              <a class="dropdown-item" href="{{ route('kp.informasi') }}">Informasi</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ route('kp.formkelayakan') }}">Form Kelayakan KP</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="formpendaftarnkp.html">Form Pendaftaran KP</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ route('kp.data_kelayakan') }}">Data Kelayakan KP</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <div class="d-flex align-items-center ms-3">
+        <!-- Notification Bell -->
+        <div class="notification-bell me-3">
+          <a href="#" onclick="showNotifications(event)" style="text-decoration: none">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge">3</span>
+          </a>
         </div>
+        <!-- Profile Dropdown -->
+        <div class="dropdown">
+          <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+             id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+            @if(Auth::user()->profile_photo)
+              <img src="{{ asset('storage/profile_photos/' . Auth::user()->profile_photo) }}" alt="Profile Photo"
+                   width="32" height="32" class="rounded-circle me-2">
+            @else
+              <img src="{{ asset('images/default_profile.png') }}" alt="Default Profile Photo"
+                   width="32" height="32" class="rounded-circle me-2">
+            @endif
+            <strong>{{ Auth::user()->name }}</strong>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser">
+            <li><a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <!-- Use POST method for logout -->
+              <a class="dropdown-item" href="#"
+                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                 Logout
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                 @csrf
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
+  </div>
 </nav>
-
-<!-- JavaScript Functions -->
-<script>
-    function showNotifications(event) {
-        event.preventDefault();
-        alert("You have 3 new notifications!");
-    }
-</script>
 
     <!-- Information Section -->
     <div class="info-section bg-light py-5">
@@ -386,7 +362,7 @@
             <img
               alt="Kampus Merdeka Indonesia Jaya logo"
               height="100"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Logo_Kampus_Merdeka_Kemendikbud.png/800px-Logo_Kampus_Merdeka_Kemendikbud.png"
+              src="https://img.freepik.com/free-photo/programming-background-with-person-working-with-codes-computer_23-2150010125.jpg?t=st=1732605007~exp=1732608607~hmac=2bfac168aa63b3360a40e01a3762eb6b29ae57c413d0d6533c2e1d99a3f9e7ac&w=996"
               class="img-fluid"
             />
           </div>
@@ -396,53 +372,14 @@
               class="text-muted mb-0"
               style="font-size: 20px; max-width: 600px"
             >
-              Merdeka Belajar Kampus Merdeka (MBKM) adalah kebijakan yang
-              dicanangkan oleh Kementerian Pendidikan, Kebudayaan, Riset, dan
-              Teknologi (Kemendikbudristek) Indonesia. MBKM menawarkan berbagai
-              program yang memungkinkan mahasiswa untuk mengembangkan
-              keterampilan sesuai dengan minat dan bakat mereka, serta
-              memperoleh pengalaman praktis di luar kampus.
+              Kerja Praktik (KP) adalah program pendidikan yang memberikan
+              kesempatan bagi mahasiswa untuk mendapatkan pengalaman langsung di
+              dunia industri atau lingkungan kerja profesional.
             </p>
           </div>
         </div>
         <br />
         <hr class="divider mb-5" style="border-top: 6px solid #f89b21" />
-
-        <!-- Info Boxes Section -->
-        <div class="row">
-          <div class="col-md-6 mb-4">
-            <div class="info-box shadow p-4 h-100 bg-white rounded">
-              <div class="text-center mb-3">
-                <i class="fas fa-handshake fa-3x text-primary"></i>
-              </div>
-              <h5 class="text-center" style="color: #003366">MBKM Mitra</h5>
-              <p class="text-muted">
-                MBKM Mitra adalah program yang dilaksanakan oleh perguruan
-                tinggi bekerja sama dengan mitra eksternal yang telah disetujui
-                atau didaftarkan oleh Kemendikbudristek. Mitra eksternal ini
-                bisa berupa perusahaan, organisasi, startup, lembaga pemerintah,
-                atau institusi lainnya yang telah menjalin kerja sama resmi
-                dengan universitas atau Kemendikbudristek.
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6 mb-4">
-            <div class="info-box shadow p-4 h-100 bg-white rounded">
-              <div class="text-center mb-3">
-                <i class="fas fa-briefcase fa-3x text-success"></i>
-              </div>
-              <h5 class="text-center" style="color: #003366">MBKM Non Mitra</h5>
-              <p class="text-muted">
-                MBKM Non Mitra adalah program yang tidak secara langsung
-                difasilitasi oleh mitra resmi yang terdaftar di
-                Kemendikbudristek. Namun, mahasiswa dapat memilih untuk magang
-                atau terlibat dalam proyek yang diselenggarakan oleh organisasi
-                atau perusahaan yang tidak memiliki kerja sama formal dengan
-                kampus atau Kemendikbudristek.
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -450,26 +387,44 @@
     <div class="header">
       <h2>Tujuan MBKM</h2>
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12">
           <p>
-            1. Meningkatkan kompetensi lulusan sehingga mahasiswa memiliki
-            keterampilan yang siap kerja.
+            <strong>1. Penerapan Teori ke Praktik:</strong> Mahasiswa dapat
+            mengaplikasikan ilmu dan teori yang telah dipelajari di kampus ke
+            dalam situasi nyata di dunia kerja.
           </p>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-12">
           <p>
-            2. Mendorong pembelajaran fleksibel dengan memfasilitasi mahasiswa
-            untuk mengambil pembelajaran di luar program studi atau di luar
-            kampus.
+            <strong>2. Pengembangan Keterampilan Profesional:</strong> Mahasiswa
+            dapat mengembangkan soft skills dan hard skills, seperti komunikasi,
+            manajemen waktu, pemecahan masalah, dan kerja tim.
           </p>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-12">
           <p>
-            3. Meningkatkan daya saing lulusan melalui pengalaman kerja nyata.
+            <strong>3. Pengenalan Dunia Kerja:</strong> Kerja praktik membantu
+            mahasiswa memahami budaya kerja, struktur organisasi, dan etika
+            profesional di tempat kerja.
+          </p>
+        </div>
+        <div class="col-md-12">
+          <p>
+            <strong>4. Memperluas Jaringan:</strong> Kesempatan untuk membangun
+            relasi profesional dengan para praktisi di bidang terkait, yang bisa
+            bermanfaat di masa depan, terutama dalam mencari pekerjaan.
+          </p>
+        </div>
+        <div class="col-md-12">
+          <p>
+            <strong>5. Mempersiapkan Karir:</strong> Mahasiswa dapat
+            mengeksplorasi minat dan bidang yang ingin mereka tekuni setelah
+            lulus, sekaligus meningkatkan daya saing di pasar kerja.
           </p>
         </div>
       </div>
     </div>
+
     <br />
     <h3 class="text-center">Beberapa contoh Mitra dan Non Mitra</h3>
     <div class="content">

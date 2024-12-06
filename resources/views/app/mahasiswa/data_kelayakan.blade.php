@@ -1,10 +1,13 @@
+{{-- resources/views/app/mahasiswa/data_kelayakan.blade.php --}}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Beranda</title>
-    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Kelayakan KP - PRATIKMA</title>
+    <link
+      rel="icon"
+      href="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png"
+    />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -15,156 +18,142 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-      }
-      .navbar {
-        background: linear-gradient(90deg, #0073e6, #003366);
-      }
-      .navbar-brand img {
-        height: 50px;
-      }
-      .navbar-nav .nav-link {
-        color: white !important;
-        margin-right: 20px;
-      }
-      .navbar-nav .nav-link:hover {
-        color: #cccccc !important;
-      }
-      .navbar .fa-bell {
-        color: white;
-        font-size: 24px;
-        margin-right: 15px; /* Jarak antar ikon bel dan profil */
-      }
-      .navbar .fa-user-circle {
-        color: white;
-        font-size: 24px;
-      }
-      .navbar .notification-bell {
-        position: relative;
-      }
-      .navbar .notification-badge {
-        position: absolute;
-        top: -10px;
-        right: -5px;
-        background-color: red;
-        color: white;
-        font-size: 12px;
-        padding: 2px 6px;
-        border-radius: 50%;
-      }
-      .navbar-toggler-icon {
-        background-color: white; /* Menambahkan warna putih pada toggle icon */
-      }
+        /* Custom Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .navbar {
+            background: linear-gradient(90deg, #0073e6, #003366);
+        }
+        .navbar-brand img {
+            height: 50px;
+        }
+        .navbar-nav .nav-link {
+            color: white !important;
+            margin-right: 20px;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #cccccc !important;
+        }
+        .navbar .fa-bell {
+            color: white;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        .navbar .fa-user-circle {
+            color: white;
+            font-size: 24px;
+        }
+        .navbar .notification-bell {
+            position: relative;
+        }
+        .navbar .notification-badge {
+            position: absolute;
+            top: -10px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+        .navbar-toggler-icon {
+            background-color: white;
+        }
 
-      /* Dropdown Styling */
-      .navbar-nav .dropdown-menu {
-        background-color: #003366;
-      }
-      .navbar-nav .dropdown-item {
-        color: white;
-      }
-      .navbar-nav .dropdown-item:hover {
-        background-color: #00508b;
-      }
+        /* Dropdown Styling */
+        .navbar-nav .dropdown-menu {
+            background-color: #003366;
+        }
+        .navbar-nav .dropdown-item {
+            color: white;
+        }
+        .navbar-nav .dropdown-item:hover {
+            background-color: #00508b;
+        }
 
-      .carousel {
-        max-width: 800px;
-        margin: 30px auto;
-      }
-      .carousel img {
-        height: 400px;
-        object-fit: cover;
-        border-radius: 10px;
-      }
-      .content {
-        padding: 60px 20px;
-        background-color: #E8F8FF; /* Menambahkan warna latar belakang terang */
-      }
-      .content h2 {
-        margin-bottom: 40px;
-      }
-      .student-count .count-item {
-        text-align: center;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin: 15px;
-      }
-      .student-count .count-item i {
-        font-size: 36px;
-        color: #003366;
-      }
-      .student-count .count-item p {
-        margin: 10px 0;
-      }
-      .container2 {
-        max-width: 1200px; /* Memperbesar ukuran kontainer */
-        margin: auto;
-        padding: 20px;
-      }
-      canvas {
-        margin: 20px 0;
-        width: 100% !important; /* Mengatur lebar chart supaya lebih besar */
-        height: 400px !important; /* Mengatur tinggi chart */
-      }
-      h2 {
-        text-align: center;
-      }
-      /* Custom Styling to Ensure Chart Stays Beside Each Other */
-      .charts-row {
-        display: flex;
-        justify-content: space-between;
-        gap: 30px; /* Memberikan jarak antar chart */
-      }
-      .chart-container {
-        flex: 1;
-        padding: 10px;
-      }
-      .footer {
-        background-color: #003366; /* Warna biru tua */
-        padding: 20px 0;
-      }
+        .footer {
+            background-color: #003366;
+            padding: 20px 0;
+            margin-top: auto;
+        }
 
-      .footer h5 {
-        font-weight: bold;
-        font-size: 18px;
-      }
+        .footer h5 {
+            font-weight: bold;
+            font-size: 18px;
+        }
 
-      .footer p {
-        font-size: 14px;
-        margin: 0;
-        color: #cccccc;
-      }
+        .footer p {
+            font-size: 14px;
+            margin: 0;
+            color: #cccccc;
+        }
 
-      .footer a {
-        text-decoration: none;
-        color: white;
-        transition: color 0.3s ease;
-      }
+        .footer a {
+            text-decoration: none;
+            color: white;
+            transition: color 0.3s ease;
+        }
 
-      .footer .fab,
-      .footer .fas {
-        margin-right: 10px;
-        transition: transform 0.3s ease;
-      }
+        .footer .fab,
+        .footer .fas {
+            margin-right: 10px;
+            transition: transform 0.3s ease;
+        }
 
-      .footer .fab:hover,
-      .footer .fas:hover {
-        transform: scale(1.2); /* Efek zoom saat hover */
-      }
+        .footer .fab:hover,
+        .footer .fas:hover {
+            transform: scale(1.2);
+        }
 
-      .footer small {
-        color: #aaaaaa;
-        font-size: 12px;
-      }
+        .footer small {
+            color: #aaaaaa;
+            font-size: 12px;
+        }
+
+        .info-section {
+            padding: 50px 0;
+        }
+
+        .data-section {
+            background: #ffffff;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .data-item {
+            margin-bottom: 15px;
+        }
+
+        .data-item label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .badge-menunggu {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .badge-disetujui {
+            background-color: #28a745;
+        }
+
+        .badge-ditolak {
+            background-color: #dc3545;
+        }
     </style>
-  </head>
-  <body>
-  <nav class="navbar navbar-expand-lg">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
   <div class="container">
     @php
         $user = Auth::user();
@@ -319,97 +308,58 @@
   </div>
 </nav>
 
+    <!-- Display Success Message -->
+    @if(session('success'))
+        <div class="alert alert-success text-center">
+            {{ session('success') }}
+        </div>
+    @endif
 
-    <!-- Carousel Section -->
-    <div
-      id="carouselExampleAutoplaying"
-      class="carousel slide"
-      data-bs-ride="carousel"
-    >
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img
-            alt="Campus view"
-            src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Plaza_IT_Del.jpg"
-            class="d-block w-100"
-          />
-        </div>
-        <div class="carousel-item">
-          <img
-            alt="Alternate campus view"
-            src="https://www.del.ac.id/wp-content/uploads/2024/09/A3A0079-1024x683.jpg"
-            class="d-block w-100"
-          />
-        </div>
-      </div>
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#carouselExampleAutoplaying"
-        data-bs-slide="prev"
-      >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#carouselExampleAutoplaying"
-        data-bs-slide="next"
-      >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-
-    <!-- Content -->
-    <div class="content">
-      <div class="container">
-        <h2 class="text-center">Jumlah Mahasiswa</h2>
-        <div class="row student-count">
-          <div class="col-3">
-            <div class="count-item">
-              <p>Angkatan 2021</p>
-              <i class="fas fa-users"></i>
-              <p>250</p>
+    <!-- Data Kelayakan KP Section -->
+    <div class="container my-5">
+        <h3 class="text-center mb-4">Data Kelayakan KP</h3>
+        @forelse($dataKelayakan as $data)
+            <div class="data-section">
+                <div class="data-item">
+                    <label>Nilai IPK:</label>
+                    <p>{{ $data->nilai_ipk }}</p>
+                </div>
+                <div class="data-item">
+                    <label>Total SKS Semester 1-6:</label>
+                    <p>{{ $data->total_sks }}</p>
+                </div>
+                <div class="data-item">
+                    <label>SKS Semester 6:</label>
+                    <p>{{ $data->sks_semester6 }}</p>
+                </div>
+                <div class="data-item">
+                    <label>Mata Kuliah Tidak Lulus:</label>
+                    <p>{{ $data->mata_kuliah_tidak_lulus }}</p>
+                </div>
+                <div class="data-item">
+                    <label>Bukti SKS dan IPK:</label>
+                    @if($data->bukti_sks_ipk)
+                        <a href="{{ asset('storage/' . $data->bukti_sks_ipk) }}" target="_blank" class="btn btn-sm btn-primary">
+                            <i class="fas fa-file-alt"></i> Lihat Bukti
+                        </a>
+                    @else
+                        <span>Belum diunggah</span>
+                    @endif
+                </div>
+                <div class="data-item">
+                    <label>Status Kelayakan:</label>
+                    @if($data->status_kelayakan == 'Menunggu')
+                        <span class="badge badge-menunggu">Menunggu</span>
+                    @elseif($data->status_kelayakan == 'Disetujui')
+                        <span class="badge badge-disetujui">Disetujui</span>
+                    @elseif($data->status_kelayakan == 'Ditolak')
+                        <span class="badge badge-ditolak">Ditolak</span>
+                    @endif
+                </div>
             </div>
-          </div>
-          <div class="col-3">
-            <div class="count-item">
-              <p>Angkatan 2022</p>
-              <i class="fas fa-users"></i>
-              <p>300</p>
-            </div>
-          </div>
-          <div class="col-3">
-            <div class="count-item">
-              <p>Angkatan 2023</p>
-              <i class="fas fa-users"></i>
-              <p>200</p>
-            </div>
-          </div>
-          <div class="col-3">
-            <div class="count-item">
-              <p>Angkatan 2024</p>
-              <i class="fas fa-users"></i>
-              <p>220</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!---Section Persebaran-->
-    <div class="container2">
-      <h2>Persebaran Mahasiswa KP</h2>
-      <div class="charts-row">
-        <div class="chart-container">
-          <canvas id="barChart1"></canvas>
-        </div>
-        <div class="chart-container">
-          <canvas id="barChart2"></canvas>
-        </div>
-      </div>
+        @empty
+            <p class="text-center">Belum ada data Kelayakan KP yang diinput.</p>
+        @endforelse
     </div>
 
     <!-- Footer Section -->
@@ -452,9 +402,7 @@
         </div>
         <!-- Footer Bottom Text -->
         <div class="text-center mt-3">
-          <small
-            >&copy; 2024 Institut Teknologi Del | All Rights Reserved</small
-          >
+          <small>&copy; 2024 Institut Teknologi Del | All Rights Reserved</small>
         </div>
       </div>
     </footer>
@@ -472,58 +420,6 @@
       }
     </script>
 
-    <script>
-      // Persebaran Mahasiswa KP
-      var ctx1 = document.getElementById("barChart1").getContext("2d");
-      var barChart1 = new Chart(ctx1, {
-        type: "bar",
-        data: {
-          labels: ["Pulau Sumatera", "Pulau Jawa", "Lainnya"],
-          datasets: [
-            {
-              label: "Jumlah Mahasiswa KP",
-              data: [120, 200, 50],
-              backgroundColor: ["red", "green", "yellow"],
-              borderColor: ["darkred", "darkgreen", "darkyellow"],
-              borderWidth: 1,
-            },
-          ],
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        },
-      });
-
-      // Persebaran Mahasiswa MBKM
-      var ctx2 = document.getElementById("barChart2").getContext("2d");
-      var barChart2 = new Chart(ctx2, {
-        type: "bar",
-        data: {
-          labels: ["Pulau Sumatera", "Pulau Jawa", "Lainnya"],
-          datasets: [
-            {
-              label: "Jumlah Mahasiswa MBKM",
-              data: [150, 180, 60],
-              backgroundColor: ["red", "green", "yellow"],
-              borderColor: ["darkred", "darkgreen", "darkyellow"],
-              borderWidth: 1,
-            },
-          ],
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        },
-      });
-    </script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+</body>
 </html>
