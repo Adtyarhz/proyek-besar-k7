@@ -23,15 +23,15 @@
 
         <a class="navbar-brand" href="
             @if($userRole === 'Doswal') 
-                {{ route('doswal.home') }}
+                {{ route('home.doswal') }}
             @elseif($userRole === 'Kaprodi') 
-                {{ route('kaprodi.home') }}
+                {{ route('home.kaprodi') }}
             @elseif($userRole === 'Koordinator') 
-                {{ route('koordinator.home') }}
+                {{ route('home.koordinator') }}
             @elseif($userRole === 'Mahasiswa') 
                 {{ route('home.mahasiswa') }}
             @else 
-                {{ route('login') }}
+                {{ route('home') }}
             @endif
         ">
             <img
@@ -57,22 +57,21 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <!-- Beranda Link -->
                 <li class="nav-item">
-                    <a class="nav-link 
-                        @if(in_array(Route::currentRouteName(), ['doswal.home', 'kaprodi.home', 'koordinator.home', 'home.mahasiswa'])) 
-                            active 
+                    <a class="nav-link
+                        @if(in_array(Route::currentRouteName(), ['home.doswal', 'home.kaprodi', 'home.koordinator', 'home.mahasiswa', 'home']))
+                            active
                         @endif
-                    " 
-                    href="
+                    " href="
                         @if($userRole === 'Doswal') 
-                            {{ route('doswal.home') }}
+                            {{ route('home.doswal') }}
                         @elseif($userRole === 'Kaprodi') 
-                            {{ route('kaprodi.home') }}
+                            {{ route('home.kaprodi') }}
                         @elseif($userRole === 'Koordinator') 
-                            {{ route('koordinator.home') }}
+                            {{ route('home.koordinator') }}
                         @elseif($userRole === 'Mahasiswa') 
                             {{ route('home.mahasiswa') }}
                         @else 
-                            {{ route('login') }}
+                            {{ route('home') }}
                         @endif
                     ">
                         Beranda
@@ -93,10 +92,10 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMBKM">
                         <li>
-                            <a class="dropdown-item" href="#">Table Eligible MBKM</a>
+                            <a class="dropdown-item" href="{{ route('mbkm.informasi') }}">Table Eligible MBKM</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#">Table Pertimbangan MBKM</a>
+                            <a class="dropdown-item" href="{{ route('kp.formkelayakan') }}">Table Pertimbangan MBKM</a>
                         </li>
                     </ul>
                 </li>
@@ -115,7 +114,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownKP">
                         <li>
-                            <a class="dropdown-item" href="#">Table Eligible KP</a>
+                            <a class="dropdown-item" href="{{ route('kp.informasi') }}">Table Eligible KP</a>
                         </li>
                         <li>
                             <a class="dropdown-item" href="
@@ -125,10 +124,10 @@
                                     {{ route('kaprodi.tabelinputkp') }}
                                 @elseif($userRole === 'Koordinator') 
                                     {{ route('koordinator.tabelinputkp') }}
-                                @elseif($userRole === 'Mahasiswa') 
-                                    # <!-- Or any Mahasiswa-specific route -->
-                                @else 
-                                    # 
+                                @elseif($userRole === 'Mahasiswa')
+                                    #
+                                @else
+                                    #
                                 @endif
                             ">
                                 Table Pertimbangan KP
@@ -170,7 +169,8 @@
                             <li><a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                <!-- Use POST for logout -->
+                                <a class="dropdown-item" href="#"
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Logout
                                 </a>
@@ -186,13 +186,6 @@
     </div>
 </nav>
 
-<!-- JavaScript Functions -->
-<script>
-    function showNotifications(event) {
-        event.preventDefault();
-        alert("You have 3 new notifications!");
-    }
-</script>
 <!-- JavaScript Functions -->
 <script>
     function showNotifications(event) {
