@@ -10,8 +10,6 @@ class UsersTableSeeder extends Seeder
 {
     public function run()
     {
-        // Clear existing users
-        User::truncate();
 
         // Create Mahasiswa account
         User::create([
