@@ -1,4 +1,3 @@
-{{-- resources/views/app/doswal/tabelinput_kp.blade.php --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,21 +12,22 @@
     </style>
 </head>
 <body>
+@php
+    $user = Auth::user();
+    $userRole = $user ? $user->role : null;
+@endphp
+
+<!-- Navbar (same style as home_koordinator.blade.php) -->
 <nav class="navbar navbar-expand-lg" style="background: linear-gradient(90deg, #0073e6, #003366);">
   <div class="container-fluid">
-    @php
-      $user = Auth::user();
-      $userRole = $user ? $user->role : null;
-    @endphp
-
     <a class="navbar-brand" href="
-      @if($userRole === 'Doswal') 
+      @if($userRole === 'Doswal')
           {{ route('home.doswal') }}
-      @elseif($userRole === 'Kaprodi') 
+      @elseif($userRole === 'Kaprodi')
           {{ route('home.kaprodi') }}
-      @elseif($userRole === 'Koordinator') 
+      @elseif($userRole === 'Koordinator')
           {{ route('home.koordinator') }}
-      @else 
+      @else
           {{ route('home') }}
       @endif
     ">
@@ -60,13 +60,13 @@
               active
             @endif
           " href="
-            @if($userRole === 'Doswal') 
+            @if($userRole === 'Doswal')
               {{ route('home.doswal') }}
-            @elseif($userRole === 'Kaprodi') 
+            @elseif($userRole === 'Kaprodi')
               {{ route('home.kaprodi') }}
-            @elseif($userRole === 'Koordinator') 
+            @elseif($userRole === 'Koordinator')
               {{ route('home.koordinator') }}
-            @else 
+            @else
               {{ route('home') }}
             @endif
           ">
@@ -87,8 +87,8 @@
             MBKM
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMBKM">
-            <li><a class="dropdown-item" href="#">Table Eligible MBKM</a></li>
-            <li><a class="dropdown-item" href="#">Table Pertimbangan MBKM</a></li>
+          <li><a class="dropdown-item" href="{{ route('doswal.tabelinput_mbkm') }}">Table Pertimbangan MBKM</a></li>
+          <li><a class="dropdown-item" href="{{ route('doswal.tabel_mbkm') }}">Table Eligible MBKM</a></li>
           </ul>
         </li>
 
@@ -107,20 +107,24 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownKP">
             <li>
               <a class="dropdown-item" href="
-                @if($userRole === 'Doswal') 
+                @if($userRole === 'Doswal')
                   {{ route('doswal.tabelinputkp') }}
-                @elseif($userRole === 'Kaprodi') 
+                @elseif($userRole === 'Kaprodi')
                   {{ route('kaprodi.tabelinputkp') }}
-                @elseif($userRole === 'Koordinator') 
+                @elseif($userRole === 'Koordinator')
                   {{ route('koordinator.tabelinputkp') }}
                 @else
                   #
                 @endif
               ">
-                Table Eligible KP
+                Table Pertimbangan KP
               </a>
             </li>
-            <li><a class="dropdown-item" href="#">Table Pertimbangan KP</a></li>
+            <li><a class="dropdown-item" href="@if($userRole === 'Doswal')
+                  {{ route('doswal.tableeligiblekp') }}
+                @else
+                  #
+                @endif">Table Eligible KP</a></li>
           </ul>
         </li>
 
@@ -145,6 +149,8 @@
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               @if($user->profile_photo)
                 <img src="{{ asset('storage/profile_photos/' . $user->profile_photo) }}" alt="Profile Photo" width="30" height="30" class="rounded-circle">
+              @else
+                <img src="{{ asset('images/default_profile.png') }}" alt="Default Profile Photo" width="30" height="30" class="rounded-circle">
               @endif
               {{ $user->name }}
             </a>
@@ -168,178 +174,192 @@
   </div>
 </nav>
 
-    <!-- Display Success Message -->
-    @if(session('success'))
-        <div class="alert alert-success text-center mt-3">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <!-- Tabel Section -->
-    <div class="container my-5">
-        <h2 class="text-center">Daftar Peserta Kerja Praktik</h2>
-
-        <table class="table table-bordered table-striped mt-4" id="dataTable">
-            <thead class="table-dark">
-                <tr>
-                    <th>No</th>
-                    <th>Nama</th>
-                    <th>NIM</th>
-                    <th>Angkatan</th>
-                    <th>Tahun Mendaftar KP</th>
-                    <th>Jumlah SKS (Sem 1-5)</th>
-                    <th>Jumlah SKS (Sem 6)</th>
-                    <th>Eligible</th>
-                    <th>Bukti Lampiran</th>
-                    <th>Status</th>
-                    <th>Catatan Dosen Wali</th>
-                    <th>Catatan Kaprodi</th>
-                    <th>Catatan Koordinator</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                @foreach($kelayakanKPs as $index => $kp)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $kp->user->name }}</td>
-                        <td>{{ $kp->user->nim }}</td>
-                        <td>{{ $kp->user->angkatan }}</td>
-                        <td>{{ $kp->tahun_mendaftar }}</td>
-                        <td>{{ $kp->total_sks }}</td>
-                        <td>{{ $kp->sks_semester6 }}</td>
-                        <td>{{ $kp->mata_kuliah_tidak_lulus ? 'No' : 'Yes' }}</td>
-                        <td>
-                            @if($kp->bukti_sks_ipk)
-                                <a href="{{ asset('storage/' . $kp->bukti_sks_ipk) }}" target="_blank"
-                                    class="btn btn-sm btn-primary">
-                                    <i class="fas fa-file-alt"></i> Lihat Lampiran
-                                </a>
-                            @else
-                                <span>Belum diunggah</span>
-                            @endif
-                        </td>
-                        <td>
-                            @if($kp->status_kelayakan == 'Menunggu')
-                                <span class="badge bg-warning">Menunggu</span>
-                            @elseif($kp->status_kelayakan == 'Disetujui')
-                                <span class="badge bg-success">Disetujui</span>
-                            @elseif($kp->status_kelayakan == 'Ditolak')
-                                <span class="badge bg-danger">Ditolak</span>
-                            @endif
-                        </td>
-                        <td>
-                            <!-- Catatan Dosen Wali -->
-                            <a href="#" class="btn btn-sm btn-secondary"
-                                onclick="toggleCatatanForm({{ $kp->id }}, 'doswal')">
-                                @if($kp->catatan_doswal)
-                                    Edit Catatan
-                                @else
-                                    Add Catatan
-                                @endif
-                            </a>
-                            <div id="form-catatan-doswal-{{ $kp->id }}" class="mt-2"
-                                style="display: none;">
-                                <form action="{{ route('kp.tabelinput.doswal.update_catatan', $kp->id) }}"
-                                    method="POST">
-                                    @csrf
-                                    <div class="mb-2">
-                                        <textarea name="catatan" class="form-control" rows="3"
-                                            required>{{ $kp->catatan_doswal }}</textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary btn-sm">Save</button>
-                                </form>
-                            </div>
-                            @if($kp->catatan_doswal)
-                                <p>{{ $kp->catatan_doswal }}</p>
-                            @endif
-                        </td>
-                        <td>
-                            <!-- Catatan Kaprodi (Read Only) -->
-                            @if($kp->catatan_kaprodi)
-                                <button class="btn btn-sm btn-info"
-                                    onclick="alert('Catatan Kaprodi: {{ $kp->catatan_kaprodi }}')">View
-                                    Catatan Kaprodi</button>
-                            @else
-                                <span>-</span>
-                            @endif
-                        </td>
-                        <td>
-                            <!-- Catatan Koordinator (Read Only) -->
-                            @if($kp->catatan_koordinator)
-                                <button class="btn btn-sm btn-info"
-                                    onclick="alert('Catatan Koordinator: {{ $kp->catatan_koordinator }}')">View
-                                    Catatan Koordinator</button>
-                            @else
-                                <span>-</span>
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+<!-- Display Success Message -->
+@if(session('success'))
+    <div class="alert alert-success text-center mt-3">
+        {{ session('success') }}
     </div>
+@endif
 
-    <!-- Footer -->
-    <footer class="footer bg-dark text-white">
-        <div class="container py-4">
-            <div class="row justify-content-between align-items-center">
-                <!-- Left Side: Logo and Address -->
-                <div class="col-md-6 d-flex align-items-center">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png"
-                        alt="Institut Teknologi Del Logo" style="height: 60px; margin-right: 20px" />
-                    <div>
-                        <h5 class="mb-1">Institut Teknologi Del</h5>
-                        <p class="mb-0">
-                            Jl. Sisingamangaraja, Sitoluama<br />
-                            Laguboti, Toba Samosir, Sumatera Utara<br />
-                            Indonesia
-                        </p>
+<!-- Tabel Section -->
+<div class="container my-5">
+<h2 class="text-center">Daftar Peserta Kerja Praktik</h2>
+
+<table class="table table-bordered table-striped mt-4" id="dataTable">
+    <thead class="table-dark">
+        <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th>NIM</th>
+            <th>Angkatan</th>
+            <th>Tahun Mendaftar KP</th>
+            <th>Jumlah SKS (Sem 1-5)</th>
+            <th>Jumlah SKS (Sem 6)</th>
+            <th>Eligible</th>
+            <th>Bukti Lampiran</th>
+            <th>Status</th>
+            <th>Catatan Dosen Wali</th>
+            <th>Catatan Kaprodi</th>
+            <th>Catatan Koordinator</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($kelayakanKPs as $index => $kp)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $kp->user->name }}</td>
+                <td>{{ $kp->user->nim }}</td>
+                <td>{{ $kp->user->angkatan }}</td>
+                <td>{{ $kp->tahun_mendaftar }}</td>
+                <td>{{ $kp->total_sks }}</td>
+                <td>{{ $kp->sks_semester6 }}</td>
+                <td>{{ $kp->mata_kuliah_tidak_lulus ? 'No' : 'Yes' }}</td>
+                <td>
+                    @if($kp->bukti_sks_ipk)
+                        <a href="{{ asset('storage/' . $kp->bukti_sks_ipk) }}" target="_blank"
+                            class="btn btn-sm btn-primary">
+                            <i class="fas fa-file-alt"></i> Lihat Lampiran
+                        </a>
+                    @else
+                        <span>Belum diunggah</span>
+                    @endif
+                </td>
+                <td>
+                    @if($kp->status_kelayakan == 'Menunggu')
+                        <span class="badge bg-warning">Menunggu</span>
+                    @elseif($kp->status_kelayakan == 'Disetujui')
+                        <span class="badge bg-success">Disetujui</span>
+                    @elseif($kp->status_kelayakan == 'Ditolak')
+                        <span class="badge bg-danger">Ditolak</span>
+                    @endif
+                </td>
+                <td>
+                    <!-- Doswal can edit/add catatan_doswal -->
+                    <a href="#" class="btn btn-sm btn-secondary" onclick="toggleCatatanForm({{ $kp->id }}, 'doswal')">
+                        @if($kp->catatan_doswal)
+                            Edit Catatan
+                        @else
+                            Add Catatan
+                        @endif
+                    </a>
+                    <div id="form-catatan-doswal-{{ $kp->id }}" class="mt-2" style="display: none;">
+                        <form action="{{ route('doswal.tabelinputkp.update_catatan', $kp->id) }}" method="POST">
+                            @csrf
+                            <textarea name="catatan" class="form-control" rows="3" required>{{ $kp->catatan_doswal }}</textarea>
+                            <button type="submit" class="btn btn-primary btn-sm mt-2">Save</button>
+                        </form>
                     </div>
-                </div>
+                    @if($kp->catatan_doswal)
+                        <p>{{ $kp->catatan_doswal }}</p>
+                    @endif
+                </td>
+                <td>
+                    <!-- catatan_kaprodi shown via modal -->
+                    @if($kp->catatan_kaprodi)
+                        <button class="btn btn-sm btn-info" onclick="showCatatan('{{ $kp->catatan_kaprodi }}', 'Catatan Kaprodi')">View Catatan Kaprodi</button>
+                    @else
+                        <span>-</span>
+                    @endif
+                </td>
+                <td>
+                    <!-- catatan_koordinator shown via modal -->
+                    @if($kp->catatan_koordinator)
+                        <button class="btn btn-sm btn-info" onclick="showCatatan('{{ $kp->catatan_koordinator }}', 'Catatan Koordinator')">View Catatan Koordinator</button>
+                    @else
+                        <span>-</span>
+                    @endif
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+</div>
 
-                <!-- Right Side: Social Media and Contact -->
-                <div class="col-md-4 text-end">
-                    <a href="https://www.instagram.com" target="_blank" class="text-white me-3">
-                        <i class="fab fa-instagram" style="font-size: 24px"></i>
-                    </a>
-                    <a href="tel:+1234567890" class="text-white me-3">
-                        <i class="fas fa-phone" style="font-size: 24px"></i>
-                    </a>
-                    <a href="mailto:info@del.ac.id" class="text-white">
-                        <i class="fas fa-envelope" style="font-size: 24px"></i>
-                    </a>
+<!-- Modal for viewing catatan -->
+<div class="modal fade" id="catatanModal" tabindex="-1" aria-labelledby="catatanModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="catatanModalLabel">Catatan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" id="catatanTextarea" rows="5" readonly></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer bg-dark text-white">
+    <div class="container py-4">
+        <div class="row justify-content-between align-items-center">
+            <!-- Left Side: Logo and Address -->
+            <div class="col-md-6 d-flex align-items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png"
+                    alt="Institut Teknologi Del Logo" style="height: 60px; margin-right: 20px" />
+                <div>
+                    <h5 class="mb-1">Institut Teknologi Del</h5>
+                    <p class="mb-0">
+                        Jl. Sisingamangaraja, Sitoluama<br />
+                        Laguboti, Toba Samosir, Sumatera Utara<br />
+                        Indonesia
+                    </p>
                 </div>
             </div>
-            <!-- Footer Bottom Text -->
-            <div class="text-center mt-3">
-                <small>&copy; 2024 Institut Teknologi Del | All Rights Reserved</small>
+
+            <!-- Right Side: Social Media and Contact -->
+            <div class="col-md-4 text-end">
+                <a href="https://www.instagram.com" target="_blank" class="text-white me-3">
+                    <i class="fab fa-instagram" style="font-size: 24px"></i>
+                </a>
+                <a href="tel:+1234567890" class="text-white me-3">
+                    <i class="fas fa-phone" style="font-size: 24px"></i>
+                </a>
+                <a href="mailto:info@del.ac.id" class="text-white">
+                    <i class="fas fa-envelope" style="font-size: 24px"></i>
+                </a>
             </div>
         </div>
-    </footer>
+        <!-- Footer Bottom Text -->
+        <div class="text-center mt-3">
+            <small>&copy; 2024 Institut Teknologi Del | All Rights Reserved</small>
+        </div>
+    </div>
+</footer>
 
-    <!-- JavaScript -->
-    <script>
-        function showNotifications(event) {
-            event.preventDefault();
-            alert("You have 3 new notifications!");
+<!-- JavaScript -->
+<script>
+    function showNotifications(event) {
+        event.preventDefault();
+        alert("You have 3 new notifications!");
+    }
+
+    function showProfileMenu(event) {
+        event.preventDefault();
+        alert("Opening profile menu...");
+    }
+
+    function toggleCatatanForm(id, role) {
+        const form = document.getElementById(`form-catatan-${role}-${id}`);
+        if (form.style.display === "none") {
+            form.style.display = "block";
+        } else {
+            form.style.display = "none";
         }
+    }
 
-        function showProfileMenu(event) {
-            event.preventDefault();
-            alert("Opening profile menu...");
-        }
-
-        function toggleCatatanForm(id, role) {
-            const form = document.getElementById(`form-catatan-${role}-${id}`);
-            if (form.style.display === "none") {
-                form.style.display = "block";
-            } else {
-                form.style.display = "none";
-            }
-        }
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
+    function showCatatan(catatan, title) {
+        document.getElementById('catatanModalLabel').innerText = title;
+        document.getElementById('catatanTextarea').value = catatan;
+        var catatanModal = new bootstrap.Modal(document.getElementById('catatanModal'), {});
+        catatanModal.show();
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
 </body>
 </html>

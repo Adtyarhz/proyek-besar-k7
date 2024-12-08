@@ -22,4 +22,9 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function mbkmPendaftaran()
+{
+    return $this->hasOne(MbkmPendaftaran::class);
+}
 }

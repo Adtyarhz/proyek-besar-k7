@@ -1,9 +1,9 @@
-{{-- resources/views/app/mahasiswa/data_kelayakan.blade.php --}}
+{{-- resources/views/app/mahasiswa/data_pendaftarankp.blade.php --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Data Kelayakan KP - PRATIKMA</title>
+    <title>Data Pendaftaran KP - PRATIKMA</title>
     <link
       rel="icon"
       href="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png"
@@ -39,40 +39,8 @@
         .navbar-nav .nav-link:hover {
             color: #cccccc !important;
         }
-        .navbar .fa-bell {
-            color: white;
-            font-size: 24px;
-            margin-right: 15px;
-        }
-        .navbar .fa-user-circle {
-            color: white;
-            font-size: 24px;
-        }
-        .navbar .notification-bell {
-            position: relative;
-        }
-        .navbar .notification-badge {
-            position: absolute;
-            top: -10px;
-            right: -5px;
-            background-color: red;
-            color: white;
-            font-size: 12px;
-            padding: 2px 6px;
-            border-radius: 50%;
-        }
         .navbar-toggler-icon {
             background-color: white;
-        }
-
-        .navbar-nav .dropdown-menu {
-            background-color: #003366;
-        }
-        .navbar-nav .dropdown-item {
-            color: white;
-        }
-        .navbar-nav .dropdown-item:hover {
-            background-color: #00508b;
         }
 
         .footer {
@@ -248,7 +216,7 @@
             Kerja Praktik
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
-            <li><a class="dropdown-item" href="{{ route('kp.informasi') }}">Informasi</a></li>
+          <li><a class="dropdown-item" href="{{ route('kp.informasi') }}">Informasi</a></li>
             <li><a class="dropdown-item" href="{{ route('kp.formkelayakan') }}">Form Kelayakan KP</a></li>
             <li><a class="dropdown-item" href="{{ route('kp.formpendaftaran') }}">Form Pendaftaran KP</a></li>
             <li><a class="dropdown-item" href="{{ route('kp.data_kelayakan') }}">Data Kelayakan KP</a></li>
@@ -305,31 +273,39 @@
     </div>
 @endif
 
-<!-- Data Kelayakan KP Section -->
+<!-- Data Pendaftaran KP Section -->
 <div class="container my-5">
-    <h3 class="text-center mb-4">Data Kelayakan KP</h3>
-    @forelse($dataKelayakan as $data)
+    <h3 class="text-center mb-4">Data Pendaftaran KP</h3>
+    @forelse($dataPendaftaran as $data)
         <div class="data-section">
             <div class="data-item">
-                <label>Nilai IPK:</label>
-                <p>{{ $data->nilai_ipk }}</p>
+                <label>Nama:</label>
+                <p>{{ $data->nama }}</p>
             </div>
             <div class="data-item">
-                <label>Total SKS Semester 1-6:</label>
-                <p>{{ $data->total_sks }}</p>
+                <label>NIM:</label>
+                <p>{{ $data->nim }}</p>
             </div>
             <div class="data-item">
-                <label>SKS Semester 6:</label>
-                <p>{{ $data->sks_semester6 }}</p>
+                <label>Email:</label>
+                <p>{{ $data->email }}</p>
             </div>
             <div class="data-item">
-                <label>Mata Kuliah Tidak Lulus:</label>
-                <p>{{ $data->mata_kuliah_tidak_lulus }}</p>
+                <label>Perusahaan:</label>
+                <p>{{ $data->perusahaan }}</p>
             </div>
             <div class="data-item">
-                <label>Bukti SKS dan IPK:</label>
-                @if($data->bukti_sks_ipk)
-                    <a href="{{ asset('storage/' . $data->bukti_sks_ipk) }}" target="_blank" class="btn btn-sm btn-primary">
+                <label>Rencana Pelaksanaan KP:</label>
+                <p>{{ $data->pelaksanaan }}</p>
+            </div>
+            <div class="data-item">
+                <label>Lokasi:</label>
+                <p>{{ $data->lokasi }}</p>
+            </div>
+            <div class="data-item">
+                <label>Bukti Penerimaan:</label>
+                @if($data->bukti_penerimaan)
+                    <a href="{{ asset('storage/' . $data->bukti_penerimaan) }}" target="_blank" class="btn btn-sm btn-primary">
                         <i class="fas fa-file-alt"></i> Lihat Bukti
                     </a>
                 @else
@@ -337,34 +313,37 @@
                 @endif
             </div>
             <div class="data-item">
-                <label>Status Kelayakan:</label>
-                @if($data->status_kelayakan == 'Menunggu')
+                <label>Status Pendaftaran:</label>
+                @if($data->status_pendaftaran == 'Menunggu' || $data->status_pendaftaran == null)
                     <span class="badge badge-menunggu">Menunggu</span>
-                @elseif($data->status_kelayakan == 'Disetujui')
+                @elseif($data->status_pendaftaran == 'Disetujui')
                     <span class="badge badge-disetujui">Disetujui</span>
-                @elseif($data->status_kelayakan == 'Ditolak')
+                @elseif($data->status_pendaftaran == 'Ditolak')
                     <span class="badge badge-ditolak">Ditolak</span>
                 @endif
             </div>
 
-            <!-- Display Catatan from Dosen Wali, Kaprodi, Koordinator -->
             <hr class="my-4">
-            <h5>Catatan dari Peran Terkait:</h5>
+            <h5>Catatan dari Peran Terkait (Eligible):</h5>
             <div class="data-item">
                 <label>Catatan Dosen Wali:</label>
-                <p>{{ $data->catatan_doswal ?? 'Belum ada catatan dari Dosen Wali.' }}</p>
+                <p>{{ $data->catatan_doswal_eligible ?? 'Belum ada catatan dari Dosen Wali.' }}</p>
             </div>
             <div class="data-item">
                 <label>Catatan Kaprodi:</label>
-                <p>{{ $data->catatan_kaprodi ?? 'Belum ada catatan dari Kaprodi.' }}</p>
+                <p>{{ $data->catatan_kaprodi_eligible ?? 'Belum ada catatan dari Kaprodi.' }}</p>
             </div>
             <div class="data-item">
                 <label>Catatan Koordinator:</label>
-                <p>{{ $data->catatan_koordinator ?? 'Belum ada catatan dari Koordinator.' }}</p>
+                <p>{{ $data->catatan_koordinator_eligible ?? 'Belum ada catatan dari Koordinator.' }}</p>
+            </div>
+            <div class="data-item">
+                <label>SKS dari Koordinator:</label>
+                <p>{{ $data->sks_koordinator !== null ? $data->sks_koordinator . ' SKS' : 'Belum ditentukan' }}</p>
             </div>
         </div>
     @empty
-        <p class="text-center">Belum ada data Kelayakan KP yang diinput.</p>
+        <p class="text-center">Belum ada data Pendaftaran KP yang diinput.</p>
     @endforelse
 </div>
 
@@ -372,7 +351,6 @@
 <footer class="footer bg-dark text-white">
   <div class="container py-4">
     <div class="row justify-content-between align-items-center">
-      <!-- Left Side: Logo and Address -->
       <div class="col-md-6 d-flex align-items-center">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png"
@@ -389,7 +367,6 @@
         </div>
       </div>
 
-      <!-- Right Side: Social Media and Contact -->
       <div class="col-md-4 text-end">
         <a
           href="https://www.instagram.com"
@@ -428,4 +405,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
- 
