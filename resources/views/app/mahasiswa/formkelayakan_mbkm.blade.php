@@ -1,9 +1,8 @@
-{{-- resources/views/app/mahasiswa/formkelayakan_kp.blade.php --}}
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Form Kelayakan KP - PRATIKMA</title>
+    <title>Form Kelayakan MBKM</title>
     <link
       rel="icon"
       href="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png"
@@ -30,7 +29,7 @@
       }
 
       /* Konten agar tumbuh dan mendorong footer ke bawah */
-      .container-flex {
+      .container {
         flex-grow: 1; /* Agar area konten mengambil sisa ruang */
       }
 
@@ -89,6 +88,7 @@
       .footer {
         background-color: #003366; /* Warna biru tua */
         padding: 20px 0;
+        margin-top: auto;
       }
 
       .footer h5 {
@@ -123,18 +123,6 @@
         color: #aaaaaa;
         font-size: 12px;
       }
-
-      /* Form Styling */
-      .card-header {
-        background: linear-gradient(90deg, #0073e6, #003366);
-        font-size: 24px;
-        font-weight: bold;
-      }
-
-      .card-body {
-        background-color: #f9f9f9;
-        background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png');
-      }
     </style>
 </head>
 <body>
@@ -143,9 +131,22 @@
     $userRole = $user ? $user->role : null;
 @endphp
 
-<nav class="navbar navbar-expand-lg" style="background: linear-gradient(90deg, #0073e6, #003366);">
-  <div class="container">
-    <a class="navbar-brand" href="{{ route('home.mahasiswa') }}">
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand"
+       href="
+         @if($userRole === 'Doswal')
+           {{ route('home.doswal') }}
+         @elseif($userRole === 'Kaprodi')
+           {{ route('home.kaprodi') }}
+         @elseif($userRole === 'Koordinator')
+           {{ route('home.koordinator') }}
+         @elseif($userRole === 'Mahasiswa')
+           {{ route('home.mahasiswa') }}
+         @else
+           {{ route('home') }}
+         @endif
+       ">
       <img
         alt="Logo"
         src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png"
@@ -171,11 +172,23 @@
         <!-- Beranda -->
         <li class="nav-item">
           <a class="nav-link
-            @if(in_array(Route::currentRouteName(), ['home', 'home.mahasiswa']))
+            @if(in_array(Route::currentRouteName(), ['home', 'home.doswal', 'home.kaprodi', 'home.koordinator', 'home.mahasiswa']))
               active
             @endif
           "
-          href="{{ route('home.mahasiswa') }}">
+          href="
+            @if($userRole === 'Doswal') 
+              {{ route('home.doswal') }}
+            @elseif($userRole === 'Kaprodi') 
+              {{ route('home.kaprodi') }}
+            @elseif($userRole === 'Koordinator') 
+              {{ route('home.koordinator') }}
+            @elseif($userRole === 'Mahasiswa') 
+              {{ route('home.mahasiswa') }}
+            @else 
+              {{ route('home') }}
+            @endif
+          ">
             Beranda
           </a>
         </li>
@@ -195,9 +208,8 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMBKM">
             <li><a class="dropdown-item" href="{{ route('mbkm.informasi') }}">Informasi</a></li>
             <li><a class="dropdown-item" href="{{ route('mbkm.formkelayakan') }}">Form Kelayakan MBKM</a></li>
-            <li><a class="dropdown-item" href="{{ route('mbkm_pendaftaran.create') }}">Form Final MBKM</a></li>
+            <li><a class="dropdown-item" href="{{ route('mbkm_pendaftaran.create') }}">Form Final MBKM</a></li> <!-- Adjust route as needed -->
             <li><a class="dropdown-item" href="{{ route('mbkm.data_kelayakan') }}">Data Kelayakan MBKM</a></li>
-            <li><a class="dropdown-item" href="{{ route('mbkm_pendaftaran.data') }}">Data Pendaftaran MBKM</a></li>
           </ul>
         </li>
 
@@ -214,11 +226,12 @@
             Kerja Praktik
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownKP">
-            <li><a class="dropdown-item" href="{{ route('kp.informasi') }}">Informasi</a></li>
+          <li><a class="dropdown-item" href="{{ route('kp.informasi') }}">Informasi</a></li>
             <li><a class="dropdown-item" href="{{ route('kp.formkelayakan') }}">Form Kelayakan KP</a></li>
             <li><a class="dropdown-item" href="{{ route('kp.formpendaftaran') }}">Form Pendaftaran KP</a></li>
             <li><a class="dropdown-item" href="{{ route('kp.data_kelayakan') }}">Data Kelayakan KP</a></li>
             <li><a class="dropdown-item" href="{{ route('kp.data_pendaftaran') }}">Data Pendaftaran KP</a></li>
+            <li><a class="dropdown-item" href="{{ route('mbkm_pendaftaran.data') }}">Data Pendaftaran MBKM</a></li>
           </ul>
         </li>
       </ul>
@@ -264,165 +277,168 @@
   </div>
 </nav>
 
-<!-- Display Validation Errors -->
-@if ($errors->any())
-    <div class="container-flex my-4">
-        <div class="alert alert-danger">
-            <ul class="mb-0">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    </div>
-@endif
-
-<!-- Display Success Message -->
+<!-- Success and Error Messages -->
 @if(session('success'))
-    <div class="container-flex my-4">
-        <div class="alert alert-success text-center">
-            {{ session('success') }}
-        </div>
+    <div class="alert alert-success text-center mt-3">
+        {{ session('success') }}
     </div>
 @endif
 
-<!-- Form Section -->
-<div class="container-flex my-5">
-    <!-- Form Input Data -->
-    <form id="formKelayakanKP" action="{{ route('kp.formkelayakan.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card shadow-lg border-0 rounded-4">
-                    <!-- Header -->
-                    <div
-                        class="card-header text-white text-center py-4 rounded-top"
-                        style="
-                            background: linear-gradient(90deg, #0073e6, #003366);
-                            font-size: 24px;
-                            font-weight: bold;
-                        "
-                    >
-                        <i class="fas fa-check-circle me-2"></i>
-                        Form Kelayakan KP
-                    </div>
+@if(session('error'))
+    <div class="alert alert-danger text-center mt-3">
+        {{ session('error') }}
+    </div>
+@endif
 
-                    <!-- Body -->
-                    <div
-                        class="card-body p-5"
-                    >
-                        <!-- Nilai IPK -->
-                        <div class="mb-4">
-                            <label for="nilai_ipk" class="form-label fw-semibold">
-                                Nilai IPK
-                            </label>
-                            <input
-                                type="number"
-                                step="0.01"
-                                class="form-control rounded-3 shadow-sm"
-                                id="nilai_ipk"
-                                name="nilai_ipk"
-                                placeholder="Masukkan nilai IPK"
-                                value="{{ old('nilai_ipk') }}"
-                                required
-                            />
-                        </div>
+<!--Form Section -->
+<div class="container my-5">
+  <!-- Form Input Data -->
+  <form id="formKelayakanMBKM" action="{{ route('mbkm.formkelayakan.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-lg border-0 rounded-4">
+          <!-- Header -->
+          <div
+            class="card-header text-white text-center py-4 rounded-top"
+            style="
+              background: linear-gradient(90deg, #0073e6, #003366);
+              font-size: 24px;
+              font-weight: bold;
+            "
+          >
+            <i class="fas fa-check-circle me-2"></i>
+            Form Kelayakan MBKM
+          </div>
 
-                        <!-- Divider -->
-                        <hr class="my-4" />
+          <!-- Body -->
+          <div
+            class="card-body p-5"
+            style="
+              background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png');
+              background-color: #f9f9f9;
+            "
+          >
+            <!-- Display Validation Errors -->
+            @if ($errors->any())
+              <div class="alert alert-danger">
+                <ul class="mb-0">
+                  @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                  @endforeach
+                </ul>
+              </div>
+            @endif
 
-                        <!-- Total SKS Semester 1-6 -->
-                        <div class="mb-4">
-                            <label for="total_sks" class="form-label fw-semibold">
-                                Total SKS Semester 1-6
-                            </label>
-                            <input
-                                type="number"
-                                class="form-control rounded-3 shadow-sm"
-                                id="total_sks"
-                                name="total_sks"
-                                placeholder="Masukkan total SKS"
-                                value="{{ old('total_sks') }}"
-                                required
-                            />
-                        </div>
-
-                        <!-- Divider -->
-                        <hr class="my-4" />
-
-                        <!-- SKS Semester 6 -->
-                        <div class="mb-4">
-                            <label for="sks_semester6" class="form-label fw-semibold">
-                                SKS Semester 6
-                            </label>
-                            <input
-                                type="number"
-                                class="form-control rounded-3 shadow-sm"
-                                id="sks_semester6"
-                                name="sks_semester6"
-                                placeholder="Masukkan SKS Semester 6"
-                                value="{{ old('sks_semester6') }}"
-                                required
-                            />
-                        </div>
-
-                        <!-- Divider -->
-                        <hr class="my-4" />
-
-                        <!-- Mata Kuliah Tidak Lulus -->
-                        <div class="mb-4">
-                            <label
-                                for="mata_kuliah_tidak_lulus"
-                                class="form-label fw-semibold"
-                            >
-                                Mata Kuliah Tidak Lulus
-                            </label>
-                            <input
-                                type="text"
-                                class="form-control rounded-3 shadow-sm"
-                                id="mata_kuliah_tidak_lulus"
-                                name="mata_kuliah_tidak_lulus"
-                                placeholder="Masukkan mata kuliah tidak lulus"
-                                value="{{ old('mata_kuliah_tidak_lulus') }}"
-                                required
-                            />
-                        </div>
-
-                        <!-- Divider -->
-                        <hr class="my-4" />
-
-                        <!-- Bukti SKS dan IPK -->
-                        <div class="mb-4">
-                            <label for="bukti_sks_ipk" class="form-label fw-semibold">
-                                Bukti SKS dan IPK
-                            </label>
-                            <input
-                                type="file"
-                                class="form-control rounded-3 shadow-sm"
-                                id="bukti_sks_ipk"
-                                name="bukti_sks_ipk"
-                                accept=".pdf,.jpg,.jpeg,.png"
-                                required
-                            />
-                            <small class="form-text text-muted">
-                                Format yang diterima: PDF, JPG, JPEG, PNG. Maksimal ukuran 2MB.
-                            </small>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <div class="text-center mt-4">
-                            <button
-                                type="submit"
-                                class="btn btn-primary rounded-3 px-5 py-2 shadow-lg"
-                            >
-                                <i class="fas fa-paper-plane me-2"></i>Submit Form
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <!-- Nilai IPK -->
+            <div class="mb-4">
+              <label for="nilai-ipk" class="form-label fw-semibold">
+                Nilai IPK
+              </label>
+              <input
+                type="number"
+                step="0.01"
+                class="form-control rounded-3 shadow-sm"
+                id="nilai-ipk"
+                name="nilai_ipk"
+                placeholder="Masukkan nilai IPK"
+                value="{{ old('nilai_ipk') }}"
+                required
+              />
             </div>
+
+            <!-- Divider -->
+            <hr class="my-4" />
+
+            <!-- Total SKS Semester 1-6 -->
+            <div class="mb-4">
+              <label for="total-sks" class="form-label fw-semibold">
+                Total SKS Semester 1-6
+              </label>
+              <input
+                type="number"
+                class="form-control rounded-3 shadow-sm"
+                id="total-sks"
+                name="total_sks"
+                placeholder="Masukkan total SKS"
+                value="{{ old('total_sks') }}"
+                required
+              />
+            </div>
+
+            <!-- Divider -->
+            <hr class="my-4" />
+
+            <!-- SKS Semester 6 -->
+            <div class="mb-4">
+              <label for="sks-semester-6" class="form-label fw-semibold">
+                SKS Semester 6
+              </label>
+              <input
+                type="number"
+                class="form-control rounded-3 shadow-sm"
+                id="sks-semester-6"
+                name="sks_semester6"
+                placeholder="Masukkan SKS Semester 6"
+                value="{{ old('sks_semester6') }}"
+                required
+              />
+            </div>
+
+            <!-- Divider -->
+            <hr class="my-4" />
+
+            <!-- Mata Kuliah Tidak Lulus -->
+            <div class="mb-4">
+              <label
+                for="mata-kuliah-tidak-lulus"
+                class="form-label fw-semibold"
+              >
+                Mata Kuliah Tidak Lulus
+              </label>
+              <input
+                type="text"
+                class="form-control rounded-3 shadow-sm"
+                id="mata-kuliah-tidak-lulus"
+                name="mata_kuliah_tidak_lulus"
+                placeholder="Masukkan mata kuliah tidak lulus"
+                value="{{ old('mata_kuliah_tidak_lulus') }}"
+                required
+              />
+            </div>
+
+            <!-- Divider -->
+            <hr class="my-4" />
+
+            <!-- Bukti SKS dan IPK -->
+            <div class="mb-4">
+              <label for="bukti-sks-ipk" class="form-label fw-semibold">
+                Bukti SKS dan IPK
+              </label>
+              <input
+                type="file"
+                class="form-control rounded-3 shadow-sm"
+                id="bukti-sks-ipk"
+                name="bukti_sks_ipk"
+                accept=".pdf,.jpg,.jpeg,.png"
+                required
+              />
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center mt-4">
+              <button
+                type="submit"
+                class="btn btn-primary rounded-3 px-5 py-2 shadow-lg"
+              >
+                <i class="fas fa-paper-plane me-2"></i>Submit Form
+              </button>
+            </div>
+          </div>
         </div>
-    </form>
+      </div>
+    </div>
+  </form>
 </div>
 
 <!-- Footer Section -->
@@ -465,7 +481,9 @@
     </div>
     <!-- Footer Bottom Text -->
     <div class="text-center mt-3">
-      <small>&copy; 2024 Institut Teknologi Del | All Rights Reserved</small>
+      <small
+        >&copy; 2024 Institut Teknologi Del | All Rights Reserved</small
+      >
     </div>
   </div>
 </footer>
@@ -474,14 +492,31 @@
 <script>
   function showNotifications(event) {
     event.preventDefault();
-    alert("Anda memiliki 3 notifikasi baru!");
+    alert("You have 3 new notifications!");
   }
 
   function showProfileMenu(event) {
     event.preventDefault();
-    alert("Membuka menu profil...");
+    alert("Opening profile menu...");
   }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // Optional: Handle form submission via AJAX if desired
+  document
+    .getElementById("formKelayakanMBKM")
+    .addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent page refresh
+
+      // Prepare form data
+      const formData = new FormData(this);
+
+      // Optionally, send form data via AJAX
+      // For simplicity, allow normal form submission
+      this.submit();
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

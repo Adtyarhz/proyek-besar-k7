@@ -1,9 +1,9 @@
-{{-- resources/views/app/mahasiswa/data_kelayakan.blade.php --}}
+{{-- resources/views/app/mahasiswa/data_kelayakanmbkm.blade.php --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Data Kelayakan KP - PRATIKMA</title>
+    <title>Data Kelayakan MBKM - PRATIKMA</title>
     <link
       rel="icon"
       href="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png"
@@ -144,6 +144,11 @@
         .badge-ditolak {
             background-color: #dc3545;
         }
+
+        /* Responsive Table Styling */
+        .table-responsive {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -152,19 +157,19 @@
     $userRole = $user ? $user->role : null;
 @endphp
 
-<nav class="navbar navbar-expand-lg" style="background: linear-gradient(90deg, #0073e6, #003366);">
-  <div class="container">
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
     <a class="navbar-brand"
        href="
-         @if($userRole === 'Doswal') 
+         @if($userRole === 'Doswal')
            {{ route('home.doswal') }}
-         @elseif($userRole === 'Kaprodi') 
+         @elseif($userRole === 'Kaprodi')
            {{ route('home.kaprodi') }}
-         @elseif($userRole === 'Koordinator') 
+         @elseif($userRole === 'Koordinator')
            {{ route('home.koordinator') }}
-         @elseif($userRole === 'Mahasiswa') 
+         @elseif($userRole === 'Mahasiswa')
            {{ route('home.mahasiswa') }}
-         @else 
+         @else
            {{ route('home') }}
          @endif
        ">
@@ -229,7 +234,7 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMBKM">
             <li><a class="dropdown-item" href="{{ route('mbkm.informasi') }}">Informasi</a></li>
             <li><a class="dropdown-item" href="{{ route('mbkm.formkelayakan') }}">Form Kelayakan MBKM</a></li>
-            <li><a class="dropdown-item" href="{{ route('mbkm_pendaftaran.create') }}">Form Final MBKM</a></li>
+            <li><a class="dropdown-item" href="{{ route('mbkm_pendaftaran.create') }}">Form Final MBKM</a></li> <!-- Adjust route as needed -->
             <li><a class="dropdown-item" href="{{ route('mbkm.data_kelayakan') }}">Data Kelayakan MBKM</a></li>
             <li><a class="dropdown-item" href="{{ route('mbkm_pendaftaran.data') }}">Data Pendaftaran MBKM</a></li>
           </ul>
@@ -240,15 +245,15 @@
           <a
             class="nav-link dropdown-toggle"
             href="#"
-            id="navbarDropdown2"
+            id="navbarDropdownKP"
             role="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
             Kerja Praktik
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
-            <li><a class="dropdown-item" href="{{ route('kp.informasi') }}">Informasi</a></li>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownKP">
+          <li><a class="dropdown-item" href="{{ route('kp.informasi') }}">Informasi</a></li>
             <li><a class="dropdown-item" href="{{ route('kp.formkelayakan') }}">Form Kelayakan KP</a></li>
             <li><a class="dropdown-item" href="{{ route('kp.formpendaftaran') }}">Form Pendaftaran KP</a></li>
             <li><a class="dropdown-item" href="{{ route('kp.data_kelayakan') }}">Data Kelayakan KP</a></li>
@@ -298,16 +303,22 @@
   </div>
 </nav>
 
-<!-- Display Success Message -->
+<!-- Display Success and Error Messages -->
 @if(session('success'))
-    <div class="alert alert-success text-center">
+    <div class="alert alert-success text-center mt-3">
         {{ session('success') }}
     </div>
 @endif
 
-<!-- Data Kelayakan KP Section -->
+@if(session('error'))
+    <div class="alert alert-danger text-center mt-3">
+        {{ session('error') }}
+    </div>
+@endif
+
+<!-- Data Kelayakan MBKM Section -->
 <div class="container my-5">
-    <h3 class="text-center mb-4">Data Kelayakan KP</h3>
+    <h3 class="text-center mb-4">Data Kelayakan MBKM</h3>
     @forelse($dataKelayakan as $data)
         <div class="data-section">
             <div class="data-item">
@@ -352,7 +363,7 @@
             <h5>Catatan dari Peran Terkait:</h5>
             <div class="data-item">
                 <label>Catatan Dosen Wali:</label>
-                <p>{{ $data->catatan_doswal ?? 'Belum ada catatan dari Dosen Wali.' }}</p>
+                <p>{{ $data->catatan_dosen_wali ?? 'Belum ada catatan dari Dosen Wali.' }}</p>
             </div>
             <div class="data-item">
                 <label>Catatan Kaprodi:</label>
@@ -364,7 +375,7 @@
             </div>
         </div>
     @empty
-        <p class="text-center">Belum ada data Kelayakan KP yang diinput.</p>
+        <p class="text-center">Belum ada data Kelayakan MBKM yang diinput.</p>
     @endforelse
 </div>
 
@@ -428,4 +439,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
- 

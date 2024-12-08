@@ -1,9 +1,9 @@
-{{-- resources/views/app/mahasiswa/data_kelayakan.blade.php --}}
+{{-- resources/views/app/mahasiswa/data_pendaftaranmbkm.blade.php --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Data Kelayakan KP - PRATIKMA</title>
+    <title>Data Pendaftaran MBKM - PRATIKMA</title>
     <link
       rel="icon"
       href="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png"
@@ -19,6 +19,7 @@
       rel="stylesheet"
     />
     <style>
+        /* CSS yang konsisten dan responsif */
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
@@ -39,40 +40,8 @@
         .navbar-nav .nav-link:hover {
             color: #cccccc !important;
         }
-        .navbar .fa-bell {
-            color: white;
-            font-size: 24px;
-            margin-right: 15px;
-        }
-        .navbar .fa-user-circle {
-            color: white;
-            font-size: 24px;
-        }
-        .navbar .notification-bell {
-            position: relative;
-        }
-        .navbar .notification-badge {
-            position: absolute;
-            top: -10px;
-            right: -5px;
-            background-color: red;
-            color: white;
-            font-size: 12px;
-            padding: 2px 6px;
-            border-radius: 50%;
-        }
         .navbar-toggler-icon {
             background-color: white;
-        }
-
-        .navbar-nav .dropdown-menu {
-            background-color: #003366;
-        }
-        .navbar-nav .dropdown-item {
-            color: white;
-        }
-        .navbar-nav .dropdown-item:hover {
-            background-color: #00508b;
         }
 
         .footer {
@@ -152,7 +121,7 @@
     $userRole = $user ? $user->role : null;
 @endphp
 
-<nav class="navbar navbar-expand-lg" style="background: linear-gradient(90deg, #0073e6, #003366);">
+<nav class="navbar navbar-expand-lg navbar-dark">
   <div class="container">
     <a class="navbar-brand"
        href="
@@ -185,7 +154,7 @@
       aria-expanded="false"
       aria-label="Toggle navigation"
     >
-      <span class="navbar-toggler-icon" style="background-color: white;"></span>
+      <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarContent">
@@ -305,31 +274,43 @@
     </div>
 @endif
 
-<!-- Data Kelayakan KP Section -->
+<!-- Display Error Message -->
+@if(session('error'))
+    <div class="alert alert-danger text-center">
+        {{ session('error') }}
+    </div>
+@endif
+
+<!-- Data Pendaftaran MBKM Section -->
 <div class="container my-5">
-    <h3 class="text-center mb-4">Data Kelayakan KP</h3>
-    @forelse($dataKelayakan as $data)
+    <h3 class="text-center mb-4">Data Pendaftaran MBKM</h3>
+
+    @if($pendaftaranMbkm)
         <div class="data-section">
             <div class="data-item">
-                <label>Nilai IPK:</label>
-                <p>{{ $data->nilai_ipk }}</p>
+                <label>Nama:</label>
+                <p>{{ $pendaftaranMbkm->nama }}</p>
             </div>
             <div class="data-item">
-                <label>Total SKS Semester 1-6:</label>
-                <p>{{ $data->total_sks }}</p>
+                <label>NIM:</label>
+                <p>{{ $pendaftaranMbkm->nim }}</p>
             </div>
             <div class="data-item">
-                <label>SKS Semester 6:</label>
-                <p>{{ $data->sks_semester6 }}</p>
+                <label>Email:</label>
+                <p>{{ $pendaftaranMbkm->email }}</p>
             </div>
             <div class="data-item">
-                <label>Mata Kuliah Tidak Lulus:</label>
-                <p>{{ $data->mata_kuliah_tidak_lulus }}</p>
+                <label>Rencana Pelaksanaan MBKM:</label>
+                <p>{{ $pendaftaranMbkm->rencana_pelaksanaan_mbkm }}</p>
             </div>
             <div class="data-item">
-                <label>Bukti SKS dan IPK:</label>
-                @if($data->bukti_sks_ipk)
-                    <a href="{{ asset('storage/' . $data->bukti_sks_ipk) }}" target="_blank" class="btn btn-sm btn-primary">
+                <label>Lokasi MBKM:</label>
+                <p>{{ $pendaftaranMbkm->lokasi_mbkm }}</p>
+            </div>
+            <div class="data-item">
+                <label>Bukti Penerimaan MBKM:</label>
+                @if($pendaftaranMbkm->bukti_penerimaan_mbkm)
+                    <a href="{{ asset('storage/' . $pendaftaranMbkm->bukti_penerimaan_mbkm) }}" target="_blank" class="btn btn-sm btn-primary">
                         <i class="fas fa-file-alt"></i> Lihat Bukti
                     </a>
                 @else
@@ -337,42 +318,50 @@
                 @endif
             </div>
             <div class="data-item">
-                <label>Status Kelayakan:</label>
-                @if($data->status_kelayakan == 'Menunggu')
+                <label>Status Pendaftaran:</label>
+                @if($pendaftaranMbkm->status == 'Menunggu' || $pendaftaranMbkm->status == null)
                     <span class="badge badge-menunggu">Menunggu</span>
-                @elseif($data->status_kelayakan == 'Disetujui')
+                @elseif($pendaftaranMbkm->status == 'Disetujui')
                     <span class="badge badge-disetujui">Disetujui</span>
-                @elseif($data->status_kelayakan == 'Ditolak')
+                @elseif($pendaftaranMbkm->status == 'Ditolak')
                     <span class="badge badge-ditolak">Ditolak</span>
                 @endif
             </div>
 
-            <!-- Display Catatan from Dosen Wali, Kaprodi, Koordinator -->
+            <!-- Penambahan SKS dari Koordinator -->
+            <div class="data-item">
+                <label>SKS yang Diberikan:</label>
+                @if($pendaftaranMbkm->sks_koordinator)
+                    <p>{{ $pendaftaranMbkm->sks_koordinator }} SKS</p>
+                @else
+                    <span>Belum ada SKS yang ditentukan.</span>
+                @endif
+            </div>
+
             <hr class="my-4">
-            <h5>Catatan dari Peran Terkait:</h5>
+            <h5>Catatan:</h5>
             <div class="data-item">
                 <label>Catatan Dosen Wali:</label>
-                <p>{{ $data->catatan_doswal ?? 'Belum ada catatan dari Dosen Wali.' }}</p>
+                <p>{{ $pendaftaranMbkm->catatan_dosen_wali ?? 'Belum ada catatan dari Dosen Wali.' }}</p>
             </div>
             <div class="data-item">
                 <label>Catatan Kaprodi:</label>
-                <p>{{ $data->catatan_kaprodi ?? 'Belum ada catatan dari Kaprodi.' }}</p>
+                <p>{{ $pendaftaranMbkm->catatan_kaprodi ?? 'Belum ada catatan dari Kaprodi.' }}</p>
             </div>
             <div class="data-item">
                 <label>Catatan Koordinator:</label>
-                <p>{{ $data->catatan_koordinator ?? 'Belum ada catatan dari Koordinator.' }}</p>
+                <p>{{ $pendaftaranMbkm->catatan_koordinator ?? 'Belum ada catatan dari Koordinator.' }}</p>
             </div>
         </div>
-    @empty
-        <p class="text-center">Belum ada data Kelayakan KP yang diinput.</p>
-    @endforelse
+    @else
+        <p class="text-center">Belum ada data pendaftaran MBKM.</p>
+    @endif
 </div>
 
 <!-- Footer Section -->
 <footer class="footer bg-dark text-white">
   <div class="container py-4">
     <div class="row justify-content-between align-items-center">
-      <!-- Left Side: Logo and Address -->
       <div class="col-md-6 d-flex align-items-center">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png"
@@ -389,7 +378,6 @@
         </div>
       </div>
 
-      <!-- Right Side: Social Media and Contact -->
       <div class="col-md-4 text-end">
         <a
           href="https://www.instagram.com"
@@ -428,4 +416,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
- 

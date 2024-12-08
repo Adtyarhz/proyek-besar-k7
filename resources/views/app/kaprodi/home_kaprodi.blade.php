@@ -267,8 +267,8 @@
             MBKM
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMBKM">
-            <li><a class="dropdown-item" href="#">Table Eligible MBKM</a></li>
-            <li><a class="dropdown-item" href="#">Table Pertimbangan MBKM</a></li>
+          <li><a class="dropdown-item" href="{{ route('kaprodi.tabelinput_mbkm') }}">Table Pertimbangan MBKM</a></li>
+          <li><a class="dropdown-item" href="{{ route('kaprodi.tabel_mbkm') }}">Table Eligible MBKM</a></li>
           </ul>
         </li>
 
@@ -297,10 +297,14 @@
                   #
                 @endif
               ">
-                Table Eligible KP
+                Table Pertimbangan KP
               </a>
             </li>
-            <li><a class="dropdown-item" href="#">Table Pertimbangan KP</a></li>
+            <li><a class="dropdown-item" href="@if($userRole === 'Kaprodi')
+                  {{ route('kaprodi.tableeligiblekp') }}
+                @else
+                  #
+                @endif">Table Eligible KP</a></li>
           </ul>
         </li>
 
