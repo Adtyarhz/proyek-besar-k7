@@ -23,6 +23,18 @@ class UsersTableSeeder extends Seeder
             'role'     => 'Mahasiswa',
         ]);
 
+        // Create Admin account
+        User::create([
+            'name'     => 'Admin System',
+            'username' => 'admin123',
+            'email'    => 'admin@del.ac.id',
+            'nim'      => NULL, // Set as NULL
+            'angkatan' => NULL, // Set as NULL
+            'doswal'   => NULL, // Set as NULL
+            'password' => Hash::make('12345678'),
+            'role'     => 'Admin',
+        ]);
+
         // Create Koordinator account
         User::create([
             'name'     => 'Iustisia Natalia Simbolon, S.Kom.,M.T',
