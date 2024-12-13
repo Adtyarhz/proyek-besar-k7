@@ -13,14 +13,13 @@ class KelayakanMBKM extends Model
 
     protected $fillable = [
         'user_id',
-        'nama',
-        'nim',
-        'email',
-        'rencana_pelaksanaan_mbkm',
-        'lokasi_mbkm',
+        'nilai_ipk',
+        'total_sks',
+        'sks_semester6',
+        'mata_kuliah_tidak_lulus',
         'bukti_sks_ipk',
         'status_kelayakan',
-        'catatan_dosen_wali',
+        'catatan_doswal',
         'catatan_kaprodi',
         'catatan_koordinator',
     ];
