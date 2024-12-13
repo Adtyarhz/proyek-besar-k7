@@ -61,6 +61,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home/doswal', [UsersController::class, 'doswalHome'])->name('home.doswal');
     Route::get('/home/kaprodi', [UsersController::class, 'kaprodiHome'])->name('home.kaprodi');
     Route::get('/home/koordinator', [UsersController::class, 'koordinatorHome'])->name('home.koordinator');
+    Route::get('/home/admin', [UsersController::class, 'adminHome'])->name('home.admin');
 
     // Pertimbangan KP Routes
     // Doswal
@@ -144,6 +145,12 @@ Route::middleware(['auth'])->group(function () {
         // Update Kaprodi's Comment for Pendaftaran MBKM
         Route::post('/tabel_mbkm/{id}/update_catatan', [KaprodiMbkmController::class, 'updateCatatanTabelMbkm'])->name('tabel_mbkm.update_catatan');
     });
+
+    // Kelola Pengguna Routes
+    Route::get('kelola', [UsersController::class, 'index'])->name('kelola');
+    Route::post('add-user', [UsersController::class, 'store'])->name('adduser');
+    Route::post('edit-user/{id}', [UsersController::class, 'edit'])->name('edituser');
+    Route::delete('delete-user/{id}', [UsersController::class, 'delete'])->name('deleteuser');
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
