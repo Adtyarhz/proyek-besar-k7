@@ -198,11 +198,6 @@
     <span>-</span>
   @endif
       </td>
-      <!--
-        <td data-label="Aksi">
-        <!-- Tidak ada aksi untuk Kaprodi -->
-      </td>
-
       </tr>
     @endforeach
     </tbody>

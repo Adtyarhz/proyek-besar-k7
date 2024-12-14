@@ -71,6 +71,43 @@
   .save-button {
     display: none;
   }
+
+   /* Dropdown Styling */
+   .navbar-nav .dropdown-menu {
+    background-color: #003366;
+  }
+
+  .navbar-nav .dropdown-item {
+    color: white;
+  }
+
+  .navbar-nav .dropdown-item:hover {
+    background-color: #00508b;
+  }
+
+  /* Additional Styles */
+  html,
+  body {
+    height: 100%;
+    /* Full page height */
+    margin: 0;
+    /* Remove default margin */
+    display: flex;
+    /* Use flexbox layout */
+    flex-direction: column;
+    /* Vertical layout */
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .navbar-dark .navbar-toggler-icon {
+    /* Ensures the toggler icon is visible against dark background */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
 </style>
 
 <!-- Alert Messages -->
@@ -86,12 +123,12 @@
     {{ session('error') }}
     </div>
   @endif
+  </div>
 
   <!-- Tabel Section -->
-  < class="container my-5">
-    <h2 class="text-center mb-4">Daftar Peserta MBKM</h2>
-
-    <table class="table table-bordered table-striped" id="dataTable">
+  <div class="container my-5">
+  <h2 class="text-center mb-4">Daftar Peserta MBKM</h2>
+  <table class="table table-bordered table-striped" id="dataTable">
       <thead class="table-dark">
         <tr>
           <th>No</th>

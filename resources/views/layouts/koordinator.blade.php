@@ -205,12 +205,12 @@
       <a class="navbar-brand" href="
       @if($userRole === 'Doswal') 
       {{ route('home.doswal') }}
-  @elseif($userRole === 'Kaprodi') 
-  {{ route('home.kaprodi') }}
+    @elseif($userRole === 'Kaprodi') 
+    {{ route('home.kaprodi') }}
   @elseif($userRole === 'Koordinator') 
-    {{ route('home.koordinator') }}
+  {{ route('home.koordinator') }}
 @else 
-  {{ route('home') }}
+    {{ route('home') }}
   @endif
     ">
         <img alt="Logo of the institution"
@@ -231,17 +231,17 @@
             <a class="nav-link
             @if(in_array(Route::currentRouteName(), ['home', 'home.doswal', 'home.kaprodi', 'home.koordinator']))
           active
-        @endif
+      @endif
           " href="
             @if($userRole === 'Doswal') 
           {{ route('home.doswal') }}
-        @elseif($userRole === 'Kaprodi') 
-      {{ route('home.kaprodi') }}
+      @elseif($userRole === 'Kaprodi') 
+    {{ route('home.kaprodi') }}
     @elseif($userRole === 'Koordinator') 
     {{ route('home.koordinator') }}
-    @else 
-      {{ route('home') }}
-    @endif
+  @else 
+  {{ route('home') }}
+  @endif
           ">
               Beranda
             </a>
@@ -270,22 +270,22 @@
               <li>
                 <a class="dropdown-item" href="
                 @if($userRole === 'Doswal') 
-          {{ route('doswal.tabelinputkp') }}
+            {{ route('doswal.tabelinputkp') }}
         @elseif($userRole === 'Kaprodi') 
-      {{ route('kaprodi.tabelinputkp') }}
+        {{ route('kaprodi.tabelinputkp') }}
     @elseif($userRole === 'Koordinator') 
       {{ route('koordinator.tabelinputkp') }}
-    @else
-      #
-    @endif
+  @else
+  #
+  @endif
               ">
                   Table Pertimbangan KP
                 </a>
               </li>
               <li><a class="dropdown-item" href="@if($userRole === 'Koordinator')
           {{ route('koordinator.tableeligiblekp') }}
-        @else
-      #
+      @else
+    #
     @endif">Table Eligible KP</a></li>
             </ul>
           </li>
