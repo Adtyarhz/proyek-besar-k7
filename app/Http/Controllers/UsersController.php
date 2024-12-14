@@ -72,8 +72,13 @@ class UsersController extends Controller
         if ($user->role !== 'Admin') {
             abort(403, 'Unauthorized action.');
         }
-        return view('app.admin.home_admin');
+
+        // Fetch all users (with optional pagination)
+        $users = User::paginate(10);
+
+        return view('app.admin.home_admin', compact('users'));
     }
+
 
     public function index(Request $request)
     {
