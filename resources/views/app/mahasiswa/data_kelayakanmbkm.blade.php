@@ -123,6 +123,10 @@
       <p>{{ $data->mata_kuliah_tidak_lulus }}</p>
     </div>
     <div class="data-item">
+      <label>NIlai Keasramaan:</label>
+      <p>{{ $data->nilai_keasramaan }}</p>
+    </div>
+    <div class="data-item">
       <label>Bukti SKS dan IPK:</label>
       @if($data->bukti_sks_ipk)
       <a href="{{ asset('storage/' . $data->bukti_sks_ipk) }}" target="_blank" class="btn btn-sm btn-primary">
