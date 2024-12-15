@@ -122,11 +122,7 @@
       <p>{{ $data->mata_kuliah_tidak_lulus }}</p>
     </div>
     <div class="data-item">
-<<<<<<< Updated upstream
       <label>NIlai Keasramaan:</label>
-=======
-      <label>Nilai Keasramaan:</label>
->>>>>>> Stashed changes
       <p>{{ $data->nilai_keasramaan }}</p>
     </div>
     <div class="data-item">
