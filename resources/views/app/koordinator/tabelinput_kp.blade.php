@@ -20,11 +20,12 @@
         <th>Nama</th>
         <th>NIM</th>
         <th>Angkatan</th>
-        <th>Tahun Mendaftar KP</th>
+        <th>IPK</th>
         <th>Jumlah SKS (Sem 1-5)</th>
         <th>Jumlah SKS (Sem 6)</th>
-        <th>Eligible</th>
+        <th>Mata Kuliah Tidak Lulus</th>
         <th>Bukti Lampiran</th>
+        <th>Eligible</th>
         <th>Status</th>
         <th>Catatan Dosen Wali</th>
         <th>Catatan Kaprodi</th>
@@ -34,86 +35,94 @@
     </thead>
     <tbody>
       @foreach($kelayakanKPs as $index => $kp)
-      <tr>
-      <td>{{ $index + 1 }}</td>
-      <td>{{ $kp->user->name }}</td>
-      <td>{{ $kp->user->nim }}</td>
-      <td>{{ $kp->user->angkatan }}</td>
-      <td>{{ $kp->tahun_mendaftar }}</td>
-      <td>{{ $kp->total_sks }}</td>
-      <td>{{ $kp->sks_semester6 }}</td>
-      <td>{{ $kp->mata_kuliah_tidak_lulus ? 'No' : 'Yes' }}</td>
-      <td>
-        @if($kp->bukti_sks_ipk)
-      <a href="{{ asset('storage/' . $kp->bukti_sks_ipk) }}" target="_blank" class="btn btn-sm btn-primary">
-      <i class="fas fa-file-alt"></i> Lihat Lampiran
-      </a>
-    @else
-    <span>Belum diunggah</span>
-  @endif
-      </td>
-      <td>
-        @if($kp->status_kelayakan == 'Menunggu')
-      <span class="badge bg-warning">Menunggu</span>
-    @elseif($kp->status_kelayakan == 'Disetujui')
-    <span class="badge bg-success">Disetujui</span>
-  @elseif($kp->status_kelayakan == 'Ditolak')
-  <span class="badge bg-danger">Ditolak</span>
-@endif
-      </td>
-      <td>
-        <!-- catatan_doswal modal view -->
-        @if($kp->catatan_doswal)
-      <button class="btn btn-sm btn-info"
-      onclick="showCatatan('{{ $kp->catatan_doswal }}', 'Catatan Dosen Wali')">View Catatan Dosen Wali</button>
-    @else
-    <span>-</span>
-  @endif
-      </td>
-      <td>
-        <!-- catatan_kaprodi modal view -->
-        @if($kp->catatan_kaprodi)
-      <button class="btn btn-sm btn-info"
-      onclick="showCatatan('{{ $kp->catatan_kaprodi }}', 'Catatan Kaprodi')">View Catatan Kaprodi</button>
-    @else
-    <span>-</span>
-  @endif
-      </td>
-      <td>
-        <!-- Koordinator can add/edit catatan_koordinator -->
-        <a href="#" class="btn btn-sm btn-secondary" onclick="toggleCatatanForm({{ $kp->id }}, 'koordinator')">
-        @if($kp->catatan_koordinator)
-      Edit Catatan
-    @else
-    Add Catatan
-  @endif
+        <tr>
+        <td>{{ $index + 1 }}</td>
+        <td>{{ $kp->user->name }}</td>
+        <td>{{ $kp->user->nim }}</td>
+        <td>{{ $kp->user->angkatan }}</td>
+        <td>{{ $kp->nilai_ipk }}</td>
+        <td>{{ $kp->total_sks }}</td>
+        <td>{{ $kp->sks_semester6 }}</td>
+        <td>{{ $kp->mata_kuliah_tidak_lulus }}</td>
+        <td>
+          @if($kp->bukti_sks_ipk)
+        <a href="{{ asset('storage/' . $kp->bukti_sks_ipk) }}" target="_blank" class="btn btn-sm btn-primary">
+        <i class="fas fa-file-alt"></i> Lihat Lampiran
         </a>
-        <div id="form-catatan-koordinator-{{ $kp->id }}" class="mt-2" style="display: none;">
-        <form action="{{ route('koordinator.tabelinputkp.update_catatan', $kp->id) }}" method="POST">
-          @csrf
-          <textarea name="catatan" class="form-control" rows="3" required>{{ $kp->catatan_koordinator }}</textarea>
-          <button type="submit" class="btn btn-primary btn-sm mt-2">Save</button>
-        </form>
-        </div>
-        @if($kp->catatan_koordinator)
-      <p>{{ $kp->catatan_koordinator }}</p>
+      @else
+      <span>Belum diunggah</span>
     @endif
-      </td>
-      <td>
-        <!-- Koordinator can change status -->
-        @if($kp->status_kelayakan == 'Menunggu')
-      <button class="btn btn-success btn-sm me-2"
-      onclick="confirmStatusChange({{ $kp->id }}, 'Disetujui')">Accept</button>
-      <button class="btn btn-danger btn-sm" onclick="confirmStatusChange({{ $kp->id }}, 'Ditolak')">Reject</button>
-    @elseif($kp->status_kelayakan == 'Disetujui')
-    <button class="btn btn-success btn-sm" onclick="confirmStatusChange({{ $kp->id }}, 'Ditolak')">Change to
-    Reject</button>
-  @elseif($kp->status_kelayakan == 'Ditolak')
-  <button class="btn btn-danger btn-sm" onclick="confirmStatusChange({{ $kp->id }}, 'Disetujui')">Change to
-  Accept</button>
-@endif
-      </td>
-      </tr>
+        </td>
+        <td>
+          @if(
+        $kp->total_sks >= 81 &&
+        $kp->sks_semester6 >= 16 &&
+        $kp->nilai_ipk >= 3.00 &&
+        (empty($kp->mata_kuliah_tidak_lulus) || $kp->mata_kuliah_tidak_lulus === '-' || strlen($kp->mata_kuliah_tidak_lulus) === 1)
+        )
+          <span class="badge bg-success">Ya</span>
+      @else
+      <span class="badge bg-danger">Tidak</span>
+    @endif
+        </td>
+        <td>
+          @if($kp->status_kelayakan == 'Menunggu')
+        <span class="badge bg-warning">Menunggu</span>
+      @elseif($kp->status_kelayakan == 'Disetujui')
+      <span class="badge bg-success">Disetujui</span>
+    @elseif($kp->status_kelayakan == 'Ditolak')
+      <span class="badge bg-danger">Ditolak</span>
+    @endif
+        </td>
+        <td>
+          @if($kp->catatan_doswal)
+        <button class="btn btn-sm btn-info"
+        onclick="showCatatan('{{ $kp->catatan_doswal }}', 'Catatan Dosen Wali')">View Catatan Dosen Wali</button>
+      @else
+      <span>-</span>
+    @endif
+        </td>
+        <td>
+          @if($kp->catatan_kaprodi)
+        <button class="btn btn-sm btn-info"
+        onclick="showCatatan('{{ $kp->catatan_kaprodi }}', 'Catatan Kaprodi')">View Catatan Kaprodi</button>
+      @else
+      <span>-</span>
+    @endif
+        </td>
+        <td>
+          <a href="#" class="btn btn-sm btn-secondary" onclick="toggleCatatanForm({{ $kp->id }}, 'koordinator')">
+          @if($kp->catatan_koordinator)
+        Edit Catatan
+      @else
+      Add Catatan
+    @endif
+          </a>
+          <div id="form-catatan-koordinator-{{ $kp->id }}" class="mt-2" style="display: none;">
+          <form action="{{ route('koordinator.tabelinputkp.update_catatan', $kp->id) }}" method="POST">
+            @csrf
+            <textarea name="catatan" class="form-control" rows="3" required>{{ $kp->catatan_koordinator }}</textarea>
+            <button type="submit" class="btn btn-primary btn-sm mt-2">Save</button>
+          </form>
+          </div>
+          @if($kp->catatan_koordinator)
+        <p>{{ $kp->catatan_koordinator }}</p>
+      @endif
+        </td>
+        <td>
+          @if($kp->status_kelayakan == 'Menunggu')
+        <button class="btn btn-success btn-sm me-2"
+        onclick="confirmStatusChange({{ $kp->id }}, 'Disetujui')">Accept</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmStatusChange({{ $kp->id }}, 'Ditolak')">Reject</button>
+      @elseif($kp->status_kelayakan == 'Disetujui')
+      <button class="btn btn-success btn-sm" onclick="confirmStatusChange({{ $kp->id }}, 'Ditolak')">Change to
+      Reject</button>
+    @elseif($kp->status_kelayakan == 'Ditolak')
+      <button class="btn btn-danger btn-sm" onclick="confirmStatusChange({{ $kp->id }}, 'Disetujui')">Change to
+      Accept</button>
+    @endif
+        </td>
+        </tr>
     @endforeach
     </tbody>
   </table>

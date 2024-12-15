@@ -57,14 +57,14 @@
           <th>Nama</th>
           <th>NIM</th>
           <th>Email</th>
-          <th>Rencana Pelaksanaan MBKM</th>
+          <th>Tanggal Pelaksanaan</th>
           <th>Lokasi MBKM</th>
+          <th>Ekivalensi SKS</th>
           <th>Bukti Penerimaan</th>
           <th>Status</th>
           <th>Catatan Dosen Wali</th>
           <th>Catatan Kaprodi</th>
           <th>Catatan Koordinator</th>
-          <th>Jumlah SKS</th>
           <th>Aksi</th>
         </tr>
       </thead>
@@ -75,8 +75,9 @@
         <td>{{ $pendaftaran->nama }}</td>
         <td>{{ $pendaftaran->nim }}</td>
         <td>{{ $pendaftaran->email }}</td>
-        <td>{{ Str::limit($pendaftaran->rencana_pelaksanaan_mbkm, 50, '...') }}</td>
+        <td>{{ $pendaftaran->tanggal_awal_mbkm }} - {{ $pendaftaran->tanggal_akhir_mbkm }}</td>
         <td>{{ $pendaftaran->lokasi_mbkm }}</td>
+        <td>{{ $pendaftaran->ekivalensi_sks ?? 'Belum ditentukan' }} SKS</td>
         <td>
         @if($pendaftaran->bukti_penerimaan_mbkm)
       <a href="{{ asset('storage/' . $pendaftaran->bukti_penerimaan_mbkm) }}" target="_blank"
@@ -117,6 +118,7 @@
   @endif
         </td>
         <td>
+<<<<<<< Updated upstream
         @if($pendaftaran->sks_koordinator)
       {{ $pendaftaran->sks_koordinator }} SKS
     @else
@@ -131,6 +133,9 @@
         </td>
         <td>
         <!-- Status Update Form ----->
+=======
+        <!-- Status Update Form -->
+>>>>>>> Stashed changes
         <div class="btn-group" role="group" aria-label="Status Actions">
           @if($pendaftaran->status !== 'Disetujui')
         <form action="{{ route('koordinator.tabel_mbkm.update_status', $pendaftaran->id) }}" method="POST"
