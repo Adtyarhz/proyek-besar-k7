@@ -14,36 +14,66 @@
                     <div class="search-container d-flex align-items-center">
                         <form action="{{ route('kelola') }}" method="GET" class="d-flex">
                             <label for="search" class="mr-2">Search:</label>
-                            <input type="text" id="search" name="search" class="form-control form-control-sm"
-                                style="width: 200px;" value="{{ old('search', $search ?? '') }}"
-                                placeholder="Cari nama, email, atau role">
+                            <input type="text" id="search" name="search" class="form-control form-control-sm" style="width: 200px;" value="{{ old('search', $search ?? '') }}" placeholder="Cari nama, email, atau role">
                             <button type="submit" class="btn btn-primary btn-sm ml-2">Cari</button>
                         </form>
                     </div>
 
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
                         Tambah Pengguna
                     </button>
                 </div>
 
                 <!-- Modal Tambah -->
-                <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
-                    aria-hidden="true">
+                <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="addModalLabel">Tambah Pengguna</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <form action="{{ route('adduser') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="modal-body">
-                                    <!-- Form fields -->
+                                    <div class="form-group">
+                                        <label for="name">Nama</label>
+                                        <input type="text" class="form-control" id="name" name="name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="username">Username</label>
+                                        <input type="text" class="form-control" id="username" name="username" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nim">NIM</label>
+                                        <input type="text" class="form-control" id="nim" name="nim" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="angkatan">Angkatan</label>
+                                        <input type="text" class="form-control" id="angkatan" name="angkatan" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="doswal">Dosen Wali</label>
+                                        <input type="text" class="form-control" id="doswal" name="doswal">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="role">Role</label>
+                                        <select class="form-control" id="role" name="role" required>
+                                            <option value="">Pilih Role</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="user">User</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile_photo">Foto Profil</label>
+                                        <input type="file" class="form-control" id="profile_photo" name="profile_photo">
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     <button class="btn btn-primary" type="submit">Simpan</button>
                                 </div>
                             </form>
@@ -51,6 +81,7 @@
                     </div>
                 </div>
 
+                <!-- Table -->
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -61,7 +92,7 @@
                             <th>Email</th>
                             <th>NIM</th>
                             <th>Angkatan</th>
-                            <th>Dosen Wali</th>
+                            <th>Doswal</th>
                             <th>Role</th>
                             <th>Tindakan</th>
                         </tr>
@@ -72,8 +103,7 @@
                                 <td>{{ $users->firstItem() + $index }}</td>
                                 <td>
                                     @if($user->profile_photo)
-                                        <img src="{{ asset('storage/profile_photos/' . $user->profile_photo) }}"
-                                            alt="Profile Photo" style="width: 50px; height: 50px; object-fit: cover;">
+                                        <img src="{{ asset('storage/profile_photos/' . $user->profile_photo) }}" alt="Profile Photo" style="width: 50px; height: 50px; object-fit: cover;">
                                     @else
                                         <span>-</span>
                                     @endif
@@ -87,17 +117,69 @@
                                 <td>{{ ucfirst($user->role) }}</td>
                                 <td>
                                     <div class="d-flex">
-                                        <a href="{{ route('edituser', $user->id) }}"
-                                            class="btn btn-warning btn-sm mr-2">Edit</a>
+                                        <button type="button" class="btn btn-warning btn-sm mr-2" data-bs-toggle="modal" data-bs-target="#editModal{{ $user->id }}">Edit</button>
+
                                         <form action="{{ route('deleteuser', $user->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Hapus</button>
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Hapus</button>
                                         </form>
                                     </div>
                                 </td>
                             </tr>
+
+                            <!-- Modal Edit -->
+                            <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Edit Pengguna</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="{{ route('edituser', $user->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="name">Nama</label>
+                                                    <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="username">Username</label>
+                                                    <input type="text" class="form-control" id="username" name="username" value="{{ $user->username }}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="nim">NIM</label>
+                                                    <input type="text" class="form-control" id="nim" name="nim" value="{{ $user->nim }}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="angkatan">Angkatan</label>
+                                                    <input type="text" class="form-control" id="angkatan" name="angkatan" value="{{ $user->angkatan }}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="doswal">Dosen Wali</label>
+                                                    <input type="text" class="form-control" id="doswal" name="doswal" value="{{ $user->doswal }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="email">Email</label>
+                                                    <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="role">Role</label>
+                                                    <select class="form-control" id="role" name="role" required>
+                                                        <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                                                        <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button class="btn btn-primary" type="submit">Simpan</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         @empty
                             <tr>
                                 <td colspan="10" class="text-center">Tidak ada data pengguna</td>

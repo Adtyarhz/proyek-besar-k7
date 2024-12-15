@@ -63,10 +63,10 @@
             <!-- Divider -->
             <hr class="my-4" />
 
-            <!-- Total SKS Semester 1-6 -->
+            <!-- Total SKS Semester 1-5 -->
             <div class="mb-4">
               <label for="total-sks" class="form-label fw-semibold">
-                Total SKS Semester 1-6
+                Total SKS Semester 1-5
               </label>
               <input type="number" class="form-control rounded-3 shadow-sm" id="total-sks" name="total_sks"
                 placeholder="Masukkan total SKS" value="{{ old('total_sks') }}" required />
@@ -95,6 +95,22 @@
               <input type="text" class="form-control rounded-3 shadow-sm" id="mata-kuliah-tidak-lulus"
                 name="mata_kuliah_tidak_lulus" placeholder="Masukkan mata kuliah tidak lulus"
                 value="{{ old('mata_kuliah_tidak_lulus') }}" required />
+            </div>
+
+            <!-- Divider -->
+            <hr class="my-4" />
+
+            <!-- Divider -->
+            <hr class="my-4" />
+
+            <!-- Nilai Keasramaan -->
+            <div class="mb-4">
+              <label for="mata-kuliah-tidak-lulus" class="form-label fw-semibold">
+                Nilai Keasramaan
+              </label>
+              <input type="text" class="form-control rounded-3 shadow-sm" id="nilai-keasramaan"
+                name="nilai-keasramaan" placeholder="Minimal AB"
+                value="{{ old('nilai_keasramaan') }}" required />
             </div>
 
             <!-- Divider -->

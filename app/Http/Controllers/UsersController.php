@@ -109,7 +109,17 @@ class UsersController extends Controller
             'doswal' => 'nullable|string|max:255',
             'password' => 'required|min:6',
             'role' => 'required|in:editor,admin,Mahasiswa,Kaprodi,Doswal,Koordinator',
+            'profile_photo' => 'nullable|image|max:2048', // Max 2MB
         ]);
+
+        $profilePhoto = null;
+
+        // Handle profile photo upload
+        if ($request->hasFile('profile_photo')) {
+            $file = $request->file('profile_photo');
+            $profilePhoto = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('profile_photos', $profilePhoto, 'public');
+        }
 
         // Simpan data pengguna ke database
         User::create([
@@ -119,9 +129,9 @@ class UsersController extends Controller
             'nim' => $request->nim,
             'angkatan' => $request->angkatan,
             'doswal' => $request->doswal,
-            'password' => Hash::make($request->password), // Hashing password
+            'password' => Hash::make($request->password),
             'role' => $request->role,
-            'profile_photo' => null,
+            'profile_photo' => $profilePhoto,
         ]);
 
         return redirect()->route('kelola')->with('success', 'Pengguna berhasil ditambahkan.');
@@ -135,6 +145,7 @@ class UsersController extends Controller
             return redirect()->route('kelola')->with('error', 'Pengguna tidak ditemukan.');
         }
 
+        // Validate input
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $id,
@@ -143,8 +154,25 @@ class UsersController extends Controller
             'angkatan' => 'required|integer',
             'doswal' => 'nullable|string|max:255',
             'role' => 'required|in:editor,admin,Mahasiswa,Kaprodi,Doswal,Koordinator',
+            'profile_photo' => 'nullable|image|max:2048', // Max 2MB
         ]);
 
+        // Handle profile photo upload
+        if ($request->hasFile('profile_photo')) {
+            $file = $request->file('profile_photo');
+            $filename = time() . '_' . $file->getClientOriginalName();
+
+            // Delete old profile photo if it exists
+            if ($user->profile_photo) {
+                Storage::disk('public')->delete('profile_photos/' . $user->profile_photo);
+            }
+
+            // Store new profile photo
+            $file->storeAs('profile_photos', $filename, 'public');
+            $user->profile_photo = $filename;
+        }
+
+        // Update user information
         $user->name = $request->name;
         $user->username = $request->username;
         $user->email = $request->email;
@@ -152,6 +180,7 @@ class UsersController extends Controller
         $user->angkatan = $request->angkatan;
         $user->doswal = $request->doswal;
         $user->role = $request->role;
+
         $user->save();
 
         return redirect()->route('kelola')->with('success', 'Pengguna berhasil diubah.');
@@ -165,15 +194,14 @@ class UsersController extends Controller
             return redirect()->route('kelola')->with('error', 'Pengguna tidak ditemukan.');
         }
 
-        // Hapus file foto profil menggunakan Storage jika ada
+        // Delete profile photo if it exists
         if ($user->profile_photo) {
             Storage::disk('public')->delete('profile_photos/' . $user->profile_photo);
         }
 
-        // Hapus data pengguna dari database
+        // Delete user
         $user->delete();
 
         return redirect()->route('kelola')->with('success', 'Pengguna berhasil dihapus.');
     }
-
 }

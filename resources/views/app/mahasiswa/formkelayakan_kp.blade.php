@@ -71,10 +71,10 @@
             <!-- Divider -->
             <hr class="my-4" />
 
-            <!-- Total SKS Semester 1-6 -->
+            <!-- Total SKS Semester 1-5 -->
             <div class="mb-4">
               <label for="total_sks" class="form-label fw-semibold">
-                Total SKS Semester 1-6
+                Total SKS Semester 1-5
               </label>
               <input type="number" class="form-control rounded-3 shadow-sm" id="total_sks" name="total_sks"
                 placeholder="Masukkan total SKS" value="{{ old('total_sks') }}" required />
@@ -98,7 +98,7 @@
             <!-- Mata Kuliah Tidak Lulus -->
             <div class="mb-4">
               <label for="mata_kuliah_tidak_lulus" class="form-label fw-semibold">
-                Mata Kuliah Tidak Lulus
+                Mata Kuliah Tidak Lulus (Sem 1-6)
               </label>
               <input type="text" class="form-control rounded-3 shadow-sm" id="mata_kuliah_tidak_lulus"
                 name="mata_kuliah_tidak_lulus" placeholder="Masukkan mata kuliah tidak lulus"

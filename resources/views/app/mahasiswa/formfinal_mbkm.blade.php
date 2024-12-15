@@ -66,12 +66,27 @@
 
             <!-- Rencana Pelaksanaan MBKM -->
             <div class="mb-3">
-              <label for="rencana_pelaksanaan_mbkm" class="form-label fw-semibold">Rencana Pelaksanaan MBKM</label>
-              <textarea class="form-control" id="rencana_pelaksanaan_mbkm" name="rencana_pelaksanaan_mbkm" rows="4"
-                required>{{ old('rencana_pelaksanaan_mbkm') }}</textarea>
-              @error('rencana_pelaksanaan_mbkm')
-          <small class="text-danger">{{ $message }}</small>
-        @enderror
+              <label for="pelaksanaan" class="form-label fw-semibold">Rencana Pelaksanaan MBKM</label>
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="date"
+                    class="form-control rounded-3 shadow-sm @error('tanggal_awal_mbkm') is-invalid @enderror"
+                    id="tanggal_awal_mbkm" name="tanggal_awal_mbkm" value="{{ old('tanggal_awal_mbkm') }}" required />
+                  @error('tanggal_awal_mbkm')
+            <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
+                  <small class="text-muted">Tanggal Awal</small>
+                </div>
+                <div class="col-md-6">
+                  <input type="date"
+                    class="form-control rounded-3 shadow-sm @error('tanggal_akhir_mbkm') is-invalid @enderror"
+                    id="tanggal_akhir_mbkm" name="tanggal_akhir_mbkm" value="{{ old('tanggal_akhir_mbkm') }}" required />
+                  @error('tanggal_akhir_mbkm')
+            <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
+                  <small class="text-muted">Tanggal Akhir</small>
+                </div>
+              </div>
             </div>
 
             <!-- Lokasi MBKM -->
@@ -80,6 +95,16 @@
               <input type="text" class="form-control" id="lokasi_mbkm" name="lokasi_mbkm"
                 value="{{ old('lokasi_mbkm') }}" required>
               @error('lokasi_mbkm')
+          <small class="text-danger">{{ $message }}</small>
+        @enderror
+            </div>
+
+            <!-- Ekivalensi SKS -->
+            <div class="mb-3">
+              <label for="ekivalensi-sks" class="form-label fw-semibold">Ekivalensi Konversi SKS</label>
+              <input type="text" class="form-control" id="ekivalensi_sks" name="ekivalensi_sks"
+                placeholder="Berdasarkan yang sudah disetujui kordinator" value="{{ old('ekivalensi_sks') }}" required>
+              @error('ekivalensi_sks')
           <small class="text-danger">{{ $message }}</small>
         @enderror
             </div>
