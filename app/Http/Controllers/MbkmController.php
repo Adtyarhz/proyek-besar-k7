@@ -61,7 +61,7 @@ class MbkmController extends Controller
             'total_sks' => 'required|integer|min:0',
             'sks_semester6' => 'required|integer|min:0',
             'mata_kuliah_tidak_lulus' => 'required|string|max:255',
-            'nilai_keasramaan' => 'required|string|max:2',
+            'nilai_keasramaan' => 'required|string|max:2', // Make sure this field is properly validated
             'bukti_sks_ipk' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 

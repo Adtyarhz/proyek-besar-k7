@@ -105,12 +105,11 @@
 
             <!-- Nilai Keasramaan -->
             <div class="mb-4">
-              <label for="mata-kuliah-tidak-lulus" class="form-label fw-semibold">
+              <label for="nilai-keasramaan" class="form-label fw-semibold">
                 Nilai Keasramaan
               </label>
-              <input type="text" class="form-control rounded-3 shadow-sm" id="nilai-keasramaan"
-                name="nilai-keasramaan" placeholder="Minimal AB"
-                value="{{ old('nilai_keasramaan') }}" required />
+              <input type="text" class="form-control rounded-3 shadow-sm" id="nilai-keasramaan" name="nilai_keasramaan"
+                placeholder="Minimal AB" value="{{ old('nilai_keasramaan') }}" required />
             </div>
 
             <!-- Divider -->
