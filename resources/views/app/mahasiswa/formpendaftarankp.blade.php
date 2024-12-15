@@ -73,6 +73,19 @@
 
             <hr class="my-4" />
 
+            <!-- Email -->
+            <div class="mb-4">
+              <label for="email" class="form-label fw-semibold">Email</label>
+              <input type="email" class="form-control rounded-3 shadow-sm @error('email') is-invalid @enderror"
+                id="email" name="email" placeholder="Masukkan email" value="{{ old('email', Auth::user()->email) }}"
+                required />
+              @error('email')
+          <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+            </div>
+
+            <hr class="my-4" />
+
             <!-- Nama Perusahaan -->
             <div class="mb-4">
               <label for="perusahaan" class="form-label fw-semibold">Nama Perusahaan</label>

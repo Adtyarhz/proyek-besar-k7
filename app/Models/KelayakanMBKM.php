@@ -16,6 +16,7 @@ class KelayakanMBKM extends Model
         'nilai_ipk',
         'total_sks',
         'sks_semester6',
+        'nilai_keasramaan',
         'mata_kuliah_tidak_lulus',
         'bukti_sks_ipk',
         'status_kelayakan',

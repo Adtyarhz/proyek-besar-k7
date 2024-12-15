@@ -98,6 +98,20 @@
   </div>
 @endif
 
+<!-- Display Success Message -->
+@if(session('success'))
+  <div class="alert alert-success text-center">
+    {{ session('success') }}
+  </div>
+@endif
+
+<!-- Display Error Message -->
+@if(session('error'))
+  <div class="alert alert-danger text-center">
+    {{ session('error') }}
+  </div>
+@endif
+
 <!-- Data Pendaftaran MBKM Section -->
 <div class="container my-5">
   <h3 class="text-center mb-4">Data Pendaftaran MBKM</h3>
@@ -118,7 +132,7 @@
     </div>
     <div class="data-item">
       <label>Rencana Pelaksanaan MBKM:</label>
-      <p>{{ $pendaftaranMbkm->rencana_pelaksanaan_mbkm }}</p>
+      <p>{{ $pendaftaranMbkm->tanggal_awal_mbkm }} - {{ $pendaftaranMbkm->tanggal_akhir_mbkm }}</p>
     </div>
     <div class="data-item">
       <label>Lokasi MBKM:</label>
@@ -146,13 +160,13 @@
     @endif
     </div>
 
-    <!-- Penambahan SKS dari Koordinator -->
+    <!-- Ekivalensi SKS -->
     <div class="data-item">
-      <label>SKS yang Diberikan:</label>
-      @if($pendaftaranMbkm->sks_koordinator)
-      <p>{{ $pendaftaranMbkm->sks_koordinator }} SKS</p>
+      <label>Ekivalensi Konversi SKS:</label>
+      @if($pendaftaranMbkm->ekivalensi_sks)
+      <p>{{ $pendaftaranMbkm->ekivalensi_sks }} SKS</p>
     @else
-      <span>Belum ada SKS yang ditentukan.</span>
+      <span>Belum ditentukan.</span>
     @endif
     </div>
 

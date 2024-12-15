@@ -41,33 +41,42 @@ class PendaftaranKPController extends Controller
             return redirect()->back()->with('error', 'Tidak dapat mendaftar KP. Kelayakan belum Disetujui.');
         }
 
+        // Validate the form inputs
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'nim' => 'required|string|max:20',
             'email' => 'required|email|max:255',
             'perusahaan' => 'required|string|max:255',
-            'pelaksanaan' => 'required|string',
             'lokasi' => 'required|string',
-            'bukti-penerimaan' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'email_perusahaan' => 'required|email|max:255',
+            'tanggal_awal' => 'required|date',
+            'tanggal_akhir' => 'required|date|after_or_equal:tanggal_awal',
+            'role' => 'required|string|max:100',
+            'surat_pengantar' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
         ]);
 
-        $buktiPath = null;
-        if ($request->hasFile('bukti-penerimaan')) {
-            $file = $request->file('bukti-penerimaan');
+        // Handle file upload for surat_pengantar
+        $suratPengantarPath = null;
+        if ($request->hasFile('surat_pengantar')) {
+            $file = $request->file('surat_pengantar');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $buktiPath = $file->storeAs('bukti_penerimaan_kp', $filename, 'public');
+            $suratPengantarPath = $file->storeAs('surat_pengantar', $filename, 'public');
         }
 
+        // Save the form data into the database
         PendaftaranKP::create([
             'user_id' => $user->id,
             'nama' => $validated['nama'],
             'nim' => $validated['nim'],
             'email' => $validated['email'],
             'perusahaan' => $validated['perusahaan'],
-            'pelaksanaan' => $validated['pelaksanaan'],
             'lokasi' => $validated['lokasi'],
-            'bukti_penerimaan' => $buktiPath,
-            'status_pendaftaran' => 'Menunggu', // Set initial status to 'Menunggu'
+            'email_perusahaan' => $validated['email_perusahaan'],
+            'tanggal_awal' => $validated['tanggal_awal'],
+            'tanggal_akhir' => $validated['tanggal_akhir'],
+            'role' => $validated['role'], // Saving the role input from the form
+            'surat_pengantar' => $suratPengantarPath, // Saving the file path
+            'status_pendaftaran' => 'Menunggu',
         ]);
 
         return redirect()->route('home.mahasiswa')->with('success', 'Form Pendaftaran KP berhasil disubmit.');

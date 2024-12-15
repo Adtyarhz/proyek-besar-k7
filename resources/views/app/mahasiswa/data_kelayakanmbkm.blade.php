@@ -88,7 +88,6 @@
   }
 </style>
 
-<!-- Display Success and Error Messages -->
 @if(session('success'))
   <div class="alert alert-success text-center mt-3">
     {{ session('success') }}
@@ -111,7 +110,7 @@
       <p>{{ $data->nilai_ipk }}</p>
     </div>
     <div class="data-item">
-      <label>Total SKS Semester 1-6:</label>
+      <label>Total SKS Semester 1-5:</label>
       <p>{{ $data->total_sks }}</p>
     </div>
     <div class="data-item">
@@ -123,7 +122,11 @@
       <p>{{ $data->mata_kuliah_tidak_lulus }}</p>
     </div>
     <div class="data-item">
+<<<<<<< Updated upstream
       <label>NIlai Keasramaan:</label>
+=======
+      <label>Nilai Keasramaan:</label>
+>>>>>>> Stashed changes
       <p>{{ $data->nilai_keasramaan }}</p>
     </div>
     <div class="data-item">

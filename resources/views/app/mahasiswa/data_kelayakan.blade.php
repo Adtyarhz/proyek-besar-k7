@@ -90,6 +90,13 @@
   </div>
 @endif
 
+<!-- Display Success Message -->
+@if(session('success'))
+  <div class="alert alert-success text-center">
+    {{ session('success') }}
+  </div>
+@endif
+
 <!-- Data Kelayakan KP Section -->
 <div class="container my-5">
   <h3 class="text-center mb-4">Data Kelayakan KP</h3>
@@ -100,7 +107,7 @@
       <p>{{ $data->nilai_ipk }}</p>
     </div>
     <div class="data-item">
-      <label>Total SKS Semester 1-6:</label>
+      <label>Total SKS Semester 1-5:</label>
       <p>{{ $data->total_sks }}</p>
     </div>
     <div class="data-item">
@@ -108,7 +115,7 @@
       <p>{{ $data->sks_semester6 }}</p>
     </div>
     <div class="data-item">
-      <label>Mata Kuliah Tidak Lulus:</label>
+      <label>Mata Kuliah Tidak Lulus (Sem 1-6):</label>
       <p>{{ $data->mata_kuliah_tidak_lulus }}</p>
     </div>
     <div class="data-item">

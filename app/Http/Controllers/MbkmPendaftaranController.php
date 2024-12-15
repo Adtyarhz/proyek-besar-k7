@@ -35,16 +35,6 @@ class MbkmPendaftaranController extends Controller
         return view('app.mahasiswa.formfinal_mbkm', compact('user'));
     }
 
-    public function showDataPendaftaran()
-    {
-        $user = Auth::user();
-        
-        // Retrieve the MBKM pendaftaran data for the authenticated user
-        $pendaftaranMbkm = MbkmPendaftaran::where('user_id', $user->id)->first();
-        
-        return view('app.mahasiswa.data_pendaftaranmbkm', compact('pendaftaranMbkm'));
-    }
-    
     /**
      * Simpan data pendaftaran MBKM.
      *
@@ -70,8 +60,10 @@ class MbkmPendaftaranController extends Controller
 
         // Validasi input
         $validated = $request->validate([
-            'rencana_pelaksanaan_mbkm' => 'required|string|max:1000',
+            'tanggal_awal_mbkm' => 'required|date',
+            'tanggal_akhir_mbkm' => 'required|date|after_or_equal:tanggal_awal_mbkm',
             'lokasi_mbkm' => 'required|string|max:255',
+            'ekivalensi_sks' => 'required|string|max:255',
             'bukti_penerimaan_mbkm' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
@@ -87,13 +79,30 @@ class MbkmPendaftaranController extends Controller
             'nama' => $user->name,
             'nim' => $user->nim,
             'email' => $user->email,
-            'rencana_pelaksanaan_mbkm' => $validated['rencana_pelaksanaan_mbkm'],
+            'tanggal_awal_mbkm' => $validated['tanggal_awal_mbkm'],
+            'tanggal_akhir_mbkm' => $validated['tanggal_akhir_mbkm'],
             'lokasi_mbkm' => $validated['lokasi_mbkm'],
+            'ekivalensi_sks' => $validated['ekivalensi_sks'],
             'bukti_penerimaan_mbkm' => $path,
             'status' => 'Menunggu',
         ]);
 
         // Redirect ke halaman home dengan pesan sukses
         return redirect()->route('home.mahasiswa')->with('success', 'Pendaftaran MBKM berhasil disubmit. Status Anda: Menunggu.');
+    }
+
+    /**
+     * Tampilkan data pendaftaran MBKM.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showDataPendaftaran()
+    {
+        $user = Auth::user();
+
+        // Ambil data pendaftaran MBKM untuk user
+        $pendaftaranMbkm = MbkmPendaftaran::where('user_id', $user->id)->first();
+
+        return view('app.mahasiswa.data_pendaftaranmbkm', compact('pendaftaranMbkm'));
     }
 }

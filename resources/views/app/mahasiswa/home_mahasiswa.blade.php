@@ -74,4 +74,56 @@
     </div>
   </div>
 </div>
+
+<script>
+  // Persebaran Mahasiswa KP
+  var ctx1 = document.getElementById("barChart1").getContext("2d");
+  var barChart1 = new Chart(ctx1, {
+    type: "bar",
+    data: {
+      labels: ["Pulau Sumatera", "Pulau Jawa", "Lainnya"],
+      datasets: [
+        {
+          label: "Jumlah Mahasiswa KP",
+          data: [120, 200, 50],
+          backgroundColor: ["red", "green", "yellow"],
+          borderColor: ["darkred", "darkgreen", "darkyellow"],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+
+  // Persebaran Mahasiswa MBKM
+  var ctx2 = document.getElementById("barChart2").getContext("2d");
+  var barChart2 = new Chart(ctx2, {
+    type: "bar",
+    data: {
+      labels: ["Pulau Sumatera", "Pulau Jawa", "Lainnya"],
+      datasets: [
+        {
+          label: "Jumlah Mahasiswa MBKM",
+          data: [150, 180, 60],
+          backgroundColor: ["red", "green", "yellow"],
+          borderColor: ["darkred", "darkgreen", "darkyellow"],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+</script>
 @endsection

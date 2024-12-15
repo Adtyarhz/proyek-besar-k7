@@ -104,20 +104,28 @@
       <p>{{ $data->nim }}</p>
     </div>
     <div class="data-item">
-      <label>Email:</label>
+      <label>Email Mahasiswa:</label>
       <p>{{ $data->email }}</p>
     </div>
     <div class="data-item">
-      <label>Perusahaan:</label>
+      <label>Nama Perusahaan:</label>
       <p>{{ $data->perusahaan }}</p>
     </div>
     <div class="data-item">
-      <label>Rencana Pelaksanaan KP:</label>
-      <p>{{ $data->pelaksanaan }}</p>
+      <label>Email Perusahaan:</label>
+      <p>{{ $data->email_perusahaan }}</p>
     </div>
     <div class="data-item">
-      <label>Lokasi:</label>
+      <label>Lokasi Perusahaan:</label>
       <p>{{ $data->lokasi }}</p>
+    </div>
+    <div class="data-item">
+      <label>Role:</label>
+      <p>{{ $data->role }}</p>
+    </div>
+    <div class="data-item">
+      <label>Rencana Pelaksanaan KP:</label>
+      <p>{{ $data->tanggal_awal }} - {{ $data->tanggal_akhir }}</p>
     </div>
     <div class="data-item">
       <label>Bukti Penerimaan:</label>
