@@ -43,6 +43,10 @@
                                         <label for="username">Username</label>
                                         <input type="text" class="form-control" id="username" name="username" required>
                                     </div>
+                                    <div class="form-group mb-3">
+                                         <label for="password">Password</label>
+                                         <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
                                     <div class="form-group">
                                         <label for="nim">NIM</label>
                                         <input type="text" class="form-control" id="nim" name="nim" required>
@@ -64,7 +68,11 @@
                                         <select class="form-control" id="role" name="role" required>
                                             <option value="">Pilih Role</option>
                                             <option value="admin">Admin</option>
-                                            <option value="user">User</option>
+                                            <option value="editor">Editor</option>
+                                            <option value="mahasiswa">Mahasiswa</option>
+                                            <option value="kaprodi">Kaprodi</option>
+                                            <option value="doswal">Doswal</option>
+                                            <option value="koordinator">Koordinator</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -167,9 +175,12 @@
                                                 <div class="form-group">
                                                     <label for="role">Role</label>
                                                     <select class="form-control" id="role" name="role" required>
-                                                        <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                                                        <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
-                                                    </select>
+                                                <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                                                
+                                                <option value="Mahasiswa" {{ $user->role == 'Mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
+                                                <option value="Kaprodi" {{ $user->role == 'Kaprodi' ? 'selected' : '' }}>Kaprodi</option>
+                                                <option value="Doswal" {{ $user->role == 'Doswal' ? 'selected' : '' }}>Doswal</option>
+                                                <option value="Koordinator" {{ $user->role == 'Koordinator' ? 'selected' : '' }}>Koordinator</option>  </select>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -189,8 +200,38 @@
                 </table>
 
                 <div class="d-flex justify-content-end mt-3">
-                    {{ $users->links() }}
-                </div>
+    <nav>
+        <ul class="pagination">
+            @if ($users->onFirstPage())
+                <li class="page-item disabled">
+                    <span class="page-link">« Previous</span>
+                </li>
+            @else
+                <li class="page-item">
+                    <a class="page-link" href="{{ $users->previousPageUrl() }}" rel="prev">« Previous</a>
+                </li>
+            @endif
+
+            @for ($i = 1; $i <= $users->lastPage(); $i++)
+                <li class="page-item {{ $users->currentPage() == $i ? 'active' : '' }}">
+                    <a class="page-link" href="{{ $users->url($i) }}">{{ $i }}</a>
+                </li>
+            @endfor
+
+            @if ($users->hasMorePages())
+                <li class="page-item">
+                    <a class="page-link" href="{{ $users->nextPageUrl() }}" rel="next">Next »</a>
+                </li>
+            @else
+                <li class="page-item disabled">
+                    <span class="page-link">Next »</span>
+                </li>
+            @endif
+        </ul>
+    </nav>
+</div>
+
+
             </div>
         </div>
     </div>

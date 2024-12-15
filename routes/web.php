@@ -149,7 +149,7 @@ Route::middleware(['auth'])->group(function () {
     // Kelola Pengguna Routes
     Route::get('/admin/users/kelola', [UsersController::class, 'index'])->name('kelola');
     Route::post('/admin/users/add', [UsersController::class, 'store'])->name('adduser');
-    Route::post('/admin/users/edit/{id}', [UsersController::class, 'edit'])->name('edituser');
+    Route::put('/admin/users/edit/{id}', [UsersController::class, 'edit'])->name('edituser');
     Route::delete('/admin/users/delete/{id}', [UsersController::class, 'delete'])->name('deleteuser');
 
     // Logout
