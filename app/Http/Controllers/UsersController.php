@@ -73,12 +73,11 @@ class UsersController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        // Fetch all users (with optional pagination)
-        $users = User::simplePaginate(10);
+        // Fetch all users with pagination
+        $users = User::paginate(10); // Use paginate instead of simplePaginate
 
         return view('app.admin.home_admin', compact('users'));
     }
-
 
     public function index(Request $request)
     {
@@ -101,7 +100,7 @@ class UsersController extends Controller
     {
         \Log::info('Store method dipanggil');
         \Log::info('Data yang diterima: ', $request->all());
-    
+
         // Validasi input dengan role dalam lowercase
         $request->validate([
             'name' => 'required|string|max:255',
@@ -114,16 +113,16 @@ class UsersController extends Controller
             'role' => 'required|in:editor,admin,mahasiswa,kaprodi,doswal,koordinator',
             'profile_photo' => 'nullable|image|max:2048', // Max 2MB
         ]);
-    
+
         $profilePhoto = null;
-    
+
         // Handle profile photo upload
         if ($request->hasFile('profile_photo')) {
             $file = $request->file('profile_photo');
             $profilePhoto = time() . '_' . $file->getClientOriginalName();
             $file->storeAs('profile_photos', $profilePhoto, 'public');
         }
-    
+
         // Simpan data pengguna ke database
         User::create([
             'name' => $request->name,
@@ -136,12 +135,12 @@ class UsersController extends Controller
             'role' => $request->role,
             'profile_photo' => $profilePhoto,
         ]);
-    
+
         \Log::info('Pengguna berhasil ditambahkan');
-    
+
         return redirect()->route('kelola')->with('success', 'Pengguna berhasil ditambahkan.');
     }
-    
+
     public function edit(Request $request, $id)
     {
         $user = User::find($id);
