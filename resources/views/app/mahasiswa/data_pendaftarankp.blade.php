@@ -121,16 +121,16 @@
     </div>
     <div class="data-item">
       <label>Role:</label>
-      <p>{{ $data->role }}</p>
+      <p>{{ $data->role_kp }}</p>
     </div>
     <div class="data-item">
       <label>Rencana Pelaksanaan KP:</label>
       <p>{{ $data->tanggal_awal }} - {{ $data->tanggal_akhir }}</p>
     </div>
     <div class="data-item">
-      <label>Bukti Penerimaan:</label>
-      @if($data->bukti_penerimaan)
-      <a href="{{ asset('storage/' . $data->bukti_penerimaan) }}" target="_blank" class="btn btn-sm btn-primary">
+      <label>Surat Pengantar:</label>
+      @if($data->surat_pengantar)
+      <a href="{{ asset('storage/' . $data->surat_pengantar) }}" target="_blank" class="btn btn-sm btn-primary">
       <i class="fas fa-file-alt"></i> Lihat Bukti
       </a>
     @else

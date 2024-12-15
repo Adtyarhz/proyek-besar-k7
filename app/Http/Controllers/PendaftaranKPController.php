@@ -51,7 +51,7 @@ class PendaftaranKPController extends Controller
             'email_perusahaan' => 'required|email|max:255',
             'tanggal_awal' => 'required|date',
             'tanggal_akhir' => 'required|date|after_or_equal:tanggal_awal',
-            'role' => 'required|string|max:100',
+            'role_kp' => 'required|string|max:100',
             'surat_pengantar' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
         ]);
 
@@ -74,7 +74,7 @@ class PendaftaranKPController extends Controller
             'email_perusahaan' => $validated['email_perusahaan'],
             'tanggal_awal' => $validated['tanggal_awal'],
             'tanggal_akhir' => $validated['tanggal_akhir'],
-            'role' => $validated['role'], // Saving the role input from the form
+            'role_kp' => $validated['role_kp'], // Saving the role input from the form
             'surat_pengantar' => $suratPengantarPath, // Saving the file path
             'status_pendaftaran' => 'Menunggu',
         ]);

@@ -22,6 +22,7 @@ class PendaftaranKP extends Model
         'tanggal_akhir',
         'lokasi',
         'role_kp',
+        'surat_pengantar',
         'bukti_penerimaan',
         'status_pendaftaran',
         'sks_koordinator',

@@ -167,9 +167,9 @@
 
               <!-- Role -->
               <div class="mb-4">
-                <label for="role" class="form-label fw-semibold">Role</label>
-                <input type="text" class="form-control rounded-3 shadow-sm @error('role') is-invalid @enderror"
-                  id="role" name="role" placeholder="Masukkan role di perusahaan" value="{{ old('role') }}" required />
+                <label for="role_kp" class="form-label fw-semibold">Role</label>
+                <input type="text" class="form-control rounded-3 shadow-sm @error('role_kp') is-invalid @enderror"
+                  id="role_kp" name="role_kp" placeholder="Masukkan role di perusahaan" value="{{ old('role_kp') }}" required />
                 @error('role_kp')
           <div class="invalid-feedback">{{ $message }}</div>
         @enderror
