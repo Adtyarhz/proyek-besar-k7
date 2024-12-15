@@ -1,4 +1,4 @@
-@extends('layouts.koordinator')
+@extends('layouts.kaprodi')
 
 @section('title', 'Tabel KP - Kaprodi')
 

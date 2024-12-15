@@ -211,10 +211,10 @@
 <body>
   <nav class="navbar navbar-expand-lg" style="background: linear-gradient(90deg, #0073e6, #003366);">
     <div class="container-fluid">
-      @php
-    $user = Auth::user();
-    $userRole = $user ? $user->role : null;
-  @endphp
+    @php
+  $user = Auth::user();
+  $userRole = $user ? $user->role : null;
+@endphp
 
       <a class="navbar-brand" href="
       @if($userRole === 'Doswal') 
@@ -222,10 +222,10 @@
     @elseif($userRole === 'Kaprodi') 
       {{ route('home.kaprodi') }}
     @elseif($userRole === 'Koordinator') 
-      {{ route('home.koordinator') }}
-    @else 
-      {{ route('home') }}
-    @endif
+    {{ route('home.koordinator') }}
+  @else 
+    {{ route('home') }}
+  @endif
     ">
         <img alt="Logo of the institution"
           src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Del_Institute_of_Technology_Logo.png"
@@ -252,8 +252,8 @@
       @elseif($userRole === 'Kaprodi') 
       {{ route('home.kaprodi') }}
   @elseif($userRole === 'Koordinator') 
-    {{ route('home.koordinator') }}
-@else 
+  {{ route('home.koordinator') }}
+  @else 
     {{ route('home') }}
 @endif
           ">
@@ -268,8 +268,7 @@
               MBKM
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMBKM">
-              <li><a class="dropdown-item" href="{{ route('kaprodi.tabelinput_mbkm') }}">Table Pertimbangan MBKM</a>
-              </li>
+              <li><a class="dropdown-item" href="{{ route('kaprodi.tabelinput_mbkm') }}">Table Pertimbangan MBKM</a></li>
               <li><a class="dropdown-item" href="{{ route('kaprodi.tabel_mbkm') }}">Table Eligible MBKM</a></li>
             </ul>
           </li>
@@ -312,13 +311,14 @@
         <a class="nav-link" href="{{ route('register') }}">Register</a>
         </li>
       @else
+
       <!-- Notification Bell -->
-      <li class="nav-item">
-      <a href="#" onclick="showNotifications(event)" class="nav-link">
+      <div class="notification-bell me-3">
+      <a href="#" onclick="showNotifications(event)" style="text-decoration: none">
         <i class="fas fa-bell"></i>
-        <span class="badge bg-danger">3</span>
+        <span class="notification-badge">3</span>
       </a>
-      </li>
+      </div>
 
       <!-- Profile Dropdown -->
       <li class="nav-item dropdown">
@@ -350,10 +350,11 @@
         </ul>
       </div>
     </div>
+  </nav>
 
   @yield('content')
 
-  @include('partials.footer') 
+  @include('partials.footer')
 
   <!-- JavaScript -->
   <script>

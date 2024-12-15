@@ -1,8 +1,9 @@
-@extends('layouts.koordinator')
+@extends('layouts.kaprodi')
 
 @section('title', 'Table Pendaftaran MBKM - PRATIKMA')
 
 @section('content')
+
 <style>
   /* Consistent CSS styles with Koordinator's view */
   body {

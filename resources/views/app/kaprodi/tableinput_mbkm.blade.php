@@ -1,4 +1,4 @@
-@extends('layouts.koordinator')
+@extends('layouts.kaprodi')
 
 @section('title', 'Table Kelayakan MBKM - Kaprodi')
 
@@ -184,11 +184,16 @@
   @endif
       </td>
       <td data-label="Catatan Kaprodi">
-        <textarea class="form-control catatan-textarea" readonly>{{ $mbkm->catatan_kaprodi }}</textarea>
-        <button class="btn btn-sm btn-secondary mt-2 edit-comment"
-        onclick="editComment({{ $mbkm->id }})">Edit</button>
-        <button class="btn btn-sm btn-success mt-2 save-comment save-button"
-        onclick="saveComment({{ $mbkm->id }})">Save</button>
+      <form action="{{ route('kaprodi.tabelinput_mbkm.update_catatan', $mbkm->id) }}" method="POST"
+          class="d-inline-block">
+          @csrf
+          <textarea class="form-control catatan-textarea" name="catatan_kaprodi"
+          readonly>{{ $mbkm->catatan_kaprodi }}</textarea>
+          <button type="button" class="btn btn-sm btn-secondary mt-2 edit-comment"
+          onclick="editComment({{ $mbkm->id }})">Edit</button>
+          <button type="submit" class="btn btn-sm btn-success mt-2 save-comment save-button"
+          style="display: none;">Save</button>
+        </form>
       </td>
       <td data-label="Catatan Koordinator">
         @if($mbkm->catatan_koordinator)

@@ -1,78 +1,65 @@
-@extends('layouts.koordinator')
+@extends('layouts.kaprodi')
 
 @section('title', 'Tabel Eligible KP - Kaprodi')
 
 @section('content')
 <style>
-  html,
-  body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-  }
-
-  body {
-    font-family: Arial, sans-serif;
-  }
-
-  .navbar {
-    background: linear-gradient(90deg, #0073e6, #003366);
-  }
-
-  .navbar-brand img {
-    height: 50px;
-  }
-
-  .navbar-nav .nav-link {
-    color: white !important;
-    margin-right: 20px;
-  }
-
-  .navbar-nav .nav-link:hover {
-    color: #cccccc !important;
-  }
-
-  .footer {
-    background-color: #003366;
-    padding: 20px 0;
-    margin-top: auto;
-  }
-
-  .footer h5 {
-    font-weight: bold;
-    font-size: 18px;
-  }
-
-  .footer p {
-    font-size: 14px;
-    margin: 0;
-    color: #cccccc;
-  }
-
-  .footer a {
-    text-decoration: none;
-    color: white;
-    transition: color 0.3s ease;
-  }
-
-  .footer .fab,
-  .footer .fas {
-    margin-right: 10px;
-    transition: transform 0.3s ease;
-  }
-
-  .footer .fab:hover,
-  .footer .fas:hover {
-    transform: scale(1.2);
-  }
-
-  .footer small {
-    color: #aaaaaa;
-    font-size: 12px;
-  }
-</style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .navbar {
+        background: linear-gradient(90deg, #0073e6, #003366);
+      }
+      .navbar-brand img {
+        height: 50px;
+      }
+      .navbar-nav .nav-link {
+        color: white !important;
+        margin-right: 20px;
+      }
+      .navbar-nav .nav-link:hover {
+        color: #cccccc !important;
+      }
+      .footer {
+        background-color: #003366;
+        padding: 20px 0;
+        margin-top: auto;
+      }
+      .footer h5 {
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .footer p {
+        font-size: 14px;
+        margin: 0;
+        color: #cccccc;
+      }
+      .footer a {
+        text-decoration: none;
+        color: white;
+        transition: color 0.3s ease;
+      }
+      .footer .fab,
+      .footer .fas {
+        margin-right: 10px;
+        transition: transform 0.3s ease;
+      }
+      .footer .fab:hover,
+      .footer .fas:hover {
+        transform: scale(1.2);
+      }
+      .footer small {
+        color: #aaaaaa;
+        font-size: 12px;
+      }
+    </style>
 
 @if(session('success'))
   <div class="alert alert-success text-center mt-3">
