@@ -222,60 +222,7 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarContent">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <!-- Beranda -->
-          <li class="nav-item">
-            <a class="nav-link
-            @if(in_array(Route::currentRouteName(), ['home', 'home.doswal', 'home.kaprodi', 'home.koordinator', 'home.mahasiswa']))
-          active
-        @endif
-          " href="
-            @if($userRole === 'Doswal') 
-          {{ route('home.doswal') }}
-        @elseif($userRole === 'Kaprodi') 
-        {{ route('home.kaprodi') }}
-      @elseif($userRole === 'Koordinator') 
-    {{ route('home.koordinator') }}
-    @elseif($userRole === 'Mahasiswa') 
-    {{ route('home.mahasiswa') }}
-  @else 
-    {{ route('home') }}
-  @endif
-          ">
-              Beranda
-            </a>
-          </li>
-
-          <!-- MBKM Dropdown -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMBKM" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              MBKM
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMBKM">
-              <li><a class="dropdown-item" href="{{ route('mbkm.informasi') }}">Informasi</a></li>
-              <li><a class="dropdown-item" href="{{ route('mbkm.formkelayakan') }}">Form Kelayakan MBKM</a></li>
-              <li><a class="dropdown-item" href="{{ route('mbkm_pendaftaran.create') }}">Form Final MBKM</a></li>
-              <li><a class="dropdown-item" href="{{ route('mbkm.data_kelayakan') }}">Data Kelayakan MBKM</a></li>
-              <li><a class="dropdown-item" href="{{ route('mbkm_pendaftaran.data') }}">Data Pendaftaran MBKM</a></li>
-            </ul>
-          </li>
-
-          <!-- Kerja Praktik Dropdown -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              Kerja Praktik
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
-              <li><a class="dropdown-item" href="{{ route('kp.informasi') }}">Informasi</a></li>
-              <li><a class="dropdown-item" href="{{ route('kp.formkelayakan') }}">Form Kelayakan KP</a></li>
-              <li><a class="dropdown-item" href="{{ route('kp.formpendaftaran') }}">Form Pendaftaran KP</a></li>
-              <li><a class="dropdown-item" href="{{ route('kp.data_kelayakan') }}">Data Kelayakan KP</a></li>
-              <li><a class="dropdown-item" href="{{ route('kp.data_pendaftaran') }}">Data Pendaftaran KP</a></li>
-            </ul>
-          </li>
-        </ul>
+        
 
         <div class="d-flex align-items-center ms-3">
           <!-- Notification Bell -->

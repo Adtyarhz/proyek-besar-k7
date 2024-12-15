@@ -14,6 +14,7 @@ use App\Http\Controllers\KoordinatorMbkmController;
 use App\Http\Controllers\DoswalMbkmController;
 use App\Http\Controllers\KaprodiMbkmController;
 use App\Http\Controllers\MbkmPendaftaranController;
+use App\Http\Controllers\AdminStudentCountController;
 
 // Authentication Routes
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -145,6 +146,11 @@ Route::middleware(['auth'])->group(function () {
         // Update Kaprodi's Comment for Pendaftaran MBKM
         Route::post('/tabel_mbkm/{id}/update_catatan', [KaprodiMbkmController::class, 'updateCatatanTabelMbkm'])->name('tabel_mbkm.update_catatan');
     });
+
+    //Student Count Route
+    Route::get('/admin/students/count', [AdminStudentCountController::class, 'indexCount'])->name('admin.studentcount.index');
+    Route::post('/admin/students/count/add', [AdminStudentCountController::class, 'storeCount'])->name('addStudentCount');
+    Route::put('/admin/students/count/edit', [AdminStudentCountController::class, 'updateCount'])->name('updateStudentCount');
 
     // Kelola Pengguna Routes
     Route::get('/admin/users/kelola', [UsersController::class, 'index'])->name('kelola');

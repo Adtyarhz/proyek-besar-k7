@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\StudentCount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -32,11 +33,12 @@ class UsersController extends Controller
 
     public function mahasiswaHome()
     {
+        $studentCounts = StudentCount::all();
         $user = Auth::user();
         if ($user->role !== 'Mahasiswa') {
             abort(403, 'Unauthorized action.');
         }
-        return view('app.mahasiswa.home_mahasiswa');
+        return view('app.mahasiswa.home_mahasiswa', compact('studentCounts'));
     }
 
     public function kaprodiHome()

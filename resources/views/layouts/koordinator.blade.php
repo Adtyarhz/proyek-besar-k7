@@ -206,10 +206,10 @@
       @if($userRole === 'Doswal') 
       {{ route('home.doswal') }}
     @elseif($userRole === 'Kaprodi') 
-    {{ route('home.kaprodi') }}
-  @elseif($userRole === 'Koordinator') 
-  {{ route('home.koordinator') }}
-@else 
+      {{ route('home.kaprodi') }}
+    @elseif($userRole === 'Koordinator') 
+    {{ route('home.koordinator') }}
+  @else 
     {{ route('home') }}
   @endif
     ">
@@ -236,12 +236,12 @@
             @if($userRole === 'Doswal') 
           {{ route('home.doswal') }}
       @elseif($userRole === 'Kaprodi') 
-    {{ route('home.kaprodi') }}
-    @elseif($userRole === 'Koordinator') 
-    {{ route('home.koordinator') }}
-  @else 
-  {{ route('home') }}
-  @endif
+      {{ route('home.kaprodi') }}
+  @elseif($userRole === 'Koordinator') 
+  {{ route('home.koordinator') }}
+@else 
+    {{ route('home') }}
+@endif
           ">
               Beranda
             </a>
@@ -276,8 +276,8 @@
     @elseif($userRole === 'Koordinator') 
       {{ route('koordinator.tabelinputkp') }}
   @else
-  #
-  @endif
+    #
+@endif
               ">
                   Table Pertimbangan KP
                 </a>
@@ -285,8 +285,8 @@
               <li><a class="dropdown-item" href="@if($userRole === 'Koordinator')
           {{ route('koordinator.tableeligiblekp') }}
       @else
-    #
-    @endif">Table Eligible KP</a></li>
+      #
+  @endif">Table Eligible KP</a></li>
             </ul>
           </li>
 
@@ -307,6 +307,7 @@
         <span class="notification-badge">3</span>
         </a>
       </div>
+
       <!-- Profile Dropdown -->
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button"

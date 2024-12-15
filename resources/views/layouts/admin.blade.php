@@ -206,12 +206,12 @@
       @if($userRole === 'Doswal') 
       {{ route('home.doswal') }}
   @elseif($userRole === 'Kaprodi') 
-    {{ route('home.kaprodi') }}
-@elseif($userRole === 'Koordinator') 
-    {{ route('home.koordinator') }}
-  @elseif($userRole === 'Admin') 
-    {{ route('home.admin') }}
-@else 
+  {{ route('home.kaprodi') }}
+  @elseif($userRole === 'Koordinator') 
+  {{ route('home.koordinator') }}
+@elseif($userRole === 'Admin') 
+  {{ route('home.admin') }}
+  @else 
     {{ route('home') }}
 @endif
     ">
@@ -228,7 +228,7 @@
 
       <div class="collapse navbar-collapse" id="navbarContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <!-- Beranda -->
+          <!-- Kelola Dosen -->
           <li class="nav-item">
             <a class="nav-link
             @if(in_array(Route::currentRouteName(), ['home', 'home.doswal', 'home.kaprodi', 'home.koordinator', 'home.admin']))
@@ -238,63 +238,66 @@
       @if($userRole === 'Doswal') 
       {{ route('home.doswal') }}
   @elseif($userRole === 'Kaprodi') 
-    {{ route('home.kaprodi') }}
-@elseif($userRole === 'Koordinator') 
-    {{ route('home.koordinator') }}
-  @elseif($userRole === 'Admin') 
-    {{ route('home.admin') }}
-@else 
+  {{ route('home.kaprodi') }}
+  @elseif($userRole === 'Koordinator') 
+  {{ route('home.koordinator') }}
+@elseif($userRole === 'Admin') 
+  {{ route('home.admin') }}
+  @else 
     {{ route('home') }}
 @endif
           ">
-              Beranda
+              Kelola Dosen
             </a>
           </li>
 
-          @guest
-        <li class="nav-item">
-        <a class="nav-link" href="{{ route('login.form') }}">Login</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" href="{{ route('register') }}">Register</a>
-        </li>
-      @else
-      <div class="d-flex align-items-center ms-3">
+          <!-- Admin Page -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Admin Page
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+              <li><a class="dropdown-item" href="{{ route('admin.studentcount.index') }}">student Count</a></li>
+            </ul>
+          </li>
 
-      <!-- Notification Bell -->
-      <div class="notification-bell me-3">
-        <a href="#" onclick="showNotifications(event)" style="text-decoration: none">
-        <i class="fas fa-bell"></i>
-        <span class="notification-badge">3</span>
-        </a>
-      </div>
-      <!-- Profile Dropdown -->
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button"
-        data-bs-toggle="dropdown" aria-expanded="false">
-        @if($user->profile_photo)
-      <img src="{{ asset('storage/profile_photos/' . $user->profile_photo) }}" alt="Profile Photo" width="30"
-        height="30" class="rounded-circle">
-    @endif
-        {{ $user->name }}
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
-        <li><a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a></li>
-        <li>
-          <hr class="dropdown-divider">
-        </li>
-        <li>
-          <a class="dropdown-item" href="#"
-          onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-          Logout
-          </a>
-          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-          @csrf
-          </form>
-        </li>
-        </ul>
-      </li>
-  @endguest
+          <div class="d-flex align-items-center ms-3">
+
+            <!-- Notification Bell -->
+            <div class="notification-bell me-3">
+              <a href="#" onclick="showNotifications(event)" style="text-decoration: none">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+              </a>
+            </div>
+            <!-- Profile Dropdown -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                @if($user->profile_photo)
+          <img src="{{ asset('storage/profile_photos/' . $user->profile_photo) }}" alt="Profile Photo" width="30"
+            height="30" class="rounded-circle">
+        @endif
+                {{ $user->name }}
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
+                <li><a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    Logout
+                  </a>
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                  </form>
+                </li>
+              </ul>
+            </li>
+          </div>
         </ul>
       </div>
     </div>

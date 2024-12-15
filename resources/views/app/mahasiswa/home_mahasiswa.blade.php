@@ -30,34 +30,19 @@
   <div class="container">
     <h2 class="text-center">Jumlah Mahasiswa</h2>
     <div class="row student-count">
-      <div class="col-3">
-        <div class="count-item">
-          <p>Angkatan 2021</p>
-          <i class="fas fa-users"></i>
-          <p>250</p>
+      @forelse ($studentCounts as $count)
+        <div class="col-3">
+          <div class="count-item text-center">
+            <p>Angkatan {{ $count->year }}</p>
+            <i class="fas fa-users fa-3x"></i>
+            <p>{{ $count->count }}</p>
+          </div>
         </div>
-      </div>
-      <div class="col-3">
-        <div class="count-item">
-          <p>Angkatan 2022</p>
-          <i class="fas fa-users"></i>
-          <p>300</p>
+      @empty
+        <div class="col-12 text-center">
+          <p>No data available.</p>
         </div>
-      </div>
-      <div class="col-3">
-        <div class="count-item">
-          <p>Angkatan 2023</p>
-          <i class="fas fa-users"></i>
-          <p>200</p>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="count-item">
-          <p>Angkatan 2024</p>
-          <i class="fas fa-users"></i>
-          <p>220</p>
-        </div>
-      </div>
+      @endforelse
     </div>
   </div>
 </div>
