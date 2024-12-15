@@ -136,9 +136,12 @@
           <th>NIM</th>
           <th>Angkatan</th>
           <th>Nilai IPK</th>
-          <th>Total SKS (Sem 1-6)</th>
+          <th>Total SKS (Sem 1-5)</th>
+          <th>SKS Sem 6</th>
           <th>Mata Kuliah Tidak Lulus</th>
+          <th>Nilai Keasramaan</th>
           <th>Bukti Lampiran</th>
+          <th>Eligible</th>
           <th>Status</th>
           <th>Catatan Dosen Wali</th>
           <th>Catatan Kaprodi</th>
@@ -154,8 +157,10 @@
         <td data-label="NIM">{{ $mbkm->user->nim }}</td>
         <td data-label="Angkatan">{{ $mbkm->user->angkatan }}</td>
         <td data-label="Nilai IPK">{{ $mbkm->nilai_ipk }}</td>
-        <td data-label="Total SKS (Sem 1-6)">{{ $mbkm->total_sks }}</td>
+        <td data-label="SKS Sem 6">{{ $mbkm->total_sks }}</td>
+        <td data-label="Total SKS (Sem 1-5)">{{ $mbkm->sks_semester6 }}</td>
         <td data-label="Mata Kuliah Tidak Lulus">{{ $mbkm->mata_kuliah_tidak_lulus }}</td>
+        <td data-label="Nilai Keasramaan">{{ $mbkm->nilai_keasramaan }}</td>
         <td data-label="Bukti Lampiran">
         @if($mbkm->bukti_sks_ipk)
       <a href="{{ asset('storage/' . $mbkm->bukti_sks_ipk) }}" target="_blank" class="btn btn-sm btn-primary">
@@ -165,6 +170,19 @@
     <span>Belum diunggah</span>
   @endif
         </td>
+        <td data-label="Eligible">
+  @if(
+    $mbkm->total_sks >= 81 &&
+    $mbkm->sks_semester6 >= 16 &&
+    $mbkm->nilai_ipk >= 3.00 &&
+    (empty($mbkm->mata_kuliah_tidak_lulus) || $mbkm->mata_kuliah_tidak_lulus === '-' || strlen($mbkm->mata_kuliah_tidak_lulus) === 1)
+  )
+    <span class="badge badge-disetujui">Ya</span>
+  @else
+    <span class="badge badge-ditolak">Tidak</span>
+  @endif
+</td>
+
         <td data-label="Status">
         @if($mbkm->status_kelayakan == 'Menunggu')
       <span class="badge badge-menunggu">Menunggu</span>
@@ -338,3 +356,4 @@
   }
 </script>
 @endsection
+

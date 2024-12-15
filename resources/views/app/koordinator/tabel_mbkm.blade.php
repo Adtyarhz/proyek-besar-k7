@@ -130,7 +130,7 @@
   @endif
         </td>
         <td>
-        <!-- Status Update Form -->
+        <!-- Status Update Form ----->
         <div class="btn-group" role="group" aria-label="Status Actions">
           @if($pendaftaran->status !== 'Disetujui')
         <form action="{{ route('koordinator.tabel_mbkm.update_status', $pendaftaran->id) }}" method="POST"
