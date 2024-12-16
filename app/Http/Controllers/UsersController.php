@@ -102,29 +102,29 @@ class UsersController extends Controller
     {
         \Log::info('Store method dipanggil');
         \Log::info('Data yang diterima: ', $request->all());
-
-        // Validasi input dengan role dalam lowercase
+    
+        // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username',
             'email' => 'required|email|unique:users,email',
-            'nim' => 'required|string|unique:users,nim',
-            'angkatan' => 'required|integer',
-            'doswal' => 'nullable|string|max:255',
+            'nim' => 'nullable|string|unique:users,nim',
+            'angkatan' => 'nullable|integer',
+            'doswal' => 'nullable|string|max:255', // Bisa kosong jika user bukan dosen wali
             'password' => 'required|min:6',
             'role' => 'required|in:editor,admin,mahasiswa,kaprodi,doswal,koordinator',
             'profile_photo' => 'nullable|image|max:2048', // Max 2MB
         ]);
-
+    
         $profilePhoto = null;
-
+    
         // Handle profile photo upload
         if ($request->hasFile('profile_photo')) {
             $file = $request->file('profile_photo');
             $profilePhoto = time() . '_' . $file->getClientOriginalName();
             $file->storeAs('profile_photos', $profilePhoto, 'public');
         }
-
+    
         // Simpan data pengguna ke database
         User::create([
             'name' => $request->name,
@@ -132,17 +132,17 @@ class UsersController extends Controller
             'email' => $request->email,
             'nim' => $request->nim,
             'angkatan' => $request->angkatan,
-            'doswal' => $request->doswal,
+            'doswal' => $request->doswal,  // Menyimpan dosen wali jika ada
             'password' => Hash::make($request->password),
             'role' => $request->role,
             'profile_photo' => $profilePhoto,
         ]);
-
+    
         \Log::info('Pengguna berhasil ditambahkan');
-
+    
         return redirect()->route('kelola')->with('success', 'Pengguna berhasil ditambahkan.');
     }
-
+    
     public function edit(Request $request, $id)
     {
         $user = User::find($id);
@@ -156,8 +156,8 @@ class UsersController extends Controller
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $id,
             'email' => 'required|email|unique:users,email,' . $id,
-            'nim' => 'required|string|unique:users,nim,' . $id,
-            'angkatan' => 'required|integer',
+            'nim' => 'nullable|string|unique:users,nim,' . $id,
+            'angkatan' => 'nullable|integer',
             'doswal' => 'nullable|string|max:255',
             'role' => 'required|in:editor,admin,Mahasiswa,Kaprodi,Doswal,Koordinator',
             'profile_photo' => 'nullable|image|max:2048', // Max 2MB

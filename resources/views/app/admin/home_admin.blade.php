@@ -54,11 +54,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="nim">NIM</label>
-                                        <input type="text" class="form-control" id="nim" name="nim" required>
+                                        <input type="text" class="form-control" id="nim" name="nim" >
                                     </div>
                                     <div class="form-group">
                                         <label for="angkatan">Angkatan</label>
-                                        <input type="text" class="form-control" id="angkatan" name="angkatan" required>
+                                        <input type="text" class="form-control" id="angkatan" name="angkatan" >
                                     </div>
                                     <div class="form-group">
                                         <label for="doswal">Dosen Wali</label>

@@ -32,7 +32,10 @@ class AuthController extends Controller
 
     public function showRegisterForm()
     {
-        return view('auth.register');
+       // Ambil semua dosen yang memiliki role 'doswal'
+    $dosenWali = User::where('role', 'doswal')->get();
+
+    return view('auth.register', compact('dosenWali'));
     }
 
     public function register(Request $request)
@@ -75,4 +78,5 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect('/login');
     }
+    
 }

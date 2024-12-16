@@ -229,35 +229,22 @@
 
                         <!-- Dosen Wali -->
                         <div class="mb-1">
-                            <label for="doswal" class="form-label">Dosen Wali</label>
-                            <select class="form-control @error('doswal') is-invalid @enderror" id="doswal"
-                                name="doswal">
-                                <option value="" disabled selected hidden>Select Dosen Wali</option>
-                                <option value="dosen1" {{ old('doswal') == 'dosen1' ? 'selected' : '' }}>
-                                    Dr. Arlinta Christy Barus S.T., M.InfoTech (Dosen wali IF 1 angkatan 2022)
-                                </option>
-                                <option value="dosen2" {{ old('doswal') == 'dosen2' ? 'selected' : '' }}>
-                                    Iustisia Natalia Simbolon, S.Kom.,M.T (Dosen wali IF 2 angkatan 2022)
-                                </option>
-                                <option value="dosen3" {{ old('doswal') == 'dosen3' ? 'selected' : '' }}>
-                                    Herimanto, S.Kom., M.Kom (Dosen wali IF 1 angkatan 2023)
-                                </option>
-                                <option value="dosen4" {{ old('doswal') == 'dosen4' ? 'selected' : '' }}>
-                                    Dr. Johannes Harungguan Sianipar, S.T., M.T. (Dosen wali IF 2 angkatan 2023)
-                                </option>
-                                <option value="dosen5" {{ old('doswal') == 'dosen5' ? 'selected' : '' }}>
-                                    Ranty Deviana Siahaan, S.Kom, M.Eng. (Dosen wali IF 1 angkatan 2024)
-                                </option>
-                                <option value="dosen6" {{ old('doswal') == 'dosen6' ? 'selected' : '' }}>
-                                    Jaya Santoso, S.Si.,M.Si. (Dosen wali IF 2 angkatan 2024)
-                                </option>
-                            </select>
-                            @error('doswal')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
+    <label for="doswal" class="form-label">Dosen Wali</label>
+    <select class="form-control @error('doswal') is-invalid @enderror" id="doswal" name="doswal">
+        <option value="" disabled selected hidden>Select Dosen Wali</option>
+        @foreach ($dosenWali as $dosen)
+            <option value="{{ $dosen->id }}" {{ old('doswal') == $dosen->id ? 'selected' : '' }}>
+                {{ $dosen->name }} ({{ $dosen->angkatan }})
+            </option>
+        @endforeach
+    </select>
+    @error('doswal')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
+</div>
+
 
                         <!-- Password -->
                         <div class="mb-1">
