@@ -49,7 +49,7 @@
 
 <!---Section Persebaran-->
 <div class="container2">
-  <h2>Persebaran Mahasiswa KP</h2>
+  <h2>Persebaran Mahasiswa KP & MBKM</h2>
   <div class="charts-row">
     <div class="chart-container">
       <canvas id="barChart1"></canvas>
@@ -61,6 +61,10 @@
 </div>
 
 <script>
+  // Data Persebaran diambil dari controller
+  const kpData = @json($kpData);
+  const mbkmData = @json($mbkmData);
+
   // Persebaran Mahasiswa KP
   var ctx1 = document.getElementById("barChart1").getContext("2d");
   var barChart1 = new Chart(ctx1, {
@@ -70,7 +74,7 @@
       datasets: [
         {
           label: "Jumlah Mahasiswa KP",
-          data: [120, 200, 50],
+          data: [kpData.Sumatera, kpData.Jawa, kpData.Lainnya],
           backgroundColor: ["red", "green", "yellow"],
           borderColor: ["darkred", "darkgreen", "darkyellow"],
           borderWidth: 1,
@@ -95,7 +99,7 @@
       datasets: [
         {
           label: "Jumlah Mahasiswa MBKM",
-          data: [150, 180, 60],
+          data: [mbkmData.Sumatera, mbkmData.Jawa, mbkmData.Lainnya],
           backgroundColor: ["red", "green", "yellow"],
           borderColor: ["darkred", "darkgreen", "darkyellow"],
           borderWidth: 1,
@@ -111,4 +115,5 @@
     },
   });
 </script>
+
 @endsection

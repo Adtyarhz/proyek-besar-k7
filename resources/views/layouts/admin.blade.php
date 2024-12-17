@@ -259,6 +259,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
               <li><a class="dropdown-item" href="{{ route('admin.studentcount.index') }}">student Count</a></li>
+              <li><a class="dropdown-item" href="{{ route('distributions.index') }}">Distribution Chart</a></li>
             </ul>
           </li>
 
