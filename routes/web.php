@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DistributionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsersController;
@@ -151,6 +152,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/students/count', [AdminStudentCountController::class, 'indexCount'])->name('admin.studentcount.index');
     Route::post('/admin/students/count/add', [AdminStudentCountController::class, 'storeCount'])->name('addStudentCount');
     Route::put('/admin/students/count/edit', [AdminStudentCountController::class, 'updateCount'])->name('updateStudentCount');
+
+    // Kelola Chart Persebaran
+    Route::get('/admin/Distribution/kelola', [DistributionController::class, 'indexDistributions'])->name('distributions.index');
+    Route::post('/admin/Distribution/add', [DistributionController::class, 'storeDistribution'])->name('distributionsadd');
+    Route::put('/admin/Distribution/edit/{id}', [DistributionController::class, 'updateDistribution'])->name('distributionsedit');
+    Route::delete('/admin/Distribution/delete/{id}', [DistributionController::class, 'destroyDistribution'])->name('distributiondelete');
 
     // Kelola Pengguna Routes
     Route::get('/admin/users/kelola', [UsersController::class, 'index'])->name('kelola');

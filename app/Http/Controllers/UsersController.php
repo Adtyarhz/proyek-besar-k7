@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\StudentCount;
+use App\Models\Distribution;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -33,12 +34,35 @@ class UsersController extends Controller
 
     public function mahasiswaHome()
     {
-        $studentCounts = StudentCount::all();
+        // Cek apakah user memiliki peran Mahasiswa
         $user = Auth::user();
         if ($user->role !== 'Mahasiswa') {
             abort(403, 'Unauthorized action.');
         }
-        return view('app.mahasiswa.home_mahasiswa', compact('studentCounts'));
+
+        // Mengambil data mahasiswa
+        $studentCounts = StudentCount::all();
+
+        // Mengelompokkan data KP
+        $kpData = Distribution::where('type', 'KP')
+            ->selectRaw('
+            SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
+            SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
+            SUM(CASE WHEN region = "Lainnya" THEN students ELSE 0 END) AS Lainnya
+        ')
+            ->first();
+
+        // Mengelompokkan data MBKM
+        $mbkmData = Distribution::where('type', 'MBKM')
+            ->selectRaw('
+            SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
+            SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
+            SUM(CASE WHEN region = "Lainnya" THEN students ELSE 0 END) AS Lainnya
+        ')
+            ->first();
+
+        // Pass data ke view
+        return view('app.mahasiswa.home_mahasiswa', compact('studentCounts', 'kpData', 'mbkmData'));
     }
 
     public function kaprodiHome()
@@ -102,7 +126,7 @@ class UsersController extends Controller
     {
         \Log::info('Store method dipanggil');
         \Log::info('Data yang diterima: ', $request->all());
-    
+
         // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
@@ -115,16 +139,16 @@ class UsersController extends Controller
             'role' => 'required|in:editor,admin,mahasiswa,kaprodi,doswal,koordinator',
             'profile_photo' => 'nullable|image|max:2048', // Max 2MB
         ]);
-    
+
         $profilePhoto = null;
-    
+
         // Handle profile photo upload
         if ($request->hasFile('profile_photo')) {
             $file = $request->file('profile_photo');
             $profilePhoto = time() . '_' . $file->getClientOriginalName();
             $file->storeAs('profile_photos', $profilePhoto, 'public');
         }
-    
+
         // Simpan data pengguna ke database
         User::create([
             'name' => $request->name,
@@ -137,12 +161,12 @@ class UsersController extends Controller
             'role' => $request->role,
             'profile_photo' => $profilePhoto,
         ]);
-    
+
         \Log::info('Pengguna berhasil ditambahkan');
-    
+
         return redirect()->route('kelola')->with('success', 'Pengguna berhasil ditambahkan.');
     }
-    
+
     public function edit(Request $request, $id)
     {
         $user = User::find($id);
