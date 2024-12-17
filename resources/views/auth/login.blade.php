@@ -118,9 +118,9 @@
                                 name="username" id="username" placeholder="Enter your username"
                                 value="{{ old('username') }}">
                             @error('username')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
                             @enderror
                         </div>
                         <div class="mb-3">
@@ -128,9 +128,9 @@
                             <input type="password" class="form-control @error('password') is-invalid @enderror"
                                 id="password" name="password" placeholder="Enter your password">
                             @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
                             @enderror
                         </div>
 
@@ -147,7 +147,6 @@
                         </div>
 
                         <a href="{{ route('register') }}">Create an Account</a>
-                        <a href="#">Forgot password?</a>
                     </form>
                 </div>
             </div>
