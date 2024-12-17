@@ -141,36 +141,20 @@
   <div class="row">
     <div class="col-md-12">
       <p>
-        <strong>1. Meningkatkan keterampilan kerja:</strong> Mahasiswa dapat menerapkan
-        ilmu dan teori yang dipelajari selama perkuliahan ke dalam dunia kerja.
+        1. Meningkatkan kompetensi lulusan sehingga mahasiswa memiliki
+        keterampilan yang siap kerja.
       </p>
     </div>
     <div class="col-md-12">
       <p>
-        <strong>2. Membangun relasi danjaringan profesional:</strong> Kesempatan untuk
-        menjalin koneksi dengan para profesional atau perusahaan yang dapat
-        berguna di masa depan.
+        2. Mendorong pembelajaran fleksibel dengan memfasilitasi mahasiswa
+        untuk mengambil pembelajaran di luar program studi atau di luar
+        kampus.
       </p>
     </div>
     <div class="col-md-12">
       <p>
-        <strong>3. Mengembangkan soft skills:</strong> Melatih keterampilan seperti komunikasi,
-        kerja sama tim, kepemimpinan, dan manajemen waktu di lingkungan
-        kerja nyata.
-      </p>
-    </div>
-    <div class="col-md-12">
-      <p>
-        <strong>4. Mengetahui tantangan industri:</strong> Memberikan wawasan
-        tentang permasalahan riil di industri dan melatih kemampuan
-        dalam menyelesaikannya.
-      </p>
-    </div>
-    <div class="col-md-12">
-      <p>
-        <strong>5. Meningkatkan Kepercayaan diri:</strong> Pengalaman nyata di
-        lingkungan kerja membantu mahasiswa membangun kepercayaan
-        diri dalam kemampuan dan keterampilan mereka.
+        3. Meningkatkan daya saing lulusan melalui pengalaman kerja nyata.
       </p>
     </div>
   </div>
