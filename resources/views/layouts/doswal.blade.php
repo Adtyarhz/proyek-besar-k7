@@ -12,22 +12,8 @@
   <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet" />
   <style>
-    html,
-    body {
-      height: 100%;
-      /* Membuat tinggi halaman 100% */
-      margin: 0;
-      /* Menghapus margin default */
-      display: flex;
-      /* Menjadikan layout menggunakan flexbox */
-      flex-direction: column;
-      /* Mengatur layout secara vertikal */
-    }
-
     body {
       font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
     }
 
     .navbar {
@@ -211,10 +197,10 @@
 <body>
   <nav class="navbar navbar-expand-lg" style="background: linear-gradient(90deg, #0073e6, #003366);">
     <div class="container-fluid">
-    @php
-  $user = Auth::user();
-  $userRole = $user ? $user->role : null;
-@endphp
+      @php
+      $user = Auth::user();
+      $userRole = $user ? $user->role : null;
+      @endphp
 
       <a class="navbar-brand" href="
       @if($userRole === 'Doswal') 
@@ -304,49 +290,38 @@
           </li>
 
           @guest
-        <li class="nav-item">
-        <a class="nav-link" href="{{ route('login.form') }}">Login</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" href="{{ route('register') }}">Register</a>
-        </li>
-      @else
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('login.form') }}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('register') }}">Register</a>
+          </li>
+          @else
 
-      <!-- Notification Bell -->
-      <div class="notification-bell me-3">
-      <a href="#" onclick="showNotifications(event)" style="text-decoration: none">
-        <i class="fas fa-bell"></i>
-        <span class="notification-badge">3</span>
-      </a>
-      </div>
 
-      <!-- Profile Dropdown -->
-      <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown"
-        aria-expanded="false">
-        @if($user->profile_photo)
-      <img src="{{ asset('storage/profile_photos/' . $user->profile_photo) }}" alt="Profile Photo" width="30"
-      height="30" class="rounded-circle">
-    @endif
-        {{ $user->name }}
-      </a>
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
-        <li><a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a></li>
-        <li>
-        <hr class="dropdown-divider">
-        </li>
-        <li>
-        <a class="dropdown-item" href="#"
-          onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-          Logout
-        </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-          @csrf
-        </form>
-        </li>
-      </ul>
-      </li>
-    @endguest
+          <!-- Profile Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <strong>{{ Auth::user()->name }}</strong>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
+              <li><a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"
+                  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                  Logout
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                  @csrf
+                </form>
+              </li>
+            </ul>
+          </li>
+          @endguest
         </ul>
       </div>
     </div>
@@ -358,11 +333,6 @@
 
   <!-- JavaScript -->
   <script>
-    function showNotifications(event) {
-      event.preventDefault();
-      alert("You have 3 new notifications!");
-    }
-
     function showProfileMenu(event) {
       event.preventDefault();
       alert("Opening profile menu...");

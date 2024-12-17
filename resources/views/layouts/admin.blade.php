@@ -197,7 +197,7 @@
   @php
   $user = Auth::user();
   $userRole = $user ? $user->role : null;
-@endphp
+  @endphp
 
   {{-- resources/views/partials/navbar_koordinator.blade.php --}}
   <nav class="navbar navbar-expand-lg" style="background: linear-gradient(90deg, #0073e6, #003366);">
@@ -264,22 +264,12 @@
 
           <div class="d-flex align-items-center ms-3">
 
-            <!-- Notification Bell -->
-            <div class="notification-bell me-3">
-              <a href="#" onclick="showNotifications(event)" style="text-decoration: none">
-                <i class="fas fa-bell"></i>
-                <span class="notification-badge">3</span>
-              </a>
-            </div>
+
             <!-- Profile Dropdown -->
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                @if($user->profile_photo)
-          <img src="{{ asset('storage/profile_photos/' . $user->profile_photo) }}" alt="Profile Photo" width="30"
-            height="30" class="rounded-circle">
-        @endif
-                {{ $user->name }}
+                <strong>{{ Auth::user()->name }}</strong>
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
                 <li><a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a></li>
@@ -309,11 +299,6 @@
 
   <!-- JavaScript -->
   <script>
-    function showNotifications(event) {
-      event.preventDefault();
-      alert("You have 3 new notifications!");
-    }
-
     function showProfileMenu(event) {
       event.preventDefault();
       alert("Opening profile menu...");

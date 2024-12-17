@@ -194,7 +194,7 @@
   @php
   $user = Auth::user();
   $userRole = $user ? $user->role : null;
-@endphp
+  @endphp
 
   <nav class="navbar navbar-expand-lg" style="background: linear-gradient(90deg, #0073e6, #003366);">
     <div class="container">
@@ -222,28 +222,67 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarContent">
-        
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <!-- Beranda -->
+          <li class="nav-item">
+            <a class="nav-link
+            @if(in_array(Route::currentRouteName(), ['home', 'home.doswal', 'home.kaprodi', 'home.koordinator', 'home.mahasiswa']))
+          active
+        @endif
+          " href="
+            @if($userRole === 'Doswal') 
+          {{ route('home.doswal') }}
+        @elseif($userRole === 'Kaprodi') 
+        {{ route('home.kaprodi') }}
+      @elseif($userRole === 'Koordinator') 
+    {{ route('home.koordinator') }}
+    @elseif($userRole === 'Mahasiswa') 
+    {{ route('home.mahasiswa') }}
+  @else 
+    {{ route('home') }}
+  @endif
+          ">
+              Beranda
+            </a>
+          </li>
+
+          <!-- MBKM Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMBKM" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              MBKM
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMBKM">
+              <li><a class="dropdown-item" href="{{ route('mbkm.informasi') }}">Informasi</a></li>
+              <li><a class="dropdown-item" href="{{ route('mbkm.formkelayakan') }}">Form Kelayakan MBKM</a></li>
+              <li><a class="dropdown-item" href="{{ route('mbkm_pendaftaran.create') }}">Form Final MBKM</a></li>
+              <li><a class="dropdown-item" href="{{ route('mbkm.data_kelayakan') }}">Data Kelayakan MBKM</a></li>
+              <li><a class="dropdown-item" href="{{ route('mbkm_pendaftaran.data') }}">Data Pendaftaran MBKM</a></li>
+            </ul>
+          </li>
+
+          <!-- Kerja Praktik Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Kerja Praktik
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+              <li><a class="dropdown-item" href="{{ route('kp.informasi') }}">Informasi</a></li>
+              <li><a class="dropdown-item" href="{{ route('kp.formkelayakan') }}">Form Kelayakan KP</a></li>
+              <li><a class="dropdown-item" href="{{ route('kp.formpendaftaran') }}">Form Pendaftaran KP</a></li>
+              <li><a class="dropdown-item" href="{{ route('kp.data_kelayakan') }}">Data Kelayakan KP</a></li>
+              <li><a class="dropdown-item" href="{{ route('kp.data_pendaftaran') }}">Data Pendaftaran KP</a></li>
+            </ul>
+          </li>
+        </ul>
 
         <div class="d-flex align-items-center ms-3">
-          <!-- Notification Bell -->
-          <div class="notification-bell me-3">
-            <a href="#" onclick="showNotifications(event)" style="text-decoration: none">
-              <i class="fas fa-bell"></i>
-              <span class="notification-badge">3</span>
-            </a>
-          </div>
 
           <!-- Profile Dropdown -->
           <div class="dropdown">
             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
               id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-              @if(Auth::user()->profile_photo)
-          <img src="{{ asset('storage/profile_photos/' . Auth::user()->profile_photo) }}" alt="Profile Photo"
-          width="32" height="32" class="rounded-circle me-2">
-        @else
-        <img src="{{ asset('images/default_profile.png') }}" alt="Default Profile Photo" width="32" height="32"
-        class="rounded-circle me-2">
-      @endif
               <strong>{{ Auth::user()->name }}</strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark text-small shadow"
@@ -274,11 +313,6 @@
 
   <!-- JavaScript -->
   <script>
-    function showNotifications(event) {
-      event.preventDefault();
-      alert("You have 3 new notifications!");
-    }
-
     function showProfileMenu(event) {
       event.preventDefault();
       alert("Opening profile menu...");
