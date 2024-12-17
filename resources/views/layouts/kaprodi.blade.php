@@ -210,11 +210,11 @@
 
 <body>
   <nav class="navbar navbar-expand-lg" style="background: linear-gradient(90deg, #0073e6, #003366);">
-    <div class="container-fluid">
-    @php
-  $user = Auth::user();
-  $userRole = $user ? $user->role : null;
-@endphp
+    <div class="container">
+      @php
+      $user = Auth::user();
+      $userRole = $user ? $user->role : null;
+      @endphp
 
       <a class="navbar-brand" href="
       @if($userRole === 'Doswal') 
@@ -304,39 +304,39 @@
           </li>
 
           @guest
-        <li class="nav-item">
-        <a class="nav-link" href="{{ route('login.form') }}">Login</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" href="{{ route('register') }}">Register</a>
-        </li>
-      @else
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('login.form') }}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('register') }}">Register</a>
+          </li>
+          @else
 
-     
 
-      <!-- Profile Dropdown -->
-      <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown"
-        aria-expanded="false">
-        <strong>{{ Auth::user()->name }}</strong>
-      </a>
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
-        <li><a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a></li>
-        <li>
-        <hr class="dropdown-divider">
-        </li>
-        <li>
-        <a class="dropdown-item" href="#"
-          onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-          Logout
-        </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-          @csrf
-        </form>
-        </li>
-      </ul>
-      </li>
-    @endguest
+
+          <!-- Profile Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <strong>{{ Auth::user()->name }}</strong>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
+              <li><a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"
+                  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                  Logout
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                  @csrf
+                </form>
+              </li>
+            </ul>
+          </li>
+          @endguest
         </ul>
       </div>
     </div>
@@ -348,7 +348,7 @@
 
   <!-- JavaScript -->
   <script>
-  function showProfileMenu(event) {
+    function showProfileMenu(event) {
       event.preventDefault();
       alert("Opening profile menu...");
     }

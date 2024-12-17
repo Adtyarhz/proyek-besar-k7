@@ -196,7 +196,7 @@
 
 <body>
   <nav class="navbar navbar-expand-lg" style="background: linear-gradient(90deg, #0073e6, #003366);">
-    <div class="container-fluid">
+    <div class="container">
       @php
       $user = Auth::user();
       $userRole = $user ? $user->role : null;
