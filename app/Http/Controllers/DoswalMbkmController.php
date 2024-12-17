@@ -24,12 +24,8 @@ class DoswalMbkmController extends Controller
         }
 
         // Fetch all KelayakanMBKM entries assigned to this Doswal
-        $kelayakanMBKMs = KelayakanMBKM::with('user')
-            ->where('doswal_id', $user->id) // Assuming 'doswal_id' is the foreign key
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        return view('app.doswal.tabelinput_mbkm', compact('kelayakanMBKMs'));
+        $kelayakanMBKMs = KelayakanMBKM::with('user')->get();
+        return view('app.doswal.tableinput_mbkm', compact('kelayakanMBKMs'));
     }
 
     /**
