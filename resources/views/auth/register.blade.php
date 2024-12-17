@@ -216,9 +216,11 @@
                             <select class="form-control @error('angkatan') is-invalid @enderror" id="angkatan"
                                 name="angkatan">
                                 <option value="" disabled selected hidden>Select Angkatan</option>
-                                <option value="2022" {{ old('angkatan') == '2022' ? 'selected' : '' }}>2022</option>
-                                <option value="2023" {{ old('angkatan') == '2023' ? 'selected' : '' }}>2023</option>
-                                <option value="2024" {{ old('angkatan') == '2024' ? 'selected' : '' }}>2024</option>
+                                @foreach ($years as $year)
+                                    <option value="{{ $year->year }}" {{ old('angkatan') == $year->year ? 'selected' : '' }}>
+                                        {{ $year->year }}
+                                    </option>
+                                @endforeach
                             </select>
                             @error('angkatan')
                                 <span class="invalid-feedback" role="alert">
@@ -229,22 +231,22 @@
 
                         <!-- Dosen Wali -->
                         <div class="mb-1">
-    <label for="doswal" class="form-label">Dosen Wali</label>
-    <select class="form-control @error('doswal') is-invalid @enderror" id="doswal" name="doswal">
-        <option value="" disabled selected hidden>Select Dosen Wali</option>
-        @foreach ($dosenWali as $dosen)
-            <option value="{{ $dosen->id }}" {{ old('doswal') == $dosen->id ? 'selected' : '' }}>
-                {{ $dosen->name }} ({{ $dosen->angkatan }})
-            </option>
-        @endforeach
-    </select>
-    @error('doswal')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
-</div>
-
+                            <label for="doswal" class="form-label">Dosen Wali</label>
+                            <select class="form-control @error('doswal') is-invalid @enderror" id="doswal"
+                                name="doswal">
+                                <option value="" disabled selected hidden>Select Dosen Wali</option>
+                                @foreach ($dosenWali as $dosen)
+                                    <option value="{{ $dosen->id }}" {{ old('doswal') == $dosen->id ? 'selected' : '' }}>
+                                        {{ $dosen->name }} ({{ $dosen->angkatan }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('doswal')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
 
                         <!-- Password -->
                         <div class="mb-1">
