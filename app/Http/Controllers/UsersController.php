@@ -32,28 +32,28 @@ class UsersController extends Controller
         }
     }
 
-    public function mahasiswaHome()
+    public function mahasiswaHome(Request $request)
     {
-        // Cek apakah user memiliki peran Mahasiswa
         $user = Auth::user();
         if ($user->role !== 'Mahasiswa') {
             abort(403, 'Unauthorized action.');
         }
 
-        // Mengambil data mahasiswa
         $studentCounts = StudentCount::all();
+        $studentCounts = $studentCounts->sortBy('year');
 
-        // Mengelompokkan data KP
+        $years = Distribution::select('year')->distinct()->orderByDesc('year')->pluck('year');
+        $selectedYear = $request->get('year', $years->first());
         $kpData = Distribution::where('type', 'KP')
+            ->where('year', $selectedYear)
             ->selectRaw('
             SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
             SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
             SUM(CASE WHEN region = "Lainnya" THEN students ELSE 0 END) AS Lainnya
         ')
             ->first();
-
-        // Mengelompokkan data MBKM
         $mbkmData = Distribution::where('type', 'MBKM')
+            ->where('year', $selectedYear)
             ->selectRaw('
             SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
             SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
@@ -61,31 +61,31 @@ class UsersController extends Controller
         ')
             ->first();
 
-        // Pass data ke view
-        return view('app.mahasiswa.home_mahasiswa', compact('studentCounts', 'kpData', 'mbkmData'));
+        return view('app.mahasiswa.home_mahasiswa', compact('studentCounts', 'years', 'selectedYear', 'kpData', 'mbkmData'));
     }
 
-    public function kaprodiHome()
+    public function kaprodiHome(Request $request)
     {
         $user = Auth::user();
         if ($user->role !== 'Kaprodi') {
             abort(403, 'Unauthorized action.');
         }
 
-        // Mengambil data mahasiswa
         $studentCounts = StudentCount::all();
+        $studentCounts = $studentCounts->sortBy('year');
 
-        // Mengelompokkan data KP
+        $years = Distribution::select('year')->distinct()->orderByDesc('year')->pluck('year');
+        $selectedYear = $request->get('year', $years->first());
         $kpData = Distribution::where('type', 'KP')
+            ->where('year', $selectedYear)
             ->selectRaw('
             SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
             SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
             SUM(CASE WHEN region = "Lainnya" THEN students ELSE 0 END) AS Lainnya
         ')
             ->first();
-
-        // Mengelompokkan data MBKM
         $mbkmData = Distribution::where('type', 'MBKM')
+            ->where('year', $selectedYear)
             ->selectRaw('
             SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
             SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
@@ -93,30 +93,31 @@ class UsersController extends Controller
         ')
             ->first();
 
-        return view('app.kaprodi.home_kaprodi', compact('studentCounts', 'kpData', 'mbkmData'));
+        return view('app.kaprodi.home_kaprodi', compact('studentCounts', 'years', 'selectedYear', 'kpData', 'mbkmData'));
     }
 
-    public function doswalHome()
+    public function doswalHome(Request $request)
     {
         $user = Auth::user();
         if ($user->role !== 'Doswal') {
             abort(403, 'Unauthorized action.');
         }
 
-        // Mengambil data mahasiswa
         $studentCounts = StudentCount::all();
+        $studentCounts = $studentCounts->sortBy('year');
 
-        // Mengelompokkan data KP
+        $years = Distribution::select('year')->distinct()->orderByDesc('year')->pluck('year');
+        $selectedYear = $request->get('year', $years->first());
         $kpData = Distribution::where('type', 'KP')
+            ->where('year', $selectedYear)
             ->selectRaw('
             SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
             SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
             SUM(CASE WHEN region = "Lainnya" THEN students ELSE 0 END) AS Lainnya
         ')
             ->first();
-
-        // Mengelompokkan data MBKM
         $mbkmData = Distribution::where('type', 'MBKM')
+            ->where('year', $selectedYear)
             ->selectRaw('
             SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
             SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
@@ -124,21 +125,31 @@ class UsersController extends Controller
         ')
             ->first();
 
-        return view('app.doswal.home_doswal', compact('studentCounts', 'kpData', 'mbkmData'));
+        return view('app.doswal.home_doswal', compact('studentCounts', 'years', 'selectedYear', 'kpData', 'mbkmData'));
     }
 
-    public function koordinatorHome()
+    public function koordinatorHome(Request $request)
     {
         $user = Auth::user();
         if ($user->role !== 'Koordinator') {
             abort(403, 'Unauthorized action.');
         }
 
-        // Mengambil data mahasiswa
         $studentCounts = StudentCount::all();
+        $studentCounts = $studentCounts->sortBy('year');
 
-        // Mengelompokkan data KP
+        $years = Distribution::select('year')->distinct()->orderByDesc('year')->pluck('year');
+        $selectedYear = $request->get('year', $years->first());
         $kpData = Distribution::where('type', 'KP')
+            ->where('year', $selectedYear)
+            ->selectRaw('
+            SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
+            SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
+            SUM(CASE WHEN region = "Lainnya" THEN students ELSE 0 END) AS Lainnya
+        ')
+            ->first();
+        $mbkmData = Distribution::where('type', 'MBKM')
+            ->where('year', $selectedYear)
             ->selectRaw('
             SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
             SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
@@ -146,16 +157,7 @@ class UsersController extends Controller
         ')
             ->first();
 
-        // Mengelompokkan data MBKM
-        $mbkmData = Distribution::where('type', 'MBKM')
-            ->selectRaw('
-            SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
-            SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
-            SUM(CASE WHEN region = "Lainnya" THEN students ELSE 0 END) AS Lainnya
-        ')
-            ->first();
-        
-        return view('app.koordinator.home_koordinator', compact('studentCounts', 'kpData', 'mbkmData'));
+        return view('app.koordinator.home_koordinator', compact('studentCounts', 'years', 'selectedYear', 'kpData', 'mbkmData'));
     }
 
     public function adminHome()

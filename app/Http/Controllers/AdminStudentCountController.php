@@ -18,7 +18,7 @@ class AdminStudentCountController extends Controller
     {
         $validated = $request->validate([
             'year' => 'required|integer|min:2001|unique:student_counts,year',
-            'count' => 'required|integer|min:1',
+            'count' => 'required|integer',
         ]);
 
         StudentCount::create($validated);
@@ -26,14 +26,15 @@ class AdminStudentCountController extends Controller
         return redirect()->route('admin.studentcount.index')->with('success', 'Success');
     }
 
-    public function updateCount(Request $request)
+    public function updateCount(Request $request, $id)
     {
         $validated = $request->validate([
-            'year' => 'required|integer|min:2001|unique:student_counts,year',
+            'year' => 'required|integer|min:2001|unique:student_counts,year,' . $id,
             'count' => 'required|integer|min:1',
         ]);
 
-        StudentCount::update($validated);
+        $counts = StudentCount::findOrFail($id);
+        $counts->update($validated);
 
         return redirect()->route('admin.studentcount.index')->with('success', 'Success');
     }

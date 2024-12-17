@@ -151,7 +151,7 @@ Route::middleware(['auth'])->group(function () {
     //Student Count Route
     Route::get('/admin/students/count', [AdminStudentCountController::class, 'indexCount'])->name('admin.studentcount.index');
     Route::post('/admin/students/count/add', [AdminStudentCountController::class, 'storeCount'])->name('addStudentCount');
-    Route::put('/admin/students/count/edit', [AdminStudentCountController::class, 'updateCount'])->name('updateStudentCount');
+    Route::put('/admin/students/count/edit/{id}', [AdminStudentCountController::class, 'updateCount'])->name('updateStudentCount');
 
     // Kelola Chart Persebaran
     Route::get('/admin/Distribution/kelola', [DistributionController::class, 'indexDistributions'])->name('distributions.index');

@@ -23,51 +23,61 @@
           </thead>
           <tbody>
             @forelse ($counts as $index => $data)
-              <tr>
-                <td>{{ $index + 1 }}</td>
-                <td>{{ $data->year }}</td>
-                <td>{{ $data->count }}</td>
-                <td>
-                  <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal-{{ $data->id }}">
-                    Edit
-                  </button>
-                </td>
-              </tr>
+        <tr>
+          <td>{{ $index + 1 }}</td>
+          <td>{{ $data->year }}</td>
+          <td>{{ $data->count }}</td>
+          <td>
+          <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
+            data-bs-target="#editModal-{{ $data->id }}">
+            Edit
+          </button>
+          </td>
+        </tr>
 
-              {{-- Edit Modal for Each Record --}}
-              <div class="modal fade" id="editModal-{{ $data->id }}" tabindex="-1" aria-labelledby="editModalLabel-{{ $data->id }}" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="editModalLabel-{{ $data->id }}">Edit Student Count</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="{{ route('updateStudentCount', $data->id) }}" method="POST">
-                      @csrf
-                      @method('PUT')
-                      <div class="modal-body">
-                        <div class="form-group mb-3">
-                          <label for="year">Year</label>
-                          <input type="number" id="year" name="year" class="form-control" value="{{ $data->year }}" required>
-                        </div>
-                        <div class="form-group mb-3">
-                          <label for="count">Count</label>
-                          <input type="number" id="count" name="count" class="form-control" value="{{ $data->count }}" required>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-warning">Update</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
+        {{-- Edit Modal for Each Record --}}
+        <div class="modal fade" id="editModal-{{ $data->id }}" tabindex="-1"
+          aria-labelledby="editModalLabel-{{ $data->id }}" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel-{{ $data->id }}">Edit Student Count</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('updateStudentCount', $data->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+            <div class="modal-body">
+              <div class="form-group mb-3">
+              <label for="year">Year</label>
+              <input type="number" id="year" name="year" class="form-control"
+                value="{{ old('year', $data->year) }}" required>
+              @error('year')
+          <div class="text-danger">{{ $message }}</div>
+        @enderror
               </div>
-            @empty
-              <tr>
-                <td colspan="4" class="text-center">No data available.</td>
-              </tr>
-            @endforelse
+              <div class="form-group mb-3">
+              <label for="count">Count</label>
+              <input type="number" id="count" name="count" class="form-control"
+                value="{{ old('count', $data->count) }}" required>
+              @error('count')
+          <div class="text-danger">{{ $message }}</div>
+        @enderror
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+            </form>
+          </div>
+          </div>
+        </div>
+      @empty
+    <tr>
+      <td colspan="4" class="text-center">No data available.</td>
+    </tr>
+  @endforelse
           </tbody>
         </table>
 

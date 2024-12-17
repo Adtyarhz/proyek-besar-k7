@@ -47,9 +47,21 @@
   </div>
 </div>
 
-<!---Section Persebaran-->
+<!-- Section Persebaran -->
 <div class="container2">
   <h2>Persebaran Mahasiswa KP & MBKM</h2>
+
+  <form method="GET" action="">
+    <label for="year">Pilih Tahun:</label>
+    <select name="year" id="year" onchange="this.form.submit()">
+      @foreach ($years as $year)
+      <option value="{{ $year }}" {{ $year == $selectedYear ? 'selected' : '' }}>
+      {{ $year }}
+      </option>
+    @endforeach
+    </select>
+  </form>
+
   <div class="charts-row">
     <div class="chart-container">
       <canvas id="barChart1"></canvas>
@@ -61,11 +73,9 @@
 </div>
 
 <script>
-  // Data Persebaran diambil dari controller
   const kpData = @json($kpData);
   const mbkmData = @json($mbkmData);
 
-  // Persebaran Mahasiswa KP
   var ctx1 = document.getElementById("barChart1").getContext("2d");
   var barChart1 = new Chart(ctx1, {
     type: "bar",
@@ -90,7 +100,7 @@
     },
   });
 
-  // Persebaran Mahasiswa MBKM
+  // Chart MBKM
   var ctx2 = document.getElementById("barChart2").getContext("2d");
   var barChart2 = new Chart(ctx2, {
     type: "bar",
