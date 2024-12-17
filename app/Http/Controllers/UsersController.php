@@ -71,7 +71,29 @@ class UsersController extends Controller
         if ($user->role !== 'Kaprodi') {
             abort(403, 'Unauthorized action.');
         }
-        return view('app.kaprodi.home_kaprodi');
+
+        // Mengambil data mahasiswa
+        $studentCounts = StudentCount::all();
+
+        // Mengelompokkan data KP
+        $kpData = Distribution::where('type', 'KP')
+            ->selectRaw('
+            SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
+            SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
+            SUM(CASE WHEN region = "Lainnya" THEN students ELSE 0 END) AS Lainnya
+        ')
+            ->first();
+
+        // Mengelompokkan data MBKM
+        $mbkmData = Distribution::where('type', 'MBKM')
+            ->selectRaw('
+            SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
+            SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
+            SUM(CASE WHEN region = "Lainnya" THEN students ELSE 0 END) AS Lainnya
+        ')
+            ->first();
+
+        return view('app.kaprodi.home_kaprodi', compact('studentCounts', 'kpData', 'mbkmData'));
     }
 
     public function doswalHome()
@@ -80,7 +102,29 @@ class UsersController extends Controller
         if ($user->role !== 'Doswal') {
             abort(403, 'Unauthorized action.');
         }
-        return view('app.doswal.home_doswal');
+
+        // Mengambil data mahasiswa
+        $studentCounts = StudentCount::all();
+
+        // Mengelompokkan data KP
+        $kpData = Distribution::where('type', 'KP')
+            ->selectRaw('
+            SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
+            SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
+            SUM(CASE WHEN region = "Lainnya" THEN students ELSE 0 END) AS Lainnya
+        ')
+            ->first();
+
+        // Mengelompokkan data MBKM
+        $mbkmData = Distribution::where('type', 'MBKM')
+            ->selectRaw('
+            SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
+            SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
+            SUM(CASE WHEN region = "Lainnya" THEN students ELSE 0 END) AS Lainnya
+        ')
+            ->first();
+
+        return view('app.doswal.home_doswal', compact('studentCounts', 'kpData', 'mbkmData'));
     }
 
     public function koordinatorHome()
@@ -89,7 +133,29 @@ class UsersController extends Controller
         if ($user->role !== 'Koordinator') {
             abort(403, 'Unauthorized action.');
         }
-        return view('app.koordinator.home_koordinator');
+
+        // Mengambil data mahasiswa
+        $studentCounts = StudentCount::all();
+
+        // Mengelompokkan data KP
+        $kpData = Distribution::where('type', 'KP')
+            ->selectRaw('
+            SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
+            SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
+            SUM(CASE WHEN region = "Lainnya" THEN students ELSE 0 END) AS Lainnya
+        ')
+            ->first();
+
+        // Mengelompokkan data MBKM
+        $mbkmData = Distribution::where('type', 'MBKM')
+            ->selectRaw('
+            SUM(CASE WHEN region = "Sumatera" THEN students ELSE 0 END) AS Sumatera,
+            SUM(CASE WHEN region = "Jawa" THEN students ELSE 0 END) AS Jawa,
+            SUM(CASE WHEN region = "Lainnya" THEN students ELSE 0 END) AS Lainnya
+        ')
+            ->first();
+        
+        return view('app.koordinator.home_koordinator', compact('studentCounts', 'kpData', 'mbkmData'));
     }
 
     public function adminHome()
@@ -100,7 +166,7 @@ class UsersController extends Controller
         }
 
         // Fetch all users with pagination
-        $users = User::paginate(10); // Use paginate instead of simplePaginate
+        $users = User::where('role', '!=', 'mahasiswa')->paginate(10); // Use paginate instead of simplePaginate
 
         return view('app.admin.home_admin', compact('users'));
     }

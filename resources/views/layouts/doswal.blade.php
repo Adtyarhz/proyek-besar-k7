@@ -9,6 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet" />
   <style>
@@ -78,51 +79,81 @@
       background-color: #00508b;
     }
 
-    .header {
-      background: linear-gradient(to right, #6ba3d6, #4a90e2);
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
-      border-radius: 10px;
-      margin: 20px;
-    }
-
-    .header h2 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-    }
-
-    .header p {
-      font-size: 1.1rem;
-    }
-
-    .content {
-      padding: 20px;
-      text-align: center;
-      margin: 20px;
-      flex-grow: 1;
-      /* Konten akan mengisi sisa ruang yang tersedia */
-    }
-
     .carousel {
-      max-width: 600px;
-      margin: 0 auto;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      margin: 30px auto;
     }
 
     .carousel img {
-      max-width: 100%;
-      height: auto;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .content {
+      padding: 60px 20px;
+      background-color: #E8F8FF;
+      /* Menambahkan warna latar belakang terang */
+    }
+
+    .content h2 {
+      margin-bottom: 40px;
+    }
+
+    .student-count .count-item {
+      text-align: center;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin: 15px;
+    }
+
+    .student-count .count-item i {
+      font-size: 36px;
+      color: #003366;
+    }
+
+    .student-count .count-item p {
+      margin: 10px 0;
+    }
+
+    .container2 {
+      max-width: 1200px;
+      /* Memperbesar ukuran kontainer */
+      margin: auto;
+      padding: 20px;
+    }
+
+    canvas {
+      margin: 20px 0;
+      width: 100% !important;
+      /* Mengatur lebar chart supaya lebih besar */
+      height: 400px !important;
+      /* Mengatur tinggi chart */
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    /* Custom Styling to Ensure Chart Stays Beside Each Other */
+    .charts-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      /* Memberikan jarak antar chart */
+    }
+
+    .chart-container {
+      flex: 1;
+      padding: 10px;
     }
 
     .footer {
       background-color: #003366;
       /* Warna biru tua */
       padding: 20px 0;
-      margin-top: auto;
-      /* Menjaga footer tetap berada di bawah */
     }
 
     .footer h5 {
@@ -158,39 +189,6 @@
       color: #aaaaaa;
       font-size: 12px;
     }
-
-    .info-section {
-      background: linear-gradient(to bottom,
-          #e6f7ff,
-          #ffffff);
-      /* Gradien halus */
-      padding: 50px 0;
-    }
-
-    .info-box {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .info-box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .info-box h5 {
-      font-weight: bold;
-      margin-bottom: 15px;
-      font-size: 18px;
-    }
-
-    .info-box p {
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .img-fluid {
-      max-width: 75%;
-      height: auto;
-    }
   </style>
 </head>
 
@@ -198,19 +196,19 @@
   <nav class="navbar navbar-expand-lg" style="background: linear-gradient(90deg, #0073e6, #003366);">
     <div class="container">
       @php
-      $user = Auth::user();
-      $userRole = $user ? $user->role : null;
-      @endphp
+    $user = Auth::user();
+    $userRole = $user ? $user->role : null;
+    @endphp
 
       <a class="navbar-brand" href="
       @if($userRole === 'Doswal') 
       {{ route('home.doswal') }}
-    @elseif($userRole === 'Kaprodi') 
-      {{ route('home.kaprodi') }}
-    @elseif($userRole === 'Koordinator') 
-    {{ route('home.koordinator') }}
+  @elseif($userRole === 'Kaprodi') 
+    {{ route('home.kaprodi') }}
+@elseif($userRole === 'Koordinator') 
+  {{ route('home.koordinator') }}
   @else 
-    {{ route('home') }}
+  {{ route('home') }}
   @endif
     ">
         <img alt="Logo of the institution"
@@ -231,17 +229,17 @@
             <a class="nav-link
             @if(in_array(Route::currentRouteName(), ['home', 'home.doswal', 'home.kaprodi', 'home.koordinator']))
           active
-      @endif
+        @endif
           " href="
             @if($userRole === 'Doswal') 
           {{ route('home.doswal') }}
-      @elseif($userRole === 'Kaprodi') 
-      {{ route('home.kaprodi') }}
-  @elseif($userRole === 'Koordinator') 
-  {{ route('home.koordinator') }}
-  @else 
+        @elseif($userRole === 'Kaprodi') 
+        {{ route('home.kaprodi') }}
+      @elseif($userRole === 'Koordinator') 
+      {{ route('home.koordinator') }}
+    @else 
     {{ route('home') }}
-@endif
+  @endif
           ">
               Beranda
             </a>
@@ -269,59 +267,59 @@
               <li>
                 <a class="dropdown-item" href="
                 @if($userRole === 'Doswal') 
-            {{ route('doswal.tabelinputkp') }}
+          {{ route('doswal.tabelinputkp') }}
         @elseif($userRole === 'Kaprodi') 
-        {{ route('kaprodi.tabelinputkp') }}
+      {{ route('kaprodi.tabelinputkp') }}
     @elseif($userRole === 'Koordinator') 
       {{ route('koordinator.tabelinputkp') }}
-  @else
+    @else
     #
-@endif
+  @endif
               ">
                   Table Pertimbangan KP
                 </a>
               </li>
               <li><a class="dropdown-item" href="@if($userRole === 'Doswal')
           {{ route('doswal.tableeligiblekp') }}
-      @else
-      #
-  @endif">Table Eligible KP</a></li>
+        @else
+        #
+      @endif">Table Eligible KP</a></li>
             </ul>
           </li>
 
           @guest
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('login.form') }}">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('register') }}">Register</a>
-          </li>
-          @else
+        <li class="nav-item">
+        <a class="nav-link" href="{{ route('login.form') }}">Login</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{{ route('register') }}">Register</a>
+        </li>
+      @else
 
 
-          <!-- Profile Dropdown -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              <strong>{{ Auth::user()->name }}</strong>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
-              <li><a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li>
-                <a class="dropdown-item" href="#"
-                  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                  Logout
-                </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                  @csrf
-                </form>
-              </li>
-            </ul>
-          </li>
-          @endguest
+      <!-- Profile Dropdown -->
+      <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        <strong>{{ Auth::user()->name }}</strong>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
+        <li><a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a></li>
+        <li>
+        <hr class="dropdown-divider">
+        </li>
+        <li>
+        <a class="dropdown-item" href="#"
+          onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+          Logout
+        </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+          @csrf
+        </form>
+        </li>
+      </ul>
+      </li>
+    @endguest
         </ul>
       </div>
     </div>

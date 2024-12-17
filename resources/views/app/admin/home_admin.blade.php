@@ -7,7 +7,7 @@
     <div class="container">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <span>Kelola Pengguna</span>
+                <span>Kelola Dosen</span>
             </div>
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -53,18 +53,6 @@
                                             required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="nim">NIM</label>
-                                        <input type="text" class="form-control" id="nim" name="nim" >
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="angkatan">Angkatan</label>
-                                        <input type="text" class="form-control" id="angkatan" name="angkatan" >
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="doswal">Dosen Wali</label>
-                                        <input type="text" class="form-control" id="doswal" name="doswal">
-                                    </div>
-                                    <div class="form-group">
                                         <label for="email">Email</label>
                                         <input type="email" class="form-control" id="email" name="email" required>
                                     </div>
@@ -72,9 +60,6 @@
                                         <label for="role">Role</label>
                                         <select class="form-control" id="role" name="role" required>
                                             <option value="">Pilih Role</option>
-                                            <option value="admin">Admin</option>
-                                            <option value="editor">Editor</option>
-                                            <option value="mahasiswa">Mahasiswa</option>
                                             <option value="kaprodi">Kaprodi</option>
                                             <option value="doswal">Doswal</option>
                                             <option value="koordinator">Koordinator</option>
@@ -104,9 +89,6 @@
                             <th>Nama</th>
                             <th>Username</th>
                             <th>Email</th>
-                            <th>NIM</th>
-                            <th>Angkatan</th>
-                            <th>Doswal</th>
                             <th>Role</th>
                             <th>Tindakan</th>
                         </tr>
@@ -126,21 +108,21 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->username }}</td>
                                 <td>{{ $user->email }}</td>
-                                <td>{{ $user->nim }}</td>
-                                <td>{{ $user->angkatan }}</td>
-                                <td>{{ $user->doswal }}</td>
                                 <td>{{ ucfirst($user->role) }}</td>
                                 <td>
                                     <div class="d-flex">
-                                        <button type="button" class="btn btn-warning btn-sm mr-2" data-bs-toggle="modal"
-                                            data-bs-target="#editModal{{ $user->id }}">Edit</button>
+                                        @if ($user->role !== 'Admin')
+                                            <button type="button" class="btn btn-warning btn-sm mr-2" data-bs-toggle="modal"
+                                                data-bs-target="#editModal{{ $user->id }}">Edit</button>
 
-                                        <form action="{{ route('deleteuser', $user->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Hapus</button>
-                                        </form>
+                                            <form action="{{ route('deleteuser', $user->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Hapus</button>
+                                            </form>
+                                        @else
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -170,21 +152,6 @@
                                                         value="{{ $user->username }}" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="nim">NIM</label>
-                                                    <input type="text" class="form-control" id="nim" name="nim"
-                                                        value="{{ $user->nim }}" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="angkatan">Angkatan</label>
-                                                    <input type="text" class="form-control" id="angkatan" name="angkatan"
-                                                        value="{{ $user->angkatan }}" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="doswal">Dosen Wali</label>
-                                                    <input type="text" class="form-control" id="doswal" name="doswal"
-                                                        value="{{ $user->doswal }}">
-                                                </div>
-                                                <div class="form-group">
                                                     <label for="email">Email</label>
                                                     <input type="email" class="form-control" id="email" name="email"
                                                         value="{{ $user->email }}" required>
@@ -192,10 +159,6 @@
                                                 <div class="form-group">
                                                     <label for="role">Role</label>
                                                     <select class="form-control" id="role" name="role" required>
-                                                        <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>
-                                                            Admin</option>
-
-                                                        <option value="Mahasiswa" {{ $user->role == 'Mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
                                                         <option value="Kaprodi" {{ $user->role == 'Kaprodi' ? 'selected' : '' }}>Kaprodi</option>
                                                         <option value="Doswal" {{ $user->role == 'Doswal' ? 'selected' : '' }}>Doswal</option>
                                                         <option value="Koordinator" {{ $user->role == 'Koordinator' ? 'selected' : '' }}>Koordinator</option>
