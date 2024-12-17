@@ -57,6 +57,15 @@
     max-width: 75%;
     height: auto;
   }
+
+  .header {
+    background: linear-gradient(to right, #6ba3d6, #4a90e2);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin: 20px;
+  }
 </style>
 
 <!-- Information Section -->
@@ -66,10 +75,13 @@
     <div class="container d-flex align-items-center justify-content-center mb-4" style="flex-wrap: nowrap">
       <!-- Gambar -->
       <div class="me-4">
-        <img alt="Kampus Merdeka Indonesia Jaya logo" height="100"
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Logo_Kampus_Merdeka_Kemendikbud.png/800px-Logo_Kampus_Merdeka_Kemendikbud.png"
-          class="img-fluid" />
+        <a href="https://pusatinformasi.kampusmerdeka.kemdikbud.go.id/hc/id" target="_blank">
+          <img alt="Kampus Merdeka Indonesia Jaya logo" height="100"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Logo_Kampus_Merdeka_Kemendikbud.png/800px-Logo_Kampus_Merdeka_Kemendikbud.png"
+            class="img-fluid" />
+        </a>
       </div>
+
       <!-- Teks -->
       <div>
         <p class="text-muted mb-0" style="font-size: 20px; max-width: 600px">
@@ -125,28 +137,45 @@
 
 <!-- Tujuan Section -->
 <div class="header">
-  <h2>Tujuan MBKM</h2>
+  <h2>Tujuan MBKM </h2>
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
       <p>
-        1. Meningkatkan kompetensi lulusan sehingga mahasiswa memiliki
-        keterampilan yang siap kerja.
+        <strong>1. Meningkatkan keterampilan kerja:</strong> Mahasiswa dapat menerapkan
+        ilmu dan teori yang dipelajari selama perkuliahan ke dalam dunia kerja.
       </p>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-12">
       <p>
-        2. Mendorong pembelajaran fleksibel dengan memfasilitasi mahasiswa
-        untuk mengambil pembelajaran di luar program studi atau di luar
-        kampus.
+        <strong>2. Membangun relasi danjaringan profesional:</strong> Kesempatan untuk
+        menjalin koneksi dengan para profesional atau perusahaan yang dapat
+        berguna di masa depan.
       </p>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-12">
       <p>
-        3. Meningkatkan daya saing lulusan melalui pengalaman kerja nyata.
+        <strong>3. Mengembangkan soft skills:</strong> Melatih keterampilan seperti komunikasi,
+        kerja sama tim, kepemimpinan, dan manajemen waktu di lingkungan
+        kerja nyata.
+      </p>
+    </div>
+    <div class="col-md-12">
+      <p>
+        <strong>4. Mengetahui tantangan industri:</strong> Memberikan wawasan
+        tentang permasalahan riil di industri dan melatih kemampuan
+        dalam menyelesaikannya.
+      </p>
+    </div>
+    <div class="col-md-12">
+      <p>
+        <strong>5. Meningkatkan Kepercayaan diri:</strong> Pengalaman nyata di
+        lingkungan kerja membantu mahasiswa membangun kepercayaan
+        diri dalam kemampuan dan keterampilan mereka.
       </p>
     </div>
   </div>
 </div>
+
 <br />
 <h3 class="text-center">Beberapa contoh Mitra dan Non Mitra</h3>
 <div class="content">

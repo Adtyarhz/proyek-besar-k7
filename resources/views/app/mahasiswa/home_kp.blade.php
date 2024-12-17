@@ -226,7 +226,7 @@
 
 <!-- Tujuan Section -->
 <div class="header">
-  <h2>Tujuan MBKM</h2>
+  <h2>Tujuan KP </h2>
   <div class="row">
     <div class="col-md-12">
       <p>
