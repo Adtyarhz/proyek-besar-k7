@@ -178,7 +178,7 @@ class UsersController extends Controller
         $search = $request->input('search');
 
         // Mengambil data dengan pencarian
-        $users = User::when($search, function ($query, $search) {
+        $users = User::where('role', '!=', 'mahasiswa')->where('role', '!=', 'mahasiswa')->when($search, function ($query, $search) {
             return $query->where('name', 'like', "%{$search}%")
                 ->orWhere('email', 'like', "%{$search}%")
                 ->orWhere('role', 'like', "%{$search}%")
@@ -239,7 +239,7 @@ class UsersController extends Controller
     {
         $user = User::find($id);
 
-        if (!$user) {
+        if (!$user::where('role', '!=', 'mahasiswa')) {
             return redirect()->route('kelola')->with('error', 'Pengguna tidak ditemukan.');
         }
 
@@ -288,7 +288,7 @@ class UsersController extends Controller
     {
         $user = User::find($id);
 
-        if (!$user) {
+        if (!$user::where('role', '!=', 'mahasiswa')) {
             return redirect()->route('kelola')->with('error', 'Pengguna tidak ditemukan.');
         }
 

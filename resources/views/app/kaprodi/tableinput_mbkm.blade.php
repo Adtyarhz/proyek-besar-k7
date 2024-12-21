@@ -137,7 +137,7 @@
         <th>NIM</th>
         <th>Angkatan</th>
         <th>Nilai IPK</th>
-        <th>Total SKS (Sem 1-6)</th>
+        <th>Total SKS (Sem 1-5)</th>
         <th>Mata Kuliah Tidak Lulus</th>
         <th>Bukti Lampiran</th>
         <th>Status</th>

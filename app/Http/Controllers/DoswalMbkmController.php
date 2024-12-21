@@ -52,11 +52,6 @@ class DoswalMbkmController extends Controller
         // Find the KelayakanMBKM entry or fail
         $pendaftaran = KelayakanMBKM::findOrFail($id);
 
-        // Ensure the Doswal is authorized to update this registration
-        if ($pendaftaran->doswal_id !== $user->id) {
-            abort(403, 'Aksi tidak diizinkan.');
-        }
-
         // Update the Catatan Dosen Wali
         $pendaftaran->catatan_dosen_wali = $request->input('catatan_dosen_wali');
         $pendaftaran->save();

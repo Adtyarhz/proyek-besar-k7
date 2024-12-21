@@ -4,7 +4,6 @@
 
 @section('content')
 <style>
-  /* Custom Styles */
   .badge-menunggu {
     background-color: #ffc107;
     color: #000;
@@ -20,13 +19,11 @@
     color: #fff;
   }
 
-  /* Adjust textarea width */
   .catatan-textarea {
     width: 100%;
     resize: none;
   }
 
-  /* Responsive table */
   @media (max-width: 768px) {
     table thead {
       display: none;
@@ -62,17 +59,14 @@
     }
   }
 
-  /* Highlight selected row */
   tr.selected {
     background-color: #f1f1f1;
   }
 
-  /* Hide save button initially */
   .save-button {
     display: none;
   }
 
-  /* Dropdown Styling */
   .navbar-nav .dropdown-menu {
     background-color: #003366;
   }
@@ -85,17 +79,12 @@
     background-color: #00508b;
   }
 
-  /* Additional Styles */
   html,
   body {
     height: 100%;
-    /* Full page height */
     margin: 0;
-    /* Remove default margin */
     display: flex;
-    /* Use flexbox layout */
     flex-direction: column;
-    /* Vertical layout */
   }
 
   body {
@@ -105,8 +94,12 @@
   }
 
   .navbar-dark .navbar-toggler-icon {
-    /* Ensures the toggler icon is visible against dark background */
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
+
+  thead th {
+    text-align: center;
+    vertical-align: middle;
   }
 </style>
 
@@ -137,16 +130,18 @@
         <th>NIM</th>
         <th>Angkatan</th>
         <th>Nilai IPK</th>
-        <th>Total SKS (Sem 1-6)</th>
+        <th>Total SKS (Sem 1-5)</th>
+        <th>SKS Semester 6</th>
         <th>Mata Kuliah Tidak Lulus</th>
+        <th>Nilai Keasramaan</th>
         <th>Bukti Lampiran</th>
         <th>Status</th>
         <th>Catatan Dosen Wali</th>
         <th>Catatan Kaprodi</th>
         <th>Catatan Koordinator</th>
-        <!-- <th>Aksi</th> --> <!-- Aksi dikurangi karena Kaprodi tidak dapat mengubah status -->
       </tr>
     </thead>
+
     <tbody>
       @foreach($kelayakanMBKMs as $index => $mbkm)
       <tr id="row-{{ $mbkm->id }}">
@@ -156,7 +151,9 @@
       <td data-label="Angkatan">{{ $mbkm->user->angkatan }}</td>
       <td data-label="Nilai IPK">{{ $mbkm->nilai_ipk }}</td>
       <td data-label="Total SKS (Sem 1-6)">{{ $mbkm->total_sks }}</td>
+      <td data-label="SKS Semester 6">{{ $mbkm->sks_semester6 }}</td>
       <td data-label="Mata Kuliah Tidak Lulus">{{ $mbkm->mata_kuliah_tidak_lulus }}</td>
+      <td data-label="Nilai Keasramaan">{{ $mbkm->nilai_keasramaan }}</td>
       <td data-label="Bukti Lampiran">
         @if($mbkm->bukti_sks_ipk)
       <a href="{{ asset('storage/' . $mbkm->bukti_sks_ipk) }}" target="_blank" class="btn btn-sm btn-primary">
@@ -166,6 +163,7 @@
     <span>Belum diunggah</span>
   @endif
       </td>
+
       <td data-label="Status">
         @if($mbkm->status_kelayakan == 'Menunggu')
       <span class="badge badge-menunggu">Menunggu</span>
@@ -175,13 +173,20 @@
   <span class="badge badge-ditolak">Ditolak</span>
 @endif
       </td>
+
       <td data-label="Catatan Dosen Wali">
-        <textarea class="form-control catatan-textarea" readonly>{{ $mbkm->catatan_dosen_wali }}</textarea>
-        <button class="btn btn-sm btn-secondary mt-2 edit-comment"
-        onclick="editComment({{ $mbkm->id }})">Edit</button>
-        <button class="btn btn-sm btn-success mt-2 save-comment save-button"
-        onclick="saveComment({{ $mbkm->id }})">Save</button>
+      <form action="{{ route('doswal.tabelinput_mbkm.update_catatan', $mbkm->id) }}" method="POST"
+          class="d-inline-block">
+          @csrf
+          <textarea class="form-control catatan-textarea" name="catatan_dosen_wali"
+          readonly>{{ $mbkm->catatan_dosen_wali }}</textarea>
+          <button type="button" class="btn btn-sm btn-secondary mt-2 edit-comment"
+          onclick="editComment({{ $mbkm->id }})">Edit</button>
+          <button type="submit" class="btn btn-sm btn-success mt-2 save-comment save-button"
+          style="display: none;">Save</button>
+        </form>
       </td>
+
       <td data-label="Catatan Kaprodi">
         @if($mbkm->catatan_kaprodi)
       <button class="btn btn-sm btn-info"
@@ -190,6 +195,7 @@
     <span>-</span>
   @endif
       </td>
+
       <td data-label="Catatan Koordinator">
         @if($mbkm->catatan_koordinator)
       <button class="btn btn-sm btn-info"
@@ -222,30 +228,17 @@
   </div>
 </div>
 
-<!-- Bootstrap JS Bundle (includes Popper) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-V7oW2UsFq25e/4Irz0xHRv5kTyvT8r7ef6hl0N/IV6Gf0ZbAd1AJMcyPX6PJ3NRo" crossorigin="anonymous"></script>
-
-<!-- Custom JavaScript -->
 <script>
-  /**
-   * Fungsi untuk menampilkan catatan (komentar) dalam modal.
-   * @param {string} catatan - Teks komentar.
-   * @param {string} title - Judul modal.
-   */
   function showCatatan(catatan, title) {
     document.getElementById('catatanModalLabel').innerText = title;
     document.getElementById('catatanTextarea').value = catatan;
     var catatanModal = new bootstrap.Modal(document.getElementById('catatanModal'), {});
     catatanModal.show();
   }
-
-  /**
-   * Fungsi untuk mengedit catatan Dosen Wali dalam tabel.
-   * @param {number} id - ID dari entri MBKM.
-   */
+  
   function editComment(id) {
-    // Enable the textarea and show the save button
     const textarea = document.querySelector(`#row-${id} .catatan-textarea`);
     const editButton = document.querySelector(`#row-${id} .edit-comment`);
     const saveButton = document.querySelector(`#row-${id} .save-comment`);
@@ -260,10 +253,6 @@
     }
   }
 
-  /**
-   * Fungsi untuk menyimpan catatan Dosen Wali yang telah diedit.
-   * @param {number} id - ID dari entri MBKM.
-   */
   function saveComment(id) {
     const textarea = document.querySelector(`#row-${id} .catatan-textarea`);
     const newComment = textarea.value.trim();
@@ -273,12 +262,10 @@
       return;
     }
 
-    // Buat form dinamis untuk mengirimkan komentar
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = `/doswal/tableinput_mbkm/${id}/update_catatan`;
 
-    // CSRF Token
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const tokenInput = document.createElement('input');
     tokenInput.type = 'hidden';
@@ -286,7 +273,6 @@
     tokenInput.value = csrfToken;
     form.appendChild(tokenInput);
 
-    // Input Komentar
     const commentInput = document.createElement('input');
     commentInput.type = 'hidden';
     commentInput.name = 'catatan_dosen_wali';
